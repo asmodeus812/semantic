@@ -107,6 +107,7 @@ public class FamilyRelationsApp {
 		// Repository repo = remote.createRepository("family");
 		// RepositoryConnection connection = remote.createConnection(repo);
 
+		// Manual embeded repository creation for testing
 		RepositoryConnection connection = EmbededSemantics.openConnectionToTemporaryRepository("owl2-rl-optimized");
 
 		connection.clear();
