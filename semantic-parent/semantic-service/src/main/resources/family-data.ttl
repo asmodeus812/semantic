@@ -1,0 +1,11 @@
+@prefix dataperson: <http://examples.ontotext.com/data/person#> .
+@prefix ontoperson: <http://examples.ontotext.com/ontology/person#> .
+
+dataperson:John a ontoperson:Person ;
+    ontoperson:hasValue "42"^^xsd:integer;
+    ontoperson:hasChild dataperson:Mary .
+
+dataperson:Mary a ontoperson:Person ;
+    ontoperson:hasChild dataperson:Kate .
+
+dataperson:Charles ontoperson:hasParent dataperson:John .
