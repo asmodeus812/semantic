@@ -1,0 +1,32 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ontoperson: <http://examples.ontotext.com/ontology/person#> .
+
+# Types
+
+ontoperson:Person a owl:Class .
+
+# Properties
+
+ontoperson:hasValue a owl:ObjectProperty ;
+    rdfs:domain ontoperson:Person;
+    rdfs:range xsd:integer.
+
+ontoperson:hasRelative a owl:ObjectProperty ;
+    rdfs:domain ontoperson:Person ;
+    rdfs:range ontoperson:Person .
+
+ontoperson:hasChild a owl:ObjectProperty ;
+    rdfs:subPropertyOf ontoperson:hasRelative .
+
+ontoperson:hasParent a owl:ObjectProperty ;
+    rdfs:subPropertyOf ontoperson:hasRelative ;
+    owl:inverseOf ontoperson:hasChild .
+
+ontoperson:hasGrandchild a owl:ObjectProperty ;
+    rdfs:subPropertyOf ontoperson:hasRelative ;
+    owl:propertyChainAxiom ( ontoperson:hasChild ontoperson:hasChild ) .
+
+ontoperson:hasGrandparent a owl:ObjectProperty ;
+    rdfs:subPropertyOf ontoperson:hasRelative ;
+    owl:inverseOf ontoperson:hasGrandchild .
