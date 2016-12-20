@@ -1,9 +1,15 @@
 package com.ontotext.semantic.core.common;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.openrdf.query.Binding;
+import org.openrdf.query.Operation;
+import org.openrdf.query.impl.BindingImpl;
 
 /**
  * Utility class offering utility methods for working with SPARQL semantic queries
@@ -35,5 +41,20 @@ public class SemanticQueryUtil {
 			parameters.add(param.substring(1));
 		}
 		return parameters;
+	}
+
+	/**
+	 * Prepares all query parameters for a given parameter map
+	 * 
+	 * @param query
+	 *            the query for which to bind the parameters
+	 * @param parameterMap
+	 *            the parameter map containing all parameter key value pairs
+	 */
+	public static <Q extends Operation> void prepareQueryParameters(Q query, Map<String, BindingImpl> parameterMap) {
+		Collection<BindingImpl> bindings = parameterMap.values();
+		for (Binding binding : bindings) {
+			query.setBinding(binding.getName(), binding.getValue());
+		}
 	}
 }
