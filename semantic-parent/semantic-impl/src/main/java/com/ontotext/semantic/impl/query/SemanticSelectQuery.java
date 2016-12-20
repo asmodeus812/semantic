@@ -1,19 +1,16 @@
 package com.ontotext.semantic.impl.query;
 
-import java.util.Collection;
-
-import org.openrdf.query.Binding;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.impl.BindingImpl;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 
 import com.ontotext.semantic.api.exception.SemanticEvaluateException;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
+import com.ontotext.semantic.core.common.SemanticQueryUtil;
 
 /**
  * Represents a semantic SPARQL select query
@@ -37,10 +34,7 @@ public class SemanticSelectQuery extends SemanticBaseQuery implements SemanticTu
 		TupleQuery tupleQuery;
 		try {
 			tupleQuery = connection.prepareTupleQuery(QueryLanguage.SPARQL, getQuery());
-			Collection<BindingImpl> bindings = getParameterMap().values();
-			for (Binding binding : bindings) {
-				tupleQuery.setBinding(binding.getName(), binding.getValue());
-			}
+			SemanticQueryUtil.prepareQueryParameters(tupleQuery, getParameterMap());
 			return tupleQuery.evaluate();
 		} catch (RepositoryException | MalformedQueryException | QueryEvaluationException e) {
 			throw new SemanticEvaluateException("Error during tuple query evaluation " + e.getMessage());

@@ -18,7 +18,7 @@ import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
 import com.ontotext.semantic.core.common.SemanticNamespaceUtil;
-import com.ontotext.semantic.impl.query.SemanticModifyQuery;
+import com.ontotext.semantic.impl.query.SemanticDataQuery;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
 
@@ -51,14 +51,14 @@ public class SemanticService {
 
 		// Construct modification query - insert
 		String upQuery = SemanticNamespaceUtil.parseToRawNamespace("INSERT DATA { ?p ?f ?v. }");
-		SemanticUpdateQuery update = new SemanticModifyQuery(upQuery);
+		SemanticUpdateQuery update = new SemanticDataQuery(upQuery);
 		update.bind("p", SemanticNamespaceUtil.buildInstanceLongUri("dataperson:John"));
 		update.bind("f", SemanticNamespaceUtil.buildInstanceLongUri("ontoperson:hasValue"));
 		update.bind("v", SemanticNamespaceUtil.buildLiteralLongUri("23", XMLSchema.INTEGER));
 
 		// Construct modification query - delete
 		String deQuery = SemanticNamespaceUtil.parseToRawNamespace("DELETE DATA { ?p ?f ?v. }");
-		SemanticUpdateQuery delete = new SemanticModifyQuery(deQuery);
+		SemanticUpdateQuery delete = new SemanticDataQuery(deQuery);
 		delete.bind("p", SemanticNamespaceUtil.buildInstanceLongUri("dataperson:John"));
 		delete.bind("f", SemanticNamespaceUtil.buildInstanceLongUri("ontoperson:hasValue"));
 		delete.bind("v", SemanticNamespaceUtil.buildLiteralLongUri("42", XMLSchema.INTEGER));
