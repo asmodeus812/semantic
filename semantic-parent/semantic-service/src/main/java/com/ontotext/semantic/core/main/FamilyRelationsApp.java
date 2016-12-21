@@ -1,8 +1,18 @@
 package com.ontotext.semantic.core.main;
 
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.EMPTY_STRING;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.SELECT_TRIPLET;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.SUBJECT;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.TRIPLET;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.VARIABLE;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildFilterClause;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildWhereClause;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.stripVarSymbol;
+
 import java.io.IOException;
 import java.util.List;
 
+import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
@@ -56,6 +66,15 @@ public class FamilyRelationsApp {
 		connection.commit();
 	}
 
+	public static SemanticTupleQuery buildSemanticSelectQuery(URI resource) {
+		String filter = (resource != null) ? buildFilterClause(SUBJECT + "=" + VARIABLE) : EMPTY_STRING;
+		String where = buildWhereClause(TRIPLET, filter);
+		String query = SemanticNamespaceUtil.parseToRawNamespace(SELECT_TRIPLET + where);
+		SemanticTupleQuery builtQuery = new SemanticSelectQuery(query);
+		builtQuery.bind(stripVarSymbol(VARIABLE), resource);
+		return builtQuery;
+	}
+
 	/**
 	 * Lists family relations for a given person. The output will be printed to standard out.
 	 *
@@ -69,10 +88,11 @@ public class FamilyRelationsApp {
 			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 		System.out.println("# Listing all properties for " + person);
 
+
 		// Construct tuple query - select
 		String rawQuery = SemanticNamespaceUtil.parseToRawNamespace(
 				"SELECT ?s ?p ?o WHERE { ?s ?p ?o. ?s rdf:type ontoperson:Person. }");
-		SemanticTupleQuery query = new SemanticSelectQuery(rawQuery);
+		SemanticTupleQuery query = buildSemanticSelectQuery(null);
 
 		// Construct modification query - delete
 		String delQuery = SemanticNamespaceUtil
@@ -100,7 +120,7 @@ public class FamilyRelationsApp {
 		// Evaluate data query
 		update.evaluate(connection);
 		// Evaluate modification query
-		deletePerson.evaluate(connection);
+		// deletePerson.evaluate(connection);
 		// Evaluate tuple query results
 		List<Instance> instances = new SemanticTupleQueryParser().parseQuery(connection, query);
 
