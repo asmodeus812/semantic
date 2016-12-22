@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Svetlozar
  */
-public interface Single {
+public interface Single extends Serializable {
 
 	/**
 	 * Get the first value of the single structure

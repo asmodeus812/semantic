@@ -13,6 +13,8 @@ import com.ontotext.semantic.core.common.SemanticSearchUtil;
  */
 public class SemanticTriplet implements Triplet {
 
+	private static final long serialVersionUID = 1L;
+
 	private Serializable first;
 	private Serializable second;
 	private Serializable third;
@@ -52,9 +54,10 @@ public class SemanticTriplet implements Triplet {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(256);
 
+		sb.append(SemanticSearchUtil.SINGLE_SPACE);
 		sb.append(getFirst()).append(SemanticSearchUtil.SINGLE_SPACE);
 		sb.append(getSecond()).append(SemanticSearchUtil.SINGLE_SPACE);
-		sb.append(getThird()).append(SemanticSearchUtil.SINGLE_SPACE);
+		sb.append(getThird());
 
 		return sb.toString();
 	}

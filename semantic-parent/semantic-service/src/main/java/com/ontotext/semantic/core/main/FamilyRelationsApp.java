@@ -1,18 +1,15 @@
 package com.ontotext.semantic.core.main;
 
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.EMPTY_STRING;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.SELECT_TRIPLET;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildLiteralLongUri;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.OBJECT;
+import static com.ontotext.semantic.core.common.SemanticSearchUtil.PREDICATE;
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.SUBJECT;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.TRIPLET;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.VARIABLE;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildFilterClause;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildWhereClause;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.stripVarSymbol;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.openrdf.query.MalformedQueryException;
 import org.openrdf.query.QueryEvaluationException;
@@ -21,6 +18,8 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
 
+import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
+import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
@@ -30,6 +29,8 @@ import com.ontotext.semantic.impl.query.SemanticDataQuery;
 import com.ontotext.semantic.impl.query.SemanticModifyQuery;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
+import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
+import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * An example that illustrates loading of vocabulary, data, querying and modifying data.
@@ -66,13 +67,13 @@ public class FamilyRelationsApp {
 		connection.commit();
 	}
 
-	public static SemanticTupleQuery buildSemanticSelectQuery(URI resource) {
-		String filter = (resource != null) ? buildFilterClause(SUBJECT + "=" + VARIABLE) : EMPTY_STRING;
-		String where = buildWhereClause(TRIPLET, filter);
-		String query = SemanticNamespaceUtil.parseToRawNamespace(SELECT_TRIPLET + where);
-		SemanticTupleQuery builtQuery = new SemanticSelectQuery(query);
-		builtQuery.bind(stripVarSymbol(VARIABLE), resource);
-		return builtQuery;
+	public static String buildSemanticSelectQuery() {
+		return new SemanticQueryBuilder(SemanticQueryType.SELECT)
+				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
+				.appendCondition(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
+				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
+				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.getQueryCompilator().getLongFormatQuery();
 	}
 
 	/**
@@ -88,32 +89,29 @@ public class FamilyRelationsApp {
 			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 		System.out.println("# Listing all properties for " + person);
 
-
-		// Construct tuple query - select
-		String rawQuery = SemanticNamespaceUtil.parseToRawNamespace(
-				"SELECT ?s ?p ?o WHERE { ?s ?p ?o. ?s rdf:type ontoperson:Person. }");
-		SemanticTupleQuery query = buildSemanticSelectQuery(null);
+		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery());
+		query.bind("value", buildInstanceLongUri("dataperson:John"));
 
 		// Construct modification query - delete
 		String delQuery = SemanticNamespaceUtil
 				.parseToRawNamespace(
 						"DELETE { ?s ?p ?o. } WHERE { ?s ?p ?o. ?s rdf:type ontoperson:Person. FILTER(?s = ?k || ?o = ?k). } ");
 		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(delQuery);
-		deletePerson.bind("k", SemanticNamespaceUtil.buildInstanceLongUri("dataperson:" + person));
+		deletePerson.bind("k", buildInstanceLongUri("dataperson:" + person));
 
 		// Construct data query - delete
-		String deQuery = SemanticNamespaceUtil.parseToRawNamespace("DELETE DATA { ?p ?f ?v. }");
+		String deQuery = parseToRawNamespace("DELETE DATA { ?p ?f ?v. }");
 		SemanticUpdateQuery delete = new SemanticDataQuery(deQuery);
-		delete.bind("p", SemanticNamespaceUtil.buildInstanceLongUri("dataperson:John"));
-		delete.bind("f", SemanticNamespaceUtil.buildInstanceLongUri("ontoperson:hasValue"));
-		delete.bind("v", SemanticNamespaceUtil.buildLiteralLongUri("42", XMLSchema.INTEGER));
+		delete.bind("p", buildInstanceLongUri("dataperson:John"));
+		delete.bind("f", buildInstanceLongUri("ontoperson:hasValue"));
+		delete.bind("v", buildLiteralLongUri("42", XMLSchema.INTEGER));
 
 		// Construct data query - insert
-		String upQuery = SemanticNamespaceUtil.parseToRawNamespace("INSERT DATA { ?p ?f ?v. }");
+		String upQuery = parseToRawNamespace("INSERT DATA { ?p ?f ?v. }");
 		SemanticUpdateQuery update = new SemanticDataQuery(upQuery);
-		update.bind("p", SemanticNamespaceUtil.buildInstanceLongUri("dataperson:John"));
-		update.bind("f", SemanticNamespaceUtil.buildInstanceLongUri("ontoperson:hasValue"));
-		update.bind("v", SemanticNamespaceUtil.buildLiteralLongUri("23", XMLSchema.INTEGER));
+		update.bind("p", buildInstanceLongUri("dataperson:John"));
+		update.bind("f", buildInstanceLongUri("ontoperson:hasValue"));
+		update.bind("v", buildLiteralLongUri("23", XMLSchema.INTEGER));
 
 		// Evaluate data query
 		delete.evaluate(connection);

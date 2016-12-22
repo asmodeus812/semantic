@@ -2,7 +2,7 @@ package com.ontotext.semantic.core.common;
 
 import java.util.UUID;
 
-import org.openrdf.model.Statement;
+import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 
 /**
  * Utility class offering utility constants or methods for semantic searches with SPARQL
@@ -15,7 +15,7 @@ public class SemanticSearchUtil {
 	 * SPARQL specific constants and expressions
 	 * 
 	 */
-
+	public static final String DOT = ".";
 	public static final String DASH = "-";
 	public static final String COLLON = ":";
 	public static final String HASHTAG = "#";
@@ -26,8 +26,8 @@ public class SemanticSearchUtil {
 	public static final String DOUBLE_SPACE = "  ";
 	public static final String ESCAPED_QUOTE = "\"";
 
-	public static final String BRACE_OPEN = "(";
-	public static final String BRACE_CLOSE = ")";
+	public static final String BRACE_OPEN = SINGLE_SPACE + "(";
+	public static final String BRACE_CLOSE = SINGLE_SPACE + ")";
 
 	public static final String ANGLE_BRACE_OPEN = "<";
 	public static final String ANGLE_BRACE_CLOSE = ">";
@@ -40,22 +40,107 @@ public class SemanticSearchUtil {
 	public static final String SUBJECT = VARSYMBOL + "subject";
 	public static final String PREDICATE = VARSYMBOL + "predicate";
 	public static final String OBJECT = VARSYMBOL + "object";
-	public static final String TRIPLET = SUBJECT + SINGLE_SPACE + PREDICATE + SINGLE_SPACE + OBJECT;
 
 	public static final String WHERE = "WHERE";
-	public static final String SELECT = "SELECT";
-	public static final String DELETE = "DELETE";
-	public static final String INSERT = "INSERT";
 	public static final String FILTER = "FILTER";
-
-	public static final String SELECT_TRIPLET = SELECT + SINGLE_SPACE + TRIPLET;
-	public static final String DELETE_TRIPLET = DELETE + CURLY_BRACE_OPEN + TRIPLET + CURLY_BRACE_CLOSE;
-	public static final String INSERT_TRIPLET = INSERT + CURLY_BRACE_OPEN + TRIPLET + CURLY_BRACE_CLOSE;
+	public static final String GROUP_BY = "GROUP BY";
 
 	/**
 	 * Private constructor for utility class
 	 */
 	private SemanticSearchUtil() {
+	}
+
+	/**
+	 * Builds a filter block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the filter block
+	 * @return the builder
+	 */
+	public static StringBuilder buildFilterBlock(StringBuilder builder) {
+		return builder.append(SINGLE_SPACE).append(FILTER).append(BRACE_OPEN).append(BRACE_CLOSE);
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a filter block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findFilterAppendPosition(StringBuilder builder) {
+		return builder.indexOf(BRACE_CLOSE);
+	}
+
+	/**
+	 * Builds a where block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the filter block
+	 * @return the builder
+	 */
+	public static StringBuilder buildWhereBlock(StringBuilder builder) {
+		return builder.append(SINGLE_SPACE).append(WHERE).append(CURLY_BRACE_OPEN).append(CURLY_BRACE_CLOSE);
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a where block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findWhereAppendPosition(StringBuilder builder) {
+		return builder.indexOf(CURLY_BRACE_CLOSE);
+	}
+
+	/**
+	 * Builds a statement block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the filter block
+	 * @return the builder
+	 */
+	public static StringBuilder buildStatementBlock(StringBuilder builder, SemanticQueryType type) {
+		switch (type) {
+		case SELECT:
+			builder.append(type).append(SINGLE_SPACE);
+			break;
+		case INSERT:
+		case DELETE:
+		case INSERT_DATA:
+		case DELETE_DATA:
+			builder.append(type.getValue()).append(CURLY_BRACE_OPEN);
+			builder.append(CURLY_BRACE_CLOSE);
+			break;
+		default:
+			break;
+		}
+		return builder;
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a statement block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findStatementAppendPosition(StringBuilder builder, SemanticQueryType type) {
+		switch (type) {
+		case SELECT:
+			String typeStr = type.toString();
+			return builder.indexOf(typeStr) + typeStr.length();
+		case INSERT:
+		case DELETE:
+		case INSERT_DATA:
+		case DELETE_DATA:
+			return builder.indexOf(CURLY_BRACE_CLOSE);
+		default:
+			break;
+		}
+		return -1;
 	}
 
 	/**
@@ -69,58 +154,24 @@ public class SemanticSearchUtil {
 		return variable.replace(VARSYMBOL, EMPTY_STRING);
 	}
 
-	/**
-	 * Builds a where clause from a given list of string statements
-	 * 
-	 * @param statements
-	 *            the list of statements as a string
-	 * @return the built where clause block
-	 */
-	public static String buildWhereClause(String... statements) {
-		StringBuilder sb = new StringBuilder(256);
-		sb.append(SINGLE_SPACE).append(WHERE).append(CURLY_BRACE_OPEN);
-		for (String string : statements) {
-			sb.append(string).append(SINGLE_SPACE);
-		}
-		sb.append(CURLY_BRACE_CLOSE);
-		return sb.toString();
-	}
 
 	/**
-	 * Builds a filter clause from a given list of string statements
+	 * Generates a random UUID string & convert it to a SPARQL variable
 	 * 
-	 * @param statements
-	 *            the list of statements as a string
-	 * @return the built filter clause block
+	 * @return the random SPARQL variable
 	 */
-	public static String buildFilterClause(String... statements) {
-		StringBuilder sb = new StringBuilder(256);
-		sb.append(SINGLE_SPACE).append(FILTER).append(BRACE_OPEN);
-		for (String string : statements) {
-			sb.append(string).append(SINGLE_SPACE);
-		}
-		sb.append(BRACE_CLOSE);
-		return sb.toString();
-	}
-
-	/**
-	 * Builds a statement clause from a given list of string statements
-	 * 
-	 * @param statements
-	 *            the list of statements as a string
-	 * @return the built statement clause
-	 */
-	public static String buildStatementClause(Statement... statements) {
-		StringBuilder sb = new StringBuilder(256);
-		for (Statement statement : statements) {
-			sb.append(statement.getSubject()).append(SINGLE_SPACE);
-			sb.append(statement.getPredicate()).append(SINGLE_SPACE);
-			sb.append(statement.getObject()).append(SINGLE_SPACE);
-		}
-		return sb.toString();
-	}
-
 	public static String randomVariable() {
 		return VARSYMBOL + UUID.randomUUID().toString();
+	}
+
+	/**
+	 * Checks if a given query type supports the condition or the filter type blocks
+	 * 
+	 * @param type
+	 *            the type of the semantic query
+	 * @return true if supports, false otherwise
+	 */
+	public static boolean isSupportingConditionBlocks(SemanticQueryType type) {
+		return !(type == SemanticQueryType.INSERT_DATA || type == SemanticQueryType.DELETE_DATA);
 	}
 }
