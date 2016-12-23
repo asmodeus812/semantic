@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.structures.Triplet;
@@ -58,6 +59,11 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 			appendCondition(statement);
 		}
 		return this;
+	}
+
+	@Override
+	public QueryCompiler getQueryCompiler() {
+		return compilator;
 	}
 
 	@Override

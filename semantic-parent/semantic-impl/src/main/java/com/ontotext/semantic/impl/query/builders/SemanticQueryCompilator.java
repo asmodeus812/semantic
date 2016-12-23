@@ -2,6 +2,7 @@ package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
@@ -90,6 +91,7 @@ public class SemanticQueryCompilator implements QueryBlockCompiler {
 	public String getShortFormatQuery() {
 		return compileQuery().toString();
 	}
+
 	@Override
 	public String getLongFormatQuery() {
 		return parseToRawNamespace(compileQuery().toString());
@@ -98,9 +100,11 @@ public class SemanticQueryCompilator implements QueryBlockCompiler {
 	private String compileQuery() {
 		initializeQueryBlocks();
 		StringBuilder compiled = new StringBuilder(512);
-		compiled.append(whereBlock);
-		int pos = findWhereAppendPosition(compiled);
-		compiled.insert(pos, filterBlock);
+		if (isSupportingConditionBlocks(type)) {
+			compiled.append(whereBlock);
+			int pos = findWhereAppendPosition(compiled);
+			compiled.insert(pos, filterBlock);
+		}
 		compiled.insert(0, statementBlock);
 		return compiled.toString();
 	}

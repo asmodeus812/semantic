@@ -2,7 +2,6 @@ package com.ontotext.semantic.core.main;
 
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildLiteralLongUri;
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
@@ -19,12 +18,12 @@ import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
 
 import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
+import com.ontotext.semantic.api.enumeration.LogicalOperators;
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
 import com.ontotext.semantic.api.query.builders.QueryCompiler;
-import com.ontotext.semantic.core.common.SemanticNamespaceUtil;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.query.SemanticDataQuery;
 import com.ontotext.semantic.impl.query.SemanticModifyQuery;
@@ -76,6 +75,22 @@ public class FamilyRelationsApp {
 				.getQueryCompiler();
 	}
 
+	public static QueryCompiler buildSemanticDeleteQuery() {
+		return new SemanticQueryBuilder(SemanticQueryType.DELETE)
+				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
+				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
+				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.appendLogicalOperator(LogicalOperators.OR)
+				.appendFilter(new SemanticTriplet(OBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.getQueryCompiler();
+	}
+
+	public static QueryCompiler buildSemanticDataQuery(SemanticQueryType type) {
+		return new SemanticQueryBuilder(type)
+				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
+				.getQueryCompiler();
+	}
+
 	/**
 	 * Lists family relations for a given person. The output will be printed to standard out.
 	 *
@@ -93,32 +108,29 @@ public class FamilyRelationsApp {
 		query.bind("value", buildInstanceLongUri("dataperson:John"));
 
 		// Construct modification query - delete
-		String delQuery = SemanticNamespaceUtil
-				.parseToRawNamespace(
-						"DELETE { ?s ?p ?o. } WHERE { ?s ?p ?o. ?s rdf:type ontoperson:Person. FILTER(?s = ?k || ?o = ?k). } ");
-		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(delQuery);
-		deletePerson.bind("k", buildInstanceLongUri("dataperson:" + person));
+		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().getLongFormatQuery());
+		deletePerson.bind("value", buildInstanceLongUri("dataperson:" + person));
 
 		// Construct data query - delete
-		String deQuery = parseToRawNamespace("DELETE DATA { ?p ?f ?v. }");
-		SemanticUpdateQuery delete = new SemanticDataQuery(deQuery);
-		delete.bind("p", buildInstanceLongUri("dataperson:John"));
-		delete.bind("f", buildInstanceLongUri("ontoperson:hasValue"));
-		delete.bind("v", buildLiteralLongUri("42", XMLSchema.INTEGER));
+		SemanticUpdateQuery delete = new SemanticDataQuery(
+				buildSemanticDataQuery(SemanticQueryType.DELETE_DATA).getLongFormatQuery());
+		delete.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
+		delete.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
+		delete.bind(OBJECT, buildLiteralLongUri("42", XMLSchema.INTEGER));
 
 		// Construct data query - insert
-		String upQuery = parseToRawNamespace("INSERT DATA { ?p ?f ?v. }");
-		SemanticUpdateQuery update = new SemanticDataQuery(upQuery);
-		update.bind("p", buildInstanceLongUri("dataperson:John"));
-		update.bind("f", buildInstanceLongUri("ontoperson:hasValue"));
-		update.bind("v", buildLiteralLongUri("23", XMLSchema.INTEGER));
+		SemanticUpdateQuery update = new SemanticDataQuery(
+				buildSemanticDataQuery(SemanticQueryType.INSERT_DATA).getLongFormatQuery());
+		update.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
+		update.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
+		update.bind(OBJECT, buildLiteralLongUri("12", XMLSchema.INTEGER));
 
 		// Evaluate data query
 		delete.evaluate(connection);
 		// Evaluate data query
 		update.evaluate(connection);
 		// Evaluate modification query
-		// deletePerson.evaluate(connection);
+		deletePerson.evaluate(connection);
 		// Evaluate tuple query results
 		List<Instance> instances = new SemanticTupleQueryParser().parseQuery(connection, query);
 

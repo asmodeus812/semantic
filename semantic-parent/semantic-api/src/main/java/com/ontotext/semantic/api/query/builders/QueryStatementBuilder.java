@@ -27,4 +27,11 @@ public interface QueryStatementBuilder extends Constructor {
 	 * @return the condition query builder
 	 */
 	QueryConditionBuilder appendCondition(Triplet condition);
+
+	/**
+	 * Get the query compilator proxy service
+	 * 
+	 * @return the query compilator proxy service
+	 */
+	QueryCompiler getQueryCompiler();
 }
