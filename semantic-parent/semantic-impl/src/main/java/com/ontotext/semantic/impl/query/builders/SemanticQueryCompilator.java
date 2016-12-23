@@ -1,7 +1,7 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.findWhereAppendPosition;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;

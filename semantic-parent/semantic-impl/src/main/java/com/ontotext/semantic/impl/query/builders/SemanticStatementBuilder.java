@@ -1,10 +1,10 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.PARAMETER_PATTERN;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildStatementBlock;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.findStatementAppendPosition;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.DOT;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildStatementBlock;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.findStatementAppendPosition;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingConditionBlocks;
 
 import java.util.regex.Matcher;
 

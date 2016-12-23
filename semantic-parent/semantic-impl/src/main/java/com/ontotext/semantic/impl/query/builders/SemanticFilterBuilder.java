@@ -1,8 +1,8 @@
 package com.ontotext.semantic.impl.query.builders;
 
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildFilterBlock;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.findFilterAppendPosition;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingConditionBlocks;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildFilterBlock;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.findFilterAppendPosition;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;

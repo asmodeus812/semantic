@@ -1,9 +1,9 @@
 package com.ontotext.semantic.impl.query.builders;
 
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildWhereBlock;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.DOT;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.buildWhereBlock;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.findWhereAppendPosition;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
