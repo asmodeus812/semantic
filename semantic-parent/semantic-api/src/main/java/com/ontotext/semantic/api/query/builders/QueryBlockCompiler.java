@@ -7,7 +7,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
  * 
  * @author Svetlozar
  */
-public interface QueryBlockCompilator extends QueryCompilator {
+public interface QueryBlockCompiler extends QueryCompiler {
 
 	/**
 	 * Get the type of the given query

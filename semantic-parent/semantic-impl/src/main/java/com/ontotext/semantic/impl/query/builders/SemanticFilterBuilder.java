@@ -5,7 +5,7 @@ import static com.ontotext.semantic.core.common.SemanticSearchUtil.findFilterApp
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
+import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.structures.Triplet;
@@ -17,7 +17,7 @@ import com.ontotext.semantic.api.structures.Triplet;
  */
 public class SemanticFilterBuilder implements QueryFilterBuilder {
 
-	private QueryBlockCompilator compilator;
+	private QueryBlockCompiler compilator;
 	private StringBuilder filterBlock = new StringBuilder(256);
 
 	/**
@@ -26,7 +26,7 @@ public class SemanticFilterBuilder implements QueryFilterBuilder {
 	 * @param compilator
 	 *            the compiler of the builder
 	 */
-	public SemanticFilterBuilder(QueryBlockCompilator compilator) {
+	public SemanticFilterBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
 		construct();
 	}

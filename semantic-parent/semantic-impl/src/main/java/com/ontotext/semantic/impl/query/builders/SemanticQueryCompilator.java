@@ -4,14 +4,14 @@ import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRaw
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.findWhereAppendPosition;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
+import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
 
 /**
  * Semantic query compilator. Compiles all basic blocks of a semantic query
  * 
  * @author Svetlozar
  */
-public class SemanticQueryCompilator implements QueryBlockCompilator {
+public class SemanticQueryCompilator implements QueryBlockCompiler {
 
 	private SemanticQueryType type;
 	private StringBuilder whereBlock;
@@ -96,15 +96,18 @@ public class SemanticQueryCompilator implements QueryBlockCompilator {
 	}
 
 	private String compileQuery() {
-		whereBlock = (whereBlock == null) ? new StringBuilder() : whereBlock;
-		filterBlock = (filterBlock == null) ? new StringBuilder() : filterBlock;
-		statementBlock = (statementBlock == null) ? new StringBuilder() : statementBlock;
-
+		initializeQueryBlocks();
 		StringBuilder compiled = new StringBuilder(512);
 		compiled.append(whereBlock);
 		int pos = findWhereAppendPosition(compiled);
 		compiled.insert(pos, filterBlock);
 		compiled.insert(0, statementBlock);
 		return compiled.toString();
+	}
+
+	private void initializeQueryBlocks() {
+		whereBlock = (whereBlock == null) ? new StringBuilder(64) : whereBlock;
+		filterBlock = (filterBlock == null) ? new StringBuilder(64) : filterBlock;
+		statementBlock = (statementBlock == null) ? new StringBuilder(64) : statementBlock;
 	}
 }

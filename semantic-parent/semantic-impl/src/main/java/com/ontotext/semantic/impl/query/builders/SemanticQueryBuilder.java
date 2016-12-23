@@ -1,7 +1,7 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
+import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.builders.QueryBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.structures.Triplet;
@@ -14,7 +14,7 @@ import com.ontotext.semantic.api.structures.Triplet;
 public class SemanticQueryBuilder implements QueryBuilder {
 
 	private SemanticQueryType type;
-	private QueryBlockCompilator compilator;
+	private QueryBlockCompiler compilator;
 
 	/**
 	 * Initialize a semantic query builder

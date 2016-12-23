@@ -23,7 +23,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
-import com.ontotext.semantic.api.query.builders.QueryCompilator;
+import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.core.common.SemanticNamespaceUtil;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.query.SemanticDataQuery;
@@ -68,12 +68,12 @@ public class FamilyRelationsApp {
 		connection.commit();
 	}
 
-	public static QueryCompilator buildSemanticSelectQuery() {
+	public static QueryCompiler buildSemanticSelectQuery() {
 		return new SemanticQueryBuilder(SemanticQueryType.SELECT)
 				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
 				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
 				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
-				.getQueryCompilator();
+				.getQueryCompiler();
 	}
 
 	/**

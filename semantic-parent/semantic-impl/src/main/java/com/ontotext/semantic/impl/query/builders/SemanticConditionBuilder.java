@@ -6,8 +6,8 @@ import static com.ontotext.semantic.core.common.SemanticSearchUtil.findWhereAppe
 import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
-import com.ontotext.semantic.api.query.builders.QueryCompilator;
+import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
@@ -20,7 +20,7 @@ import com.ontotext.semantic.api.structures.Triplet;
  */
 public class SemanticConditionBuilder implements QueryConditionBuilder {
 
-	private QueryBlockCompilator compilator;
+	private QueryBlockCompiler compilator;
 	private StringBuilder whereBlock = new StringBuilder(256);
 
 	/**
@@ -29,7 +29,7 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	 * @param compilator
 	 *            the compilator for this builder
 	 */
-	public SemanticConditionBuilder(QueryBlockCompilator compilator) {
+	public SemanticConditionBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
 		construct();
 	}
@@ -62,7 +62,7 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
-	public QueryCompilator getQueryCompilator() {
+	public QueryCompiler getQueryCompiler() {
 		return compilator;
 	}
 }

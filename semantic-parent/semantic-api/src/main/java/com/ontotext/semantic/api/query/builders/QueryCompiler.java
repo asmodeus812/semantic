@@ -5,7 +5,7 @@ package com.ontotext.semantic.api.query.builders;
  * 
  * @author Svetlozar
  */
-public interface QueryCompilator {
+public interface QueryCompiler {
 
 	/**
 	 * Compile the query in a short format

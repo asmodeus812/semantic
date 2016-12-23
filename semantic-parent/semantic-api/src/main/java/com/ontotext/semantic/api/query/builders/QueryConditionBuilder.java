@@ -33,5 +33,5 @@ public interface QueryConditionBuilder extends Constructor {
 	 * 
 	 * @return the query compilator proxy service
 	 */
-	QueryCompilator getQueryCompilator();
+	QueryCompiler getQueryCompiler();
 }

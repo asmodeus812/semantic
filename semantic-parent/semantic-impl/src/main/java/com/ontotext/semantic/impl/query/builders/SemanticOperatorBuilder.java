@@ -5,8 +5,8 @@ import static com.ontotext.semantic.core.common.SemanticSearchUtil.findFilterApp
 
 import com.ontotext.semantic.api.enumeration.LogicalOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
-import com.ontotext.semantic.api.query.builders.QueryCompilator;
+import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 
@@ -17,7 +17,7 @@ import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
  */
 public class SemanticOperatorBuilder implements QueryOperatorBuilder {
 
-	private QueryBlockCompilator compilator;
+	private QueryBlockCompiler compilator;
 
 	/**
 	 * Initialize the operator builder with a compiler
@@ -25,12 +25,12 @@ public class SemanticOperatorBuilder implements QueryOperatorBuilder {
 	 * @param compilator
 	 *            the compiler
 	 */
-	public SemanticOperatorBuilder(QueryBlockCompilator compilator) {
+	public SemanticOperatorBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
 	}
 
 	@Override
-	public QueryCompilator getQueryCompilator() {
+	public QueryCompiler getQueryCompiler() {
 		return compilator;
 	}
 

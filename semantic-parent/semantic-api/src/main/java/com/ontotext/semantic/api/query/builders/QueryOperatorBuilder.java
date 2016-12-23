@@ -23,5 +23,5 @@ public interface QueryOperatorBuilder {
 	 * 
 	 * @return the query compilator proxy service
 	 */
-	QueryCompilator getQueryCompilator();
+	QueryCompiler getQueryCompiler();
 }
