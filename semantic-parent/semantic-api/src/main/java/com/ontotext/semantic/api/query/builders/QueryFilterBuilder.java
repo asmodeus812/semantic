@@ -1,28 +1,23 @@
 package com.ontotext.semantic.api.query.builders;
 
-import com.ontotext.semantic.api.enumeration.LogicalOperators;
+import com.ontotext.semantic.api.common.Constructor;
+import com.ontotext.semantic.api.structures.Triplet;
 
 /**
  * Interface for query filter building
  * 
  * @author Svetlozar
  */
-public interface QueryFilterBuilder {
+public interface QueryFilterBuilder extends Constructor {
 
 	/**
-	 * Append a logical operator after the last filter inserted
+	 * Append a filter to the given query
 	 * 
-	 * @param operator
-	 *            the operator to be appended
-	 * @return the query operator builder
+	 * @param filter
+	 *            the filter to be appended
+	 * @return the query filter builder
 	 */
-	QueryOperatorBuilder appendLogicalOperator(LogicalOperators operator);
+	QueryOperatorBuilder appendFilter(Triplet filter);
 
-	/**
-	 * Get the query compilator proxy service
-	 * 
-	 * @return the query compilator proxy service
-	 */
-	QueryCompilator getQueryCompilator();
 
 }

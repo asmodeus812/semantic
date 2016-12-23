@@ -1,5 +1,6 @@
 package com.ontotext.semantic.api.query.builders;
 
+import com.ontotext.semantic.api.common.Constructor;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -7,7 +8,7 @@ import com.ontotext.semantic.api.structures.Triplet;
  * 
  * @author Svetlozar
  */
-public interface QueryStatementBuilder {
+public interface QueryStatementBuilder extends Constructor {
 
 	/**
 	 * Append a statement to the given query

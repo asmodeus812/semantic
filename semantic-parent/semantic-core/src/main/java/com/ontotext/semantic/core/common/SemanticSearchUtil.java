@@ -172,6 +172,6 @@ public class SemanticSearchUtil {
 	 * @return true if supports, false otherwise
 	 */
 	public static boolean isSupportingConditionBlocks(SemanticQueryType type) {
-		return !(type == SemanticQueryType.INSERT_DATA || type == SemanticQueryType.DELETE_DATA);
+		return type != SemanticQueryType.INSERT_DATA && type != SemanticQueryType.DELETE_DATA;
 	}
 }

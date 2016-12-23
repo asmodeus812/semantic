@@ -23,6 +23,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
+import com.ontotext.semantic.api.query.builders.QueryCompilator;
 import com.ontotext.semantic.core.common.SemanticNamespaceUtil;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.query.SemanticDataQuery;
@@ -67,13 +68,12 @@ public class FamilyRelationsApp {
 		connection.commit();
 	}
 
-	public static String buildSemanticSelectQuery() {
+	public static QueryCompilator buildSemanticSelectQuery() {
 		return new SemanticQueryBuilder(SemanticQueryType.SELECT)
 				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
-				.appendCondition(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
 				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
 				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
-				.getQueryCompilator().getLongFormatQuery();
+				.getQueryCompilator();
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class FamilyRelationsApp {
 			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 		System.out.println("# Listing all properties for " + person);
 
-		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery());
+		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().getLongFormatQuery());
 		query.bind("value", buildInstanceLongUri("dataperson:John"));
 
 		// Construct modification query - delete

@@ -1,6 +1,6 @@
 package com.ontotext.semantic.api.query.builders;
 
-import com.ontotext.semantic.api.structures.Triplet;
+import com.ontotext.semantic.api.enumeration.LogicalOperators;
 
 /**
  * Interface building an operator to a given query
@@ -10,11 +10,18 @@ import com.ontotext.semantic.api.structures.Triplet;
 public interface QueryOperatorBuilder {
 
 	/**
-	 * Appends a filter to the query
+	 * Append a logical operator after the last filter inserted
 	 * 
-	 * @param filter
-	 *            the filter to be appended
-	 * @return the query filter builder
+	 * @param operator
+	 *            the operator to be appended
+	 * @return the query operator builder
 	 */
-	QueryFilterBuilder appendFilter(Triplet filter);
+	QueryFilterBuilder appendLogicalOperator(LogicalOperators operator);
+
+	/**
+	 * Get the query compilator proxy service
+	 * 
+	 * @return the query compilator proxy service
+	 */
+	QueryCompilator getQueryCompilator();
 }

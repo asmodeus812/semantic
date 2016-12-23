@@ -24,15 +24,20 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	 */
 	public SemanticQueryBuilder(SemanticQueryType type) {
 		this.type = type;
-		compilator = new SemanticQueryCompilator();
+		construct();
 	}
 
 	@Override
 	public QueryStatementBuilder appendStatement(Triplet statement) {
-		compilator.setType(type);
 		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
 		stateBuilder.appendStatement(statement);
 		return stateBuilder;
+	}
+
+	@Override
+	public void construct() {
+		compilator = new SemanticQueryCompilator();
+		compilator.setType(type);
 	}
 
 }

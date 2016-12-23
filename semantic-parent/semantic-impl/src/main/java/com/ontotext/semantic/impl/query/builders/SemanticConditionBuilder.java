@@ -7,8 +7,10 @@ import static com.ontotext.semantic.core.common.SemanticSearchUtil.isSupportingC
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryBlockCompilator;
+import com.ontotext.semantic.api.query.builders.QueryCompilator;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
+import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -29,23 +31,38 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	 */
 	public SemanticConditionBuilder(QueryBlockCompilator compilator) {
 		this.compilator = compilator;
-		buildWhereBlock(whereBlock);
+		construct();
 	}
 
 	@Override
-	public QueryFilterBuilder appendFilter(Triplet filter) {
-		compilator.setWhereBlock(whereBlock);
-		QueryFilterBuilder filterBuilder = new SemanticOperatorBuilder(compilator).appendFilter(filter);
-		return filterBuilder;
+	public QueryOperatorBuilder appendFilter(Triplet filter) {
+		QueryFilterBuilder filterBuilder = new SemanticFilterBuilder(compilator);
+		filterBuilder.appendFilter(filter);
+		return new SemanticOperatorBuilder(compilator);
 	}
 
 	@Override
 	public QueryConditionBuilder appendCondition(Triplet condition) {
-		if (isSupportingConditionBlocks(compilator.getType())) {
+		if (!isSupportingConditionBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Specified query type does not support condition blocks");
 		}
 		int pos = findWhereAppendPosition(whereBlock);
 		whereBlock.insert(pos, condition + DOT);
 		return this;
+	}
+
+	@Override
+	public void construct() {
+		if (compilator.getWhereBlock() == null) {
+			buildWhereBlock(whereBlock);
+			compilator.setWhereBlock(whereBlock);
+		} else {
+			whereBlock = compilator.getWhereBlock();
+		}
+	}
+
+	@Override
+	public QueryCompilator getQueryCompilator() {
+		return compilator;
 	}
 }

@@ -1,5 +1,6 @@
 package com.ontotext.semantic.api.query.builders;
 
+import com.ontotext.semantic.api.common.Constructor;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -7,7 +8,7 @@ import com.ontotext.semantic.api.structures.Triplet;
  * 
  * @author Svetlozar
  */
-public interface QueryConditionBuilder {
+public interface QueryConditionBuilder extends Constructor {
 
 	/**
 	 * Append a condition to the query
@@ -25,5 +26,12 @@ public interface QueryConditionBuilder {
 	 *            the filter to be appended
 	 * @return the query filter builder
 	 */
-	QueryFilterBuilder appendFilter(Triplet filter);
+	QueryOperatorBuilder appendFilter(Triplet filter);
+
+	/**
+	 * Get the query compilator proxy service
+	 * 
+	 * @return the query compilator proxy service
+	 */
+	QueryCompilator getQueryCompilator();
 }
