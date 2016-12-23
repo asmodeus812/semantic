@@ -4,7 +4,7 @@ import static com.ontotext.semantic.core.common.SemanticQueryUtil.PARAMETER_PATT
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildStatementBlock;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findStatementAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.DOT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
 
 import java.util.regex.Matcher;
 

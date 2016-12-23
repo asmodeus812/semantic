@@ -1,7 +1,7 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findFilterAppendPosition;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.SINGLE_SPACE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
 import com.ontotext.semantic.api.enumeration.LogicalOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;

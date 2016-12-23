@@ -28,7 +28,7 @@ public class SemanticNamespaceUtil {
 	/**
 	 * Default name space separator for SPARQL queries
 	 */
-	public static final String NAMESPACE_SEPARATOR = SemanticSearchUtil.COLLON;
+	public static final String NAMESPACE_SEPARATOR = SemanticSparqlUtil.COLLON;
 
 	/**
 	 * Name space representing the vocabulary for an individual
@@ -127,7 +127,7 @@ public class SemanticNamespaceUtil {
 	 * @return the found name space, or null if no name space was found with such prefix
 	 */
 	public static Namespace findNamespace(String prefix) {
-		String matchPrefix = prefix.replace(NAMESPACE_SEPARATOR, SemanticSearchUtil.EMPTY_STRING);
+		String matchPrefix = prefix.replace(NAMESPACE_SEPARATOR, SemanticSparqlUtil.EMPTY_STRING);
 		Iterator<Namespace> it = NAMESPACE_MAPPING.iterator();
 		while (it.hasNext()) {
 			Namespace current = it.next();
@@ -147,12 +147,12 @@ public class SemanticNamespaceUtil {
 	 */
 	public static String convertValueForQuery(Value value) {
 		if (value instanceof URI) {
-			return SemanticSearchUtil.ANGLE_BRACE_OPEN + value.stringValue() + SemanticSearchUtil.ANGLE_BRACE_CLOSE;
+			return SemanticSparqlUtil.ANGLE_BRACE_OPEN + value.stringValue() + SemanticSparqlUtil.ANGLE_BRACE_CLOSE;
 		} else if (value instanceof Literal) {
 			Literal literal = (Literal) value;
-			String escapedValue = SemanticSearchUtil.ESCAPED_QUOTE + literal.getLabel()
-					+ SemanticSearchUtil.ESCAPED_QUOTE;
-			String castType = SemanticSearchUtil.TYPECAST + convertValueForQuery(literal.getDatatype());
+			String escapedValue = SemanticSparqlUtil.ESCAPED_QUOTE + literal.getLabel()
+					+ SemanticSparqlUtil.ESCAPED_QUOTE;
+			String castType = SemanticSparqlUtil.TYPECAST + convertValueForQuery(literal.getDatatype());
 			return escapedValue + castType;
 		}
 		return null;

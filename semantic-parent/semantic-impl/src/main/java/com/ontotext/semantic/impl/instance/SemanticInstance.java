@@ -9,7 +9,7 @@ import org.openrdf.model.Value;
 
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceType;
-import com.ontotext.semantic.core.common.SemanticSearchUtil;
+import com.ontotext.semantic.core.common.SemanticSparqlUtil;
 
 /**
  * Represents a semantic instance, could be an actual instance or a semantic property
@@ -62,23 +62,23 @@ public class SemanticInstance implements Instance {
 		// Builds the instance as a JSON like string
 		builder.append(getInstanceValue().getLocalName());
 		if (propertiesMap.size() != 0) {
-			builder.append(SemanticSearchUtil.COLLON);
-			builder.append(SemanticSearchUtil.CURLY_BRACE_OPEN).append(System.lineSeparator());
+			builder.append(SemanticSparqlUtil.COLLON);
+			builder.append(SemanticSparqlUtil.CURLY_BRACE_OPEN).append(System.lineSeparator());
 			for (Map.Entry<Instance, ArrayList<Instance>> entry : propertiesMap.entrySet()) {
 				String firstHalf = (entry.getKey() != null) ? entry.getKey().toString()
-						: SemanticSearchUtil.EMPTY_STRING;
+						: SemanticSparqlUtil.EMPTY_STRING;
 				String secondHalf = (entry.getValue() != null)
-						? SemanticSearchUtil.COLLON + SemanticSearchUtil.SINGLE_SPACE + entry.getValue()
-						: SemanticSearchUtil.EMPTY_STRING;
-				if (!firstHalf.equals(SemanticSearchUtil.EMPTY_STRING)) {
+						? SemanticSparqlUtil.COLLON + SemanticSparqlUtil.SINGLE_SPACE + entry.getValue()
+						: SemanticSparqlUtil.EMPTY_STRING;
+				if (!firstHalf.equals(SemanticSparqlUtil.EMPTY_STRING)) {
 					builder.append(firstHalf);
 				}
-				if (!secondHalf.equals(SemanticSearchUtil.EMPTY_STRING)) {
+				if (!secondHalf.equals(SemanticSparqlUtil.EMPTY_STRING)) {
 					builder.append(secondHalf);
 				}
 				builder.append(System.lineSeparator());
 			}
-			builder.append(SemanticSearchUtil.CURLY_BRACE_CLOSE.trim());
+			builder.append(SemanticSparqlUtil.CURLY_BRACE_CLOSE.trim());
 		}
 		return builder.toString();
 	}

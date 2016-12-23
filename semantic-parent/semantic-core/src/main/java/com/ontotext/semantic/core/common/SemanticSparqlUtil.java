@@ -5,7 +5,7 @@ package com.ontotext.semantic.core.common;
  * 
  * @author Svetlozar
  */
-public class SemanticSearchUtil {
+public class SemanticSparqlUtil {
 
 	/**
 	 * SPARQL specific constants and expressions
@@ -44,7 +44,7 @@ public class SemanticSearchUtil {
 	/**
 	 * Private constructor for utility class
 	 */
-	private SemanticSearchUtil() {
+	private SemanticSparqlUtil() {
 	}
 
 }

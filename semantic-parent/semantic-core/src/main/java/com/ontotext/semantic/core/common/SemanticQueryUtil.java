@@ -1,14 +1,14 @@
 package com.ontotext.semantic.core.common;
 
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.BRACE_CLOSE;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.BRACE_OPEN;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.CURLY_BRACE_CLOSE;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.CURLY_BRACE_OPEN;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.EMPTY_STRING;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.FILTER;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.SINGLE_SPACE;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.VARSYMBOL;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.WHERE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_CLOSE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_OPEN;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_CLOSE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_OPEN;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.FILTER;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.VARSYMBOL;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.WHERE;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

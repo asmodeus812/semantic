@@ -11,7 +11,7 @@ import org.openrdf.repository.RepositoryException;
 import com.ontotext.semantic.api.exception.SemanticEvaluateException;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
 import com.ontotext.semantic.core.common.SemanticNamespaceUtil;
-import com.ontotext.semantic.core.common.SemanticSearchUtil;
+import com.ontotext.semantic.core.common.SemanticSparqlUtil;
 
 /**
  * Represents a semantic modification query supporting INSERT DATA & DELETE DATA uses common query syntax ?variable and
@@ -33,7 +33,7 @@ public class SemanticDataQuery extends SemanticBaseQuery implements SemanticUpda
 
 	@Override
 	public void bind(String parameter, Value binding) {
-		setQuery(getQuery().replaceAll("\\" + SemanticSearchUtil.VARSYMBOL + parameter,
+		setQuery(getQuery().replaceAll("\\" + SemanticSparqlUtil.VARSYMBOL + parameter,
 				SemanticNamespaceUtil.convertValueForQuery(binding)));
 		super.bind(parameter, binding);
 	}
@@ -42,7 +42,7 @@ public class SemanticDataQuery extends SemanticBaseQuery implements SemanticUpda
 	public void unbind(String parameter) {
 		Value binding = getParameterMap().get(parameter).getValue();
 		setQuery(getQuery().replaceAll(SemanticNamespaceUtil.convertValueForQuery(binding),
-				"\\" + SemanticSearchUtil.VARSYMBOL + parameter));
+				"\\" + SemanticSparqlUtil.VARSYMBOL + parameter));
 		super.unbind(parameter);
 	}
 

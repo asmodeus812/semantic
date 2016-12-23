@@ -3,9 +3,9 @@ package com.ontotext.semantic.core.main;
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildLiteralLongUri;
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.OBJECT;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.PREDICATE;
-import static com.ontotext.semantic.core.common.SemanticSearchUtil.SUBJECT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
 
 import java.io.IOException;
 import java.util.List;
