@@ -5,10 +5,10 @@ import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
 import com.ontotext.semantic.api.enumeration.LogicalOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
-import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
+import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 
 /**
  * Semantic operator builder. Builds a filter to the given query
@@ -30,7 +30,7 @@ public class SemanticOperatorBuilder implements QueryOperatorBuilder {
 	}
 
 	@Override
-	public QueryCompiler getQueryCompiler() {
+	public QueryCompiler compile() {
 		return compilator;
 	}
 

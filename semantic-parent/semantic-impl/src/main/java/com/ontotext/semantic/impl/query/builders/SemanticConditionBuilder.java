@@ -6,11 +6,11 @@ import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingCo
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
-import com.ontotext.semantic.api.query.builders.QueryCompiler;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
+import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -62,7 +62,7 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
-	public QueryCompiler getQueryCompiler() {
+	public QueryCompiler compile() {
 		return compilator;
 	}
 }

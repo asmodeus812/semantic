@@ -1,4 +1,4 @@
-package com.ontotext.semantic.api.query.builders;
+package com.ontotext.semantic.api.query.compiler;
 
 /**
  * Interface serving as a proxy for semantic query compilation

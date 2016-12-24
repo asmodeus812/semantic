@@ -1,18 +1,18 @@
-package com.ontotext.semantic.impl.query.builders;
+package com.ontotext.semantic.impl.query.compiler;
 
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
-import com.ontotext.semantic.api.query.builders.QueryBlockCompiler;
+import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 
 /**
  * Semantic query compilator. Compiles all basic blocks of a semantic query
  * 
  * @author Svetlozar
  */
-public class SemanticQueryCompilator implements QueryBlockCompiler {
+public class SemanticQueryCompiler implements QueryBlockCompiler {
 
 	private SemanticQueryType type;
 	private StringBuilder whereBlock;
@@ -22,7 +22,7 @@ public class SemanticQueryCompilator implements QueryBlockCompiler {
 	/**
 	 * Initializes an empty compiler
 	 */
-	public SemanticQueryCompilator() {
+	public SemanticQueryCompiler() {
 		// Basic empty constructor
 	}
 
@@ -38,7 +38,7 @@ public class SemanticQueryCompilator implements QueryBlockCompiler {
 	 * @param statementBlock
 	 *            the statement block of the query
 	 */
-	public SemanticQueryCompilator(SemanticQueryType type, StringBuilder whereBlock, StringBuilder filterBlock,
+	public SemanticQueryCompiler(SemanticQueryType type, StringBuilder whereBlock, StringBuilder filterBlock,
 			StringBuilder statementBlock) {
 		super();
 		this.type = type;
@@ -110,8 +110,8 @@ public class SemanticQueryCompilator implements QueryBlockCompiler {
 	}
 
 	private void initializeQueryBlocks() {
-		whereBlock = (whereBlock == null) ? new StringBuilder(64) : whereBlock;
-		filterBlock = (filterBlock == null) ? new StringBuilder(64) : filterBlock;
-		statementBlock = (statementBlock == null) ? new StringBuilder(64) : statementBlock;
+		whereBlock = (whereBlock == null) ? new StringBuilder(32) : whereBlock;
+		filterBlock = (filterBlock == null) ? new StringBuilder(32) : filterBlock;
+		statementBlock = (statementBlock == null) ? new StringBuilder(32) : statementBlock;
 	}
 }

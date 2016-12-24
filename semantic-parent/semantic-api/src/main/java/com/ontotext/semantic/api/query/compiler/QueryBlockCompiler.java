@@ -1,4 +1,4 @@
-package com.ontotext.semantic.api.query.builders;
+package com.ontotext.semantic.api.query.compiler;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 

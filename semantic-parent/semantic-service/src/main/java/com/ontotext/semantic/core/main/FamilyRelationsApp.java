@@ -23,7 +23,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
-import com.ontotext.semantic.api.query.builders.QueryCompiler;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.query.SemanticDataQuery;
 import com.ontotext.semantic.impl.query.SemanticModifyQuery;
@@ -72,7 +72,7 @@ public class FamilyRelationsApp {
 				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
 				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
 				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
-				.getQueryCompiler();
+				.compile();
 	}
 
 	public static QueryCompiler buildSemanticDeleteQuery() {
@@ -82,13 +82,13 @@ public class FamilyRelationsApp {
 				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
 				.appendLogicalOperator(LogicalOperators.OR)
 				.appendFilter(new SemanticTriplet(OBJECT, ArithmeticOperators.EQUALS, "?value"))
-				.getQueryCompiler();
+				.compile();
 	}
 
 	public static QueryCompiler buildSemanticDataQuery(SemanticQueryType type) {
 		return new SemanticQueryBuilder(type)
 				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
-				.getQueryCompiler();
+				.compile();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class FamilyRelationsApp {
 		// Evaluate data query
 		update.evaluate(connection);
 		// Evaluate modification query
-		deletePerson.evaluate(connection);
+		// deletePerson.evaluate(connection);
 		// Evaluate tuple query results
 		List<Instance> instances = new SemanticTupleQueryParser().parseQuery(connection, query);
 
