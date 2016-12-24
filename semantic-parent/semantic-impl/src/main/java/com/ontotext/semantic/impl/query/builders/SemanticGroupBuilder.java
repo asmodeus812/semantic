@@ -29,11 +29,12 @@ public class SemanticGroupBuilder implements QueryGroupBuilder {
 	 */
 	public SemanticGroupBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
-		build();
 	}
 
 	@Override
 	public QueryLimitBuilder appendGroup(Single value) {
+		// TODO: find a better solution than lazy building
+		build();
 		if (!isSupportingGroupBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Query does not support group by clause");
 		}

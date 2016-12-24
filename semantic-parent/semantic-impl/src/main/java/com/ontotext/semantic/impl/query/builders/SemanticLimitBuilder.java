@@ -32,8 +32,8 @@ public class SemanticLimitBuilder implements QueryLimitBuilder {
 
 	@Override
 	public QueryGroupBuilder appendLimit(int limit) {
+		// TODO: find a better solution than lazy building
 		build();
-
 		if (!isSupportingLimitBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Query does not support limit clause operator");
 		}
