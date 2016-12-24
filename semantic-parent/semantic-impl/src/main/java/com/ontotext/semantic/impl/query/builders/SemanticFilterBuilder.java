@@ -28,7 +28,7 @@ public class SemanticFilterBuilder implements QueryFilterBuilder {
 	 */
 	public SemanticFilterBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
-		construct();
+		build();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class SemanticFilterBuilder implements QueryFilterBuilder {
 	}
 
 	@Override
-	public void construct() {
+	public void build() {
 		if (compilator.getFilterBlock() == null) {
 			buildFilterBlock(filterBlock);
 			compilator.setFilterBlock(filterBlock);

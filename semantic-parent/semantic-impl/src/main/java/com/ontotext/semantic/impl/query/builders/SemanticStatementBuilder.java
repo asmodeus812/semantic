@@ -34,7 +34,7 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	 */
 	public SemanticStatementBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
-		construct();
+		build();
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	}
 
 	@Override
-	public void construct() {
+	public void build() {
 		if (compilator.getStatementBlock() == null) {
 			buildStatementBlock(statementBlock, compilator.getType());
 			compilator.setStatementBlock(statementBlock);

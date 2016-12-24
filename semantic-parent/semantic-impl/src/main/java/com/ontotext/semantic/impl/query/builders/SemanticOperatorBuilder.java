@@ -45,4 +45,7 @@ public class SemanticOperatorBuilder implements QueryOperatorBuilder {
 		return new SemanticFilterBuilder(compilator);
 	}
 
+	@Override
+	public void build() {
+	}
 }

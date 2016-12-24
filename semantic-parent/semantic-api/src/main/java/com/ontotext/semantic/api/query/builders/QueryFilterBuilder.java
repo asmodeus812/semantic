@@ -1,7 +1,6 @@
 package com.ontotext.semantic.api.query.builders;
 
 import com.ontotext.semantic.api.common.Builder;
-import com.ontotext.semantic.api.common.Constructor;
 import com.ontotext.semantic.api.query.appenders.QueryFilterAppender;
 
 /**
@@ -9,5 +8,5 @@ import com.ontotext.semantic.api.query.appenders.QueryFilterAppender;
  * 
  * @author Svetlozar
  */
-public interface QueryFilterBuilder extends Builder, Constructor, QueryFilterAppender<QueryOperatorBuilder> {
+public interface QueryFilterBuilder extends Builder, QueryFilterAppender<QueryOperatorBuilder> {
 }

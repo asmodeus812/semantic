@@ -6,4 +6,9 @@ package com.ontotext.semantic.api.common;
  * @author Svetlozar
  */
 public interface Builder {
+
+	/**
+	 * Construct or builds a given state
+	 */
+	public void build();
 }

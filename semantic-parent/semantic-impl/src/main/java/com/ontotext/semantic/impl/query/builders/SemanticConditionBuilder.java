@@ -31,7 +31,7 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	 */
 	public SemanticConditionBuilder(QueryBlockCompiler compilator) {
 		this.compilator = compilator;
-		construct();
+		build();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
-	public void construct() {
+	public void build() {
 		if (compilator.getWhereBlock() == null) {
 			buildWhereBlock(whereBlock);
 			compilator.setWhereBlock(whereBlock);

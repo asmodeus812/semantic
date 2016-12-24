@@ -25,7 +25,7 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	 */
 	public SemanticQueryBuilder(SemanticQueryType type) {
 		this.type = type;
-		construct();
+		build();
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	}
 
 	@Override
-	public void construct() {
+	public void build() {
 		compilator = new SemanticQueryCompiler();
 		compilator.setType(type);
 	}
