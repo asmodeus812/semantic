@@ -4,20 +4,20 @@ import com.ontotext.semantic.api.common.Builder;
 import com.ontotext.semantic.api.structures.Single;
 
 /**
- * Interface for appending a statement to a given builder
+ * Interface for appending a given group to a builder
  * 
  * @param <Builder>
  *            a generic builder parameter
  * @author Svetlozar
  */
-public interface QueryStatementAppender<B extends Builder> {
+public interface QueryGroupAppender<B extends Builder> {
 
 	/**
-	 * Append a statement to the given query
+	 * Appends a given group by clause to the builder
 	 * 
-	 * @param statement
-	 *            the statement to be appended
+	 * @param value
+	 *            the group by to be appended
 	 * @return the builder
 	 */
-	public <T extends Single> B appendStatement(T statement);
+	public B appendGroup(Single value);
 }

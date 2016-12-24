@@ -109,7 +109,7 @@ public class FamilyRelationsApp {
 
 		// Construct modification query - delete
 		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().compileLongFormatQuery());
-		deletePerson.bind("value", buildInstanceLongUri("dataperson:" + person));
+		deletePerson.bind("value", buildInstanceLongUri("dataperson:Mary"));
 
 		// Construct data query - delete
 		SemanticUpdateQuery delete = new SemanticDataQuery(

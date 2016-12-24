@@ -34,6 +34,22 @@ public interface QueryBlockCompiler extends QueryCompiler {
 	public void setFilterBlock(StringBuilder filterBlock);
 
 	/**
+	 * Set the group by block of the query
+	 * 
+	 * @param groupBlock
+	 *            the group by block of the query
+	 */
+	public void setGroupBlock(StringBuilder groupBlock);
+
+	/**
+	 * Set the limit block of the query
+	 * 
+	 * @param limitBlock
+	 *            the limit block of the query
+	 */
+	public void setLimitBlock(StringBuilder limitBlock);
+
+	/**
 	 * Set the statement block of the query
 	 * 
 	 * @param statementBlock
@@ -68,4 +84,18 @@ public interface QueryBlockCompiler extends QueryCompiler {
 	 * @return the filter block of the query
 	 */
 	public StringBuilder getFilterBlock();
+
+	/**
+	 * Get the group by block of the query
+	 * 
+	 * @return the group by block of the query
+	 */
+	public StringBuilder getGroupBlock();
+
+	/**
+	 * Get the limit block of the query
+	 * 
+	 * @return the limit block of the query
+	 */
+	public StringBuilder getLimitBlock();
 }

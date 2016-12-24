@@ -14,5 +14,5 @@ public interface Triplet extends Pair {
 	 * 
 	 * @return the third part
 	 */
-	Serializable getThird();
+	public Serializable getZ();
 }

@@ -15,5 +15,5 @@ public interface QueryCompilerBuilder extends Builder {
 	 * 
 	 * @return the query compilator proxy service interface
 	 */
-	QueryCompiler compile();
+	public QueryCompiler compile();
 }

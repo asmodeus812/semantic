@@ -11,9 +11,12 @@ import java.util.regex.Matcher;
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
+import com.ontotext.semantic.api.query.builders.QueryGroupBuilder;
+import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
+import com.ontotext.semantic.api.structures.Single;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -45,18 +48,33 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	}
 
 	@Override
-	public QueryStatementBuilder appendStatement(Triplet statement) {
+	public QueryLimitBuilder appendGroup(Single value) {
+		QueryGroupBuilder groupBuilder = new SemanticGroupBuilder(compilator);
+		groupBuilder.appendGroup(value);
+		return new SemanticLimitBuilder(compilator);
+	}
+
+	@Override
+	public QueryGroupBuilder appendLimit(int limit) {
+		QueryLimitBuilder limitBuilder = new SemanticLimitBuilder(compilator);
+		limitBuilder.appendLimit(limit);
+		return new SemanticGroupBuilder(compilator);
+	}
+
+	@Override
+	public <T extends Single> QueryStatementBuilder appendStatement(T statement) {
 		SemanticQueryType type = compilator.getType();
-		if (isSupportingConditionBlocks(type) && countStatements(3) >= 1) {
+		if (isSupportingConditionBlocks(type) && countStatementParameters(3) >= 1) {
 			throw new SemanticQueryException("Query type does not support multiple triplet statements");
 		}
 
 		int pos = findStatementAppendPosition(statementBlock, type);
 		String toInsert = (type == SemanticQueryType.SELECT) ? statement.toString() : statement + DOT;
 		statementBlock.insert(pos, toInsert);
-		// Always append the first statement as a condition
-		if (isSupportingConditionBlocks(type)) {
-			appendCondition(statement);
+
+		// Always append the first statement as a condition if it is a triplet
+		if (isSupportingConditionBlocks(type) && statement instanceof Triplet) {
+			appendCondition((Triplet) statement);
 		}
 		return this;
 	}
@@ -81,7 +99,7 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	 * 
 	 * @return the number of triplets
 	 */
-	private int countStatements(int statementSize) {
+	private int countStatementParameters(int statementSize) {
 		Matcher paramterMatcher = PARAMETER_PATTERN.matcher(statementBlock);
 
 		int matchCount = 0;

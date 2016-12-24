@@ -6,8 +6,8 @@ import java.util.Map;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.api.instance.InstanceType;
 
 /**
  * Represents a semantic BNode structure
@@ -29,8 +29,8 @@ public class SemanticBNode implements Instance {
 	}
 
 	@Override
-	public InstanceType getInstanceType() {
-		return InstanceType.BNODE;
+	public SemanticInstanceType getInstanceType() {
+		return SemanticInstanceType.BNODE;
 	}
 
 	@Override

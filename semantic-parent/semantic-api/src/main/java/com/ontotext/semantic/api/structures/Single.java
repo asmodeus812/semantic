@@ -14,5 +14,5 @@ public interface Single extends Serializable {
 	 * 
 	 * @return the first value
 	 */
-	Serializable getFirst();
+	public Serializable getX();
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.api.instance.InstanceType;
 
 /**
  * Represents a semantic literal or atomic value that can not be sub classed
@@ -72,8 +72,8 @@ public class SemanticAtomic implements Instance {
 	}
 
 	@Override
-	public InstanceType getInstanceType() {
-		return InstanceType.LITERAL;
+	public SemanticInstanceType getInstanceType() {
+		return SemanticInstanceType.LITERAL;
 	}
 
 }

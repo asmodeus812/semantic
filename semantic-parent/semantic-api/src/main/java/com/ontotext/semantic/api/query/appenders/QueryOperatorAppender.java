@@ -19,5 +19,5 @@ public interface QueryOperatorAppender<B extends Builder> {
 	 *            the operator to be appended
 	 * @return the builder
 	 */
-	B appendLogicalOperator(LogicalOperators operator);
+	public B appendLogicalOperator(LogicalOperators operator);
 }

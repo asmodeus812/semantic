@@ -7,8 +7,8 @@ import java.util.Map;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.api.instance.InstanceType;
 import com.ontotext.semantic.core.common.SemanticSparqlUtil;
 
 /**
@@ -70,6 +70,8 @@ public class SemanticInstance implements Instance {
 				String secondHalf = (entry.getValue() != null)
 						? SemanticSparqlUtil.COLLON + SemanticSparqlUtil.SINGLE_SPACE + entry.getValue()
 						: SemanticSparqlUtil.EMPTY_STRING;
+
+				builder.append(SemanticSparqlUtil.SINGLE_SPACE);
 				if (!firstHalf.equals(SemanticSparqlUtil.EMPTY_STRING)) {
 					builder.append(firstHalf);
 				}
@@ -103,8 +105,8 @@ public class SemanticInstance implements Instance {
 	}
 
 	@Override
-	public InstanceType getInstanceType() {
-		return InstanceType.INSTANCE;
+	public SemanticInstanceType getInstanceType() {
+		return SemanticInstanceType.INSTANCE;
 	}
 
 }

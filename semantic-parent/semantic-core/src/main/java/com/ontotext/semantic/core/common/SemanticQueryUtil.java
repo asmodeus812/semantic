@@ -1,14 +1,16 @@
 package com.ontotext.semantic.core.common;
 
+import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.FILTER;
+import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.GROUP_BY;
+import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.LIMIT;
+import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.WHERE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_OPEN;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_OPEN;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.FILTER;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.VARSYMBOL;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.WHERE;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -78,7 +80,8 @@ public class SemanticQueryUtil {
 	 * @return the builder
 	 */
 	public static StringBuilder buildFilterBlock(StringBuilder builder) {
-		return builder.append(SINGLE_SPACE).append(FILTER).append(BRACE_OPEN).append(BRACE_CLOSE);
+		return builder.append(FILTER).append(BRACE_OPEN)
+				.append(BRACE_CLOSE);
 	}
 
 	/**
@@ -100,7 +103,8 @@ public class SemanticQueryUtil {
 	 * @return the builder
 	 */
 	public static StringBuilder buildWhereBlock(StringBuilder builder) {
-		return builder.append(SINGLE_SPACE).append(WHERE).append(CURLY_BRACE_OPEN).append(CURLY_BRACE_CLOSE);
+		return builder.append(SINGLE_SPACE).append(WHERE).append(SINGLE_SPACE).append(CURLY_BRACE_OPEN)
+				.append(SINGLE_SPACE).append(CURLY_BRACE_CLOSE);
 	}
 
 	/**
@@ -112,6 +116,52 @@ public class SemanticQueryUtil {
 	 */
 	public static int findWhereAppendPosition(StringBuilder builder) {
 		return builder.indexOf(CURLY_BRACE_CLOSE);
+	}
+
+	/**
+	 * Builds a group by block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the group by block
+	 * @return the builder
+	 */
+	public static StringBuilder buildGroupBlock(StringBuilder builder) {
+		return builder.append(SINGLE_SPACE).append(GROUP_BY).append(SINGLE_SPACE);
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a group by block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findGroupAppendPosition(StringBuilder builder) {
+		String group = GROUP_BY.getValue() + SINGLE_SPACE;
+		return builder.indexOf(group) + group.length();
+	}
+
+	/**
+	 * Builds a limit block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the limit block
+	 * @return the builder
+	 */
+	public static StringBuilder buildLimitBlock(StringBuilder builder) {
+		return builder.append(SINGLE_SPACE).append(LIMIT).append(SINGLE_SPACE);
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a limit block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findLimitAppendPosition(StringBuilder builder) {
+		String group = LIMIT.getValue() + SINGLE_SPACE;
+		return builder.indexOf(group) + group.length();
 	}
 
 	/**
@@ -149,7 +199,7 @@ public class SemanticQueryUtil {
 	public static int findStatementAppendPosition(StringBuilder builder, SemanticQueryType type) {
 		switch (type) {
 		case SELECT:
-			String typeStr = type.toString();
+			String typeStr = type.toString() + SINGLE_SPACE;
 			return builder.indexOf(typeStr) + typeStr.length();
 		case INSERT:
 		case DELETE:

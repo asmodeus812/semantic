@@ -14,6 +14,6 @@ public interface Pair extends Single {
 	 * 
 	 * @return the second part
 	 */
-	Serializable getSecond();
+	public Serializable getY();
 
 }

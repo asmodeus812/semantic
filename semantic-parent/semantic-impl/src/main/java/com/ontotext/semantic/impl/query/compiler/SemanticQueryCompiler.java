@@ -3,6 +3,8 @@ package com.ontotext.semantic.impl.query.compiler;
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingGroupBlocks;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingLimitBlocks;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
@@ -16,6 +18,8 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 
 	private SemanticQueryType type;
 	private StringBuilder whereBlock;
+	private StringBuilder groupBlock;
+	private StringBuilder limitBlock;
 	private StringBuilder filterBlock;
 	private StringBuilder statementBlock;
 
@@ -88,6 +92,26 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	}
 
 	@Override
+	public void setGroupBlock(StringBuilder groupBlock) {
+		this.groupBlock = groupBlock;
+	}
+
+	@Override
+	public StringBuilder getGroupBlock() {
+		return groupBlock;
+	}
+
+	@Override
+	public void setLimitBlock(StringBuilder limitBlock) {
+		this.limitBlock = limitBlock;
+	}
+
+	@Override
+	public StringBuilder getLimitBlock() {
+		return limitBlock;
+	}
+
+	@Override
 	public String compileShortFormatQuery() {
 		return compileQuery().toString();
 	}
@@ -100,10 +124,17 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	private String compileQuery() {
 		initializeQueryBlocks();
 		StringBuilder compiled = new StringBuilder(512);
+
 		if (isSupportingConditionBlocks(type)) {
 			compiled.append(whereBlock);
 			int pos = findWhereAppendPosition(compiled);
 			compiled.insert(pos, filterBlock);
+			if (isSupportingGroupBlocks(type)) {
+				compiled.append(groupBlock);
+			}
+			if (isSupportingLimitBlocks(type)) {
+				compiled.append(limitBlock);
+			}
 		}
 		compiled.insert(0, statementBlock);
 		return compiled.toString();
@@ -111,7 +142,12 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 
 	private void initializeQueryBlocks() {
 		whereBlock = (whereBlock == null) ? new StringBuilder(32) : whereBlock;
+		groupBlock = (groupBlock == null) ? new StringBuilder(32) : groupBlock;
+		limitBlock = (limitBlock == null) ? new StringBuilder(32) : limitBlock;
 		filterBlock = (filterBlock == null) ? new StringBuilder(32) : filterBlock;
 		statementBlock = (statementBlock == null) ? new StringBuilder(32) : statementBlock;
 	}
+
+
+
 }

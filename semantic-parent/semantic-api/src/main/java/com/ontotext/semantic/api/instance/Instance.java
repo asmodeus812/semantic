@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
+
 /**
  * Represents a base semantic instance
  * 
@@ -17,7 +19,7 @@ public interface Instance {
 	 * 
 	 * @return the instance type
 	 */
-	public InstanceType getInstanceType();
+	public SemanticInstanceType getInstanceType();
 
 	/**
 	 * Returns instance value as specified by the {@link Value} interface

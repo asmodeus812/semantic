@@ -4,13 +4,17 @@ import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildWhereBloc
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
+import com.ontotext.semantic.api.query.builders.QueryGroupBuilder;
+import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
+import com.ontotext.semantic.api.structures.Single;
 import com.ontotext.semantic.api.structures.Triplet;
 
 /**
@@ -42,12 +46,27 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
+	public QueryLimitBuilder appendGroup(Single value) {
+		QueryGroupBuilder groupBuilder = new SemanticGroupBuilder(compilator);
+		groupBuilder.appendGroup(value);
+		return new SemanticLimitBuilder(compilator);
+	}
+
+	@Override
+	public QueryGroupBuilder appendLimit(int limit) {
+		QueryLimitBuilder limitBuilder = new SemanticLimitBuilder(compilator);
+		limitBuilder.appendLimit(limit);
+		return new SemanticGroupBuilder(compilator);
+	}
+
+	@Override
 	public QueryConditionBuilder appendCondition(Triplet condition) {
 		if (!isSupportingConditionBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Specified query type does not support condition blocks");
 		}
+		String appendToCondition = DOT + SINGLE_SPACE;
 		int pos = findWhereAppendPosition(whereBlock);
-		whereBlock.insert(pos, condition + DOT);
+		whereBlock.insert(pos, condition + appendToCondition);
 		return this;
 	}
 
@@ -65,4 +84,5 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	public QueryCompiler compile() {
 		return compilator;
 	}
+
 }

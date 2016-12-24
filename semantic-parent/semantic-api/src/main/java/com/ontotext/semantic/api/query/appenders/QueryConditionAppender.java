@@ -19,5 +19,5 @@ public interface QueryConditionAppender<B extends Builder> {
 	 *            the condition to be appended
 	 * @return the builder
 	 */
-	B appendCondition(Triplet condition);
+	public B appendCondition(Triplet condition);
 }

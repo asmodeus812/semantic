@@ -4,7 +4,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.query.builders.QueryBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
-import com.ontotext.semantic.api.structures.Triplet;
+import com.ontotext.semantic.api.structures.Single;
 import com.ontotext.semantic.impl.query.compiler.SemanticQueryCompiler;
 
 /**
@@ -29,7 +29,7 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	}
 
 	@Override
-	public QueryStatementBuilder appendStatement(Triplet statement) {
+	public <T extends Single> QueryStatementBuilder appendStatement(T statement) {
 		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
 		stateBuilder.appendStatement(statement);
 		return stateBuilder;
@@ -40,5 +40,4 @@ public class SemanticQueryBuilder implements QueryBuilder {
 		compilator = new SemanticQueryCompiler();
 		compilator.setType(type);
 	}
-
 }

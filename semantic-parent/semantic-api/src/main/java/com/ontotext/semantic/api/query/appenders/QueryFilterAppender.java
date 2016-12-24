@@ -19,6 +19,6 @@ public interface QueryFilterAppender<B extends Builder> {
 	 *            the filter to be appended
 	 * @return the builder
 	 */
-	B appendFilter(Triplet filter);
+	public B appendFilter(Triplet filter);
 
 }

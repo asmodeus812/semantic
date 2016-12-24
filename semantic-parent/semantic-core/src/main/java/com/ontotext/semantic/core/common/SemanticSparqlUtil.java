@@ -22,24 +22,20 @@ public class SemanticSparqlUtil {
 	public static final String DOUBLE_SPACE = "  ";
 	public static final String ESCAPED_QUOTE = "\"";
 
-	public static final String BRACE_OPEN = SINGLE_SPACE + "(";
-	public static final String BRACE_CLOSE = SINGLE_SPACE + ")";
+	public static final String BRACE_OPEN = "(";
+	public static final String BRACE_CLOSE = ")";
 
 	public static final String ANGLE_BRACE_OPEN = "<";
 	public static final String ANGLE_BRACE_CLOSE = ">";
 
-	public static final String CURLY_BRACE_OPEN = SINGLE_SPACE + "{";
-	public static final String CURLY_BRACE_CLOSE = SINGLE_SPACE + "}";
+	public static final String CURLY_BRACE_OPEN = "{";
+	public static final String CURLY_BRACE_CLOSE = "}";
 
 	public static final String VARSYMBOL = "?";
 	public static final String VARIABLE = VARSYMBOL + "variable";
 	public static final String SUBJECT = VARSYMBOL + "subject";
 	public static final String PREDICATE = VARSYMBOL + "predicate";
 	public static final String OBJECT = VARSYMBOL + "object";
-
-	public static final String WHERE = "WHERE";
-	public static final String FILTER = "FILTER";
-	public static final String GROUP_BY = "GROUP BY";
 
 	/**
 	 * Private constructor for utility class

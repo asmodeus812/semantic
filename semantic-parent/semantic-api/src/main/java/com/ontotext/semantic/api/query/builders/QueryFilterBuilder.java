@@ -8,5 +8,6 @@ import com.ontotext.semantic.api.query.appenders.QueryFilterAppender;
  * 
  * @author Svetlozar
  */
-public interface QueryFilterBuilder extends Builder, QueryFilterAppender<QueryOperatorBuilder> {
+public interface QueryFilterBuilder
+		extends Builder, QueryFilterAppender<QueryOperatorBuilder> {
 }
