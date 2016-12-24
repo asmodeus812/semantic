@@ -32,7 +32,7 @@ import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 public class SemanticQueryUtil {
 
 	/**
-	 * Common parameter pattern for SPARQL variables matching
+	 * Common parameter pattern for SPARQL variables matching. Matches a single parameter
 	 */
 	public static final Pattern PARAMETER_PATTERN = Pattern.compile("(\\?[a-zA-Z1-9]+)");
 
@@ -45,13 +45,12 @@ public class SemanticQueryUtil {
 	 */
 	public static Set<String> extractQueryParams(String query) {
 		Matcher paramterMatcher = PARAMETER_PATTERN.matcher(query);
-
 		// use linked hash set to preserve order
 		Set<String> parameters = new LinkedHashSet<String>();
 		while (paramterMatcher.find()) {
 			String param = paramterMatcher.group();
-			// Trim the variable character (?) from the parameter
-			parameters.add(param.substring(1));
+			// Trim the variable symbol (?) from the parameter
+			parameters.add(stripVarSymbol(param));
 		}
 		return parameters;
 	}
@@ -158,13 +157,12 @@ public class SemanticQueryUtil {
 		case DELETE_DATA:
 			return builder.indexOf(CURLY_BRACE_CLOSE);
 		default:
-			break;
+			return -1;
 		}
-		return -1;
 	}
 
 	/**
-	 * Strips all question marks variable symbols from the given string. Based on SPARQL syntax
+	 * Strips all variable symbols from the given string. Based on SPARQL syntax
 	 * 
 	 * @param variable
 	 *            the variable from which to be stripped
@@ -184,7 +182,7 @@ public class SemanticQueryUtil {
 	}
 
 	/**
-	 * Checks if a given query type supports the condition or the filter type blocks
+	 * Checks if a given query type supports the condition or the filter type blocks. Based on SPARQL syntax
 	 * 
 	 * @param type
 	 *            the type of the semantic query
@@ -192,5 +190,27 @@ public class SemanticQueryUtil {
 	 */
 	public static boolean isSupportingConditionBlocks(SemanticQueryType type) {
 		return type != SemanticQueryType.INSERT_DATA && type != SemanticQueryType.DELETE_DATA;
+	}
+
+	/**
+	 * Checks if a given query type supports the group by clause. Based on SPARQL syntax
+	 * 
+	 * @param type
+	 *            the type of the query
+	 * @return true if supports, false otherwise
+	 */
+	public static boolean isSupportingGroupBlocks(SemanticQueryType type) {
+		return type == SemanticQueryType.SELECT;
+	}
+
+	/**
+	 * Checks if a given query type supports the limit clause. Based on SPARQL syntax
+	 * 
+	 * @param type
+	 *            the type of the query
+	 * @return true if supports, false otherwise
+	 */
+	public static boolean isSupportingLimitBlocks(SemanticQueryType type) {
+		return type == SemanticQueryType.SELECT;
 	}
 }
