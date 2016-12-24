@@ -104,23 +104,23 @@ public class FamilyRelationsApp {
 			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 		System.out.println("# Listing all properties for " + person);
 
-		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().getLongFormatQuery());
+		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().compileLongFormatQuery());
 		query.bind("value", buildInstanceLongUri("dataperson:John"));
 
 		// Construct modification query - delete
-		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().getLongFormatQuery());
+		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().compileLongFormatQuery());
 		deletePerson.bind("value", buildInstanceLongUri("dataperson:" + person));
 
 		// Construct data query - delete
 		SemanticUpdateQuery delete = new SemanticDataQuery(
-				buildSemanticDataQuery(SemanticQueryType.DELETE_DATA).getLongFormatQuery());
+				buildSemanticDataQuery(SemanticQueryType.DELETE_DATA).compileLongFormatQuery());
 		delete.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
 		delete.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
 		delete.bind(OBJECT, buildLiteralLongUri("42", XMLSchema.INTEGER));
 
 		// Construct data query - insert
 		SemanticUpdateQuery update = new SemanticDataQuery(
-				buildSemanticDataQuery(SemanticQueryType.INSERT_DATA).getLongFormatQuery());
+				buildSemanticDataQuery(SemanticQueryType.INSERT_DATA).compileLongFormatQuery());
 		update.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
 		update.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
 		update.bind(OBJECT, buildLiteralLongUri("12", XMLSchema.INTEGER));
@@ -130,7 +130,7 @@ public class FamilyRelationsApp {
 		// Evaluate data query
 		update.evaluate(connection);
 		// Evaluate modification query
-		// deletePerson.evaluate(connection);
+		deletePerson.evaluate(connection);
 		// Evaluate tuple query results
 		List<Instance> instances = new SemanticTupleQueryParser().parseQuery(connection, query);
 

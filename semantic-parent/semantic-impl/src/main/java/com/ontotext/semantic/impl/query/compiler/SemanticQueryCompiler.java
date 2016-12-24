@@ -23,7 +23,7 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	 * Initializes an empty compiler
 	 */
 	public SemanticQueryCompiler() {
-		// Basic empty constructor
+		// Empty constructor
 	}
 
 	/**
@@ -88,13 +88,13 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	}
 
 	@Override
-	public String getShortFormatQuery() {
+	public String compileShortFormatQuery() {
 		return compileQuery().toString();
 	}
 
 	@Override
-	public String getLongFormatQuery() {
-		return parseToRawNamespace(compileQuery().toString());
+	public String compileLongFormatQuery() {
+		return parseToRawNamespace(compileShortFormatQuery());
 	}
 
 	private String compileQuery() {
