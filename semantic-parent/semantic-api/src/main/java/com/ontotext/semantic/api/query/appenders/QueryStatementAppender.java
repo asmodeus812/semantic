@@ -1,7 +1,8 @@
 package com.ontotext.semantic.api.query.appenders;
 
+import java.io.Serializable;
+
 import com.ontotext.semantic.api.common.Builder;
-import com.ontotext.semantic.api.structures.Single;
 
 /**
  * Interface for appending a statement to a given builder
@@ -13,11 +14,36 @@ import com.ontotext.semantic.api.structures.Single;
 public interface QueryStatementAppender<B extends Builder> {
 
 	/**
-	 * Append a statement to the given query
+	 * Appends a single statement to the query
 	 * 
-	 * @param statement
-	 *            the statement to be appended
+	 * @param subject
+	 *            the subject statement
 	 * @return the builder
 	 */
-	public <T extends Single> B appendStatement(T statement);
+	public B appendStatement(Serializable subject);
+
+	/**
+	 * Appends a pair statement to the query
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @param predicate
+	 *            the predicate
+	 * @return the builder
+	 */
+	public B appendStatement(Serializable subject, Serializable predicate);
+
+	/**
+	 * Appends a triplet statement to the query
+	 * 
+	 * @param subject
+	 *            the subject
+	 * @param predicate
+	 *            the predicate
+	 * @param object
+	 *            the object
+	 * @return the builder
+	 */
+	public B appendStatement(Serializable subject, Serializable predicate, Serializable object);
+
 }

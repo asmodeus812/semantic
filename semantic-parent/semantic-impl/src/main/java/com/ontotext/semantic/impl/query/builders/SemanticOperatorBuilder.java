@@ -3,6 +3,8 @@ package com.ontotext.semantic.impl.query.builders;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findFilterAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
+import java.io.Serializable;
+
 import com.ontotext.semantic.api.enumeration.LogicalOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
@@ -11,7 +13,6 @@ import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
-import com.ontotext.semantic.api.structures.Single;
 
 /**
  * Semantic operator builder. Builds a filter to the given query
@@ -50,7 +51,7 @@ public class SemanticOperatorBuilder implements QueryOperatorBuilder {
 	}
 
 	@Override
-	public QueryLimitBuilder appendGroup(Single value) {
+	public QueryLimitBuilder appendGroup(Serializable value) {
 		QueryGroupBuilder groupBuilder = new SemanticGroupBuilder(compilator);
 		groupBuilder.appendGroup(value);
 		return new SemanticLimitBuilder(compilator);

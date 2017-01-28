@@ -1,7 +1,8 @@
 package com.ontotext.semantic.api.query.appenders;
 
+import java.io.Serializable;
+
 import com.ontotext.semantic.api.common.Builder;
-import com.ontotext.semantic.api.structures.Single;
 
 /**
  * Interface for appending a given group to a builder
@@ -19,5 +20,5 @@ public interface QueryGroupAppender<B extends Builder> {
 	 *            the group by to be appended
 	 * @return the builder
 	 */
-	public B appendGroup(Single value);
+	public B appendGroup(Serializable value);
 }

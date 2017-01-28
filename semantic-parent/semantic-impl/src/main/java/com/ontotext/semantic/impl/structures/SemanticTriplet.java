@@ -1,9 +1,10 @@
 package com.ontotext.semantic.impl.structures;
 
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
+
 import java.io.Serializable;
 
 import com.ontotext.semantic.api.structures.Triplet;
-import com.ontotext.semantic.core.common.SemanticSparqlUtil;
 
 /**
  * Represents a simple semantic triplet that can contain a various elements such as Strings, URI, Value, BNode, Literal
@@ -39,6 +40,6 @@ public class SemanticTriplet extends SemanticPair implements Triplet {
 
 	@Override
 	public String toString() {
-		return super.toString() + SemanticSparqlUtil.SINGLE_SPACE + getZ().toString();
+		return super.toString() + SINGLE_SPACE + getZ().toString();
 	}
 }

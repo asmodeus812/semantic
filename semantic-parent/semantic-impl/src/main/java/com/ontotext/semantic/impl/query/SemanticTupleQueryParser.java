@@ -31,9 +31,9 @@ public class SemanticTupleQueryParser implements SemanticQueryParser<SemanticTup
 			TupleQueryResult result = query.evaluate(connection);
 			List<String> parameters = new ArrayList<String>(query.getParameterSet());
 			// Always have a triplet as a maximum numbers of parameters ?
-			if (parameters.size() < 1 && parameters.size() > 3) {
-				return null;
-			}
+			// if (parameters.size() < 1 || parameters.size() > 3) {
+			// return null;
+			// }
 
 			InstanceFactory factory = new SemanticInstanceFactory();
 			Map<Value, Instance> instanceMap = new HashMap<Value, Instance>();
@@ -64,7 +64,7 @@ public class SemanticTupleQueryParser implements SemanticQueryParser<SemanticTup
 			result.close();
 			return new ArrayList<Instance>(instanceMap.values());
 		} catch (QueryEvaluationException e) {
-			throw new SemanticParseException("Error during query parsing" + e.getMessage());
+			throw new SemanticParseException("Error during query parsing " + e.getMessage());
 		}
 
 	}

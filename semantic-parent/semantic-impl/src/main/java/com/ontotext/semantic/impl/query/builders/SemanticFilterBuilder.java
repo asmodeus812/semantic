@@ -4,11 +4,15 @@ import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildFilterBlo
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findFilterAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 
+import java.io.Serializable;
+
+import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.structures.Triplet;
+import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * Semantic filter builder. Builds filters to a semantic query
@@ -32,11 +36,13 @@ public class SemanticFilterBuilder implements QueryFilterBuilder {
 	}
 
 	@Override
-	public QueryOperatorBuilder appendFilter(Triplet filter) {
+	public QueryOperatorBuilder appendFilter(Serializable variable, ArithmeticOperators operator, Serializable value) {
 		if (!isSupportingConditionBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Specified query type does not support filter block");
 		}
+
 		int pos = findFilterAppendPosition(filterBlock);
+		Triplet filter = new SemanticTriplet(variable, operator, value);
 		filterBlock.insert(pos, filter);
 		return new SemanticOperatorBuilder(compilator);
 	}

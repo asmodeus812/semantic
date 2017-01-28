@@ -1,12 +1,13 @@
 package com.ontotext.semantic.impl.query.builders;
 
-import static com.ontotext.semantic.core.common.SemanticQueryUtil.PARAMETER_PATTERN;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildStatementBlock;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findStatementAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
-import java.util.regex.Matcher;
+import java.io.Serializable;
 
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
@@ -16,8 +17,9 @@ import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
-import com.ontotext.semantic.api.structures.Single;
-import com.ontotext.semantic.api.structures.Triplet;
+import com.ontotext.semantic.impl.structures.SemanticPair;
+import com.ontotext.semantic.impl.structures.SemanticSingle;
+import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * Semantic statement builder. Builds a base statement or a condition to a query
@@ -26,6 +28,7 @@ import com.ontotext.semantic.api.structures.Triplet;
  */
 public class SemanticStatementBuilder implements QueryStatementBuilder {
 
+	private int appendCounter = 0;
 	private QueryBlockCompiler compilator;
 	private StringBuilder statementBlock = new StringBuilder(256);
 
@@ -41,14 +44,14 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	}
 
 	@Override
-	public QueryConditionBuilder appendCondition(Triplet condition) {
+	public QueryConditionBuilder appendCondition(Serializable subject, Serializable predicate, Serializable object) {
 		QueryConditionBuilder condBuilder = new SemanticConditionBuilder(compilator);
-		condBuilder.appendCondition(condition);
+		condBuilder.appendCondition(subject, predicate, object);
 		return condBuilder;
 	}
 
 	@Override
-	public QueryLimitBuilder appendGroup(Single value) {
+	public QueryLimitBuilder appendGroup(Serializable value) {
 		QueryGroupBuilder groupBuilder = new SemanticGroupBuilder(compilator);
 		groupBuilder.appendGroup(value);
 		return new SemanticLimitBuilder(compilator);
@@ -62,21 +65,21 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	}
 
 	@Override
-	public <T extends Single> QueryStatementBuilder appendStatement(T statement) {
-		SemanticQueryType type = compilator.getType();
-		if (isSupportingConditionBlocks(type) && countStatementParameters(3) >= 1) {
-			throw new SemanticQueryException("Query type does not support multiple triplet statements");
-		}
+	public QueryStatementBuilder appendStatement(Serializable subject) {
+		return append(new SemanticSingle(subject));
+	}
 
-		int pos = findStatementAppendPosition(statementBlock, type);
-		String toInsert = (type == SemanticQueryType.SELECT) ? statement.toString() : statement + DOT;
-		statementBlock.insert(pos, toInsert);
+	@Override
+	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate) {
+		return append(new SemanticPair(subject, predicate));
+	}
 
-		// Always append the first statement as a condition if it is a triplet
-		if (isSupportingConditionBlocks(type) && statement instanceof Triplet) {
-			appendCondition((Triplet) statement);
+	@Override
+	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate, Serializable object) {
+		if (isSupportingConditionBlocks(compilator.getType())) {
+			appendCondition(subject, predicate, object);
 		}
-		return this;
+		return append(new SemanticTriplet(subject, predicate, object));
 	}
 
 	@Override
@@ -95,18 +98,22 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 	}
 
 	/**
-	 * Counts the number of triplets in the statement block
+	 * Appends a statement to the query
 	 * 
-	 * @return the number of triplets
+	 * @param statement
+	 *            the statement to be appended
+	 * @return the statement builder
 	 */
-	private int countStatementParameters(int statementSize) {
-		Matcher paramterMatcher = PARAMETER_PATTERN.matcher(statementBlock);
-
-		int matchCount = 0;
-		while (paramterMatcher.find()) {
-			matchCount++;
+	private QueryStatementBuilder append(Serializable statement) {
+		SemanticQueryType type = compilator.getType();
+		if (isSupportingConditionBlocks(type) && appendCounter >= 1) {
+			throw new SemanticQueryException("Query does not support more than a single statement");
 		}
-		return matchCount / statementSize;
-	}
 
+		++appendCounter;
+		int pos = findStatementAppendPosition(statementBlock, type);
+		String separator = (!isSupportingConditionBlocks(type)) ? DOT : EMPTY_STRING;
+		statementBlock.insert(pos, statement + separator + SINGLE_SPACE);
+		return this;
+	}
 }

@@ -1,15 +1,17 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildGroupBlock;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildToString;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findGroupAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingGroupBlocks;
+
+import java.io.Serializable;
 
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryGroupBuilder;
 import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
-import com.ontotext.semantic.api.structures.Single;
 
 /**
  * Semantic group by builder, builds a group by statement to a query
@@ -32,18 +34,18 @@ public class SemanticGroupBuilder implements QueryGroupBuilder {
 	}
 
 	@Override
-	public QueryLimitBuilder appendGroup(Single value) {
+	public QueryLimitBuilder appendGroup(Serializable value) {
 		// TODO: find a better solution than lazy building
 		build();
 		if (!isSupportingGroupBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Query does not support group by clause");
 		}
 		if (!isGroupEmpty()) {
-			throw new SemanticQueryException("Query group operator does not support multiple statements");
+			throw new SemanticQueryException("Query group operator does not support multiple groups");
 		}
 
 		int pos = findGroupAppendPosition(groupBlock);
-		groupBlock.insert(pos, value);
+		groupBlock.insert(pos, buildToString(value));
 		return new SemanticLimitBuilder(compilator);
 	}
 

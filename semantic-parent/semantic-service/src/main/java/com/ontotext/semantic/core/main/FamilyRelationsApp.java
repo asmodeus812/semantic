@@ -30,7 +30,6 @@ import com.ontotext.semantic.impl.query.SemanticModifyQuery;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
-import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * An example that illustrates loading of vocabulary, data, querying and modifying data.
@@ -69,25 +68,25 @@ public class FamilyRelationsApp {
 
 	public static QueryCompiler buildSemanticSelectQuery() {
 		return new SemanticQueryBuilder(SemanticQueryType.SELECT)
-				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
-				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
-				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.appendStatement(SUBJECT, PREDICATE, OBJECT)
+				.appendCondition(SUBJECT, "rdf:type", "ontoperson:Person")
+				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, "?value")
 				.compile();
 	}
 
 	public static QueryCompiler buildSemanticDeleteQuery() {
 		return new SemanticQueryBuilder(SemanticQueryType.DELETE)
-				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
-				.appendCondition(new SemanticTriplet(SUBJECT, "rdf:type", "ontoperson:Person"))
-				.appendFilter(new SemanticTriplet(SUBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.appendStatement(SUBJECT, PREDICATE, OBJECT)
+				.appendCondition(SUBJECT, "rdf:type", "ontoperson:Person")
+				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, "?value")
 				.appendLogicalOperator(LogicalOperators.OR)
-				.appendFilter(new SemanticTriplet(OBJECT, ArithmeticOperators.EQUALS, "?value"))
+				.appendFilter(OBJECT, ArithmeticOperators.EQUALS, "?value")
 				.compile();
 	}
 
 	public static QueryCompiler buildSemanticDataQuery(SemanticQueryType type) {
 		return new SemanticQueryBuilder(type)
-				.appendStatement(new SemanticTriplet(SUBJECT, PREDICATE, OBJECT))
+				.appendStatement(SUBJECT, PREDICATE, OBJECT)
 				.compile();
 	}
 
@@ -104,23 +103,24 @@ public class FamilyRelationsApp {
 			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
 		System.out.println("# Listing all properties for " + person);
 
-		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().compileLongFormatQuery());
+		// Construct tuple query - select
+		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().longFormatQuery());
 		query.bind("value", buildInstanceLongUri("dataperson:John"));
 
 		// Construct modification query - delete
-		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().compileLongFormatQuery());
+		SemanticUpdateQuery deletePerson = new SemanticModifyQuery(buildSemanticDeleteQuery().longFormatQuery());
 		deletePerson.bind("value", buildInstanceLongUri("dataperson:Mary"));
 
 		// Construct data query - delete
 		SemanticUpdateQuery delete = new SemanticDataQuery(
-				buildSemanticDataQuery(SemanticQueryType.DELETE_DATA).compileLongFormatQuery());
+				buildSemanticDataQuery(SemanticQueryType.DELETE_DATA).longFormatQuery());
 		delete.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
 		delete.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
 		delete.bind(OBJECT, buildLiteralLongUri("42", XMLSchema.INTEGER));
 
 		// Construct data query - insert
 		SemanticUpdateQuery update = new SemanticDataQuery(
-				buildSemanticDataQuery(SemanticQueryType.INSERT_DATA).compileLongFormatQuery());
+				buildSemanticDataQuery(SemanticQueryType.INSERT_DATA).longFormatQuery());
 		update.bind(SUBJECT, buildInstanceLongUri("dataperson:John"));
 		update.bind(PREDICATE, buildInstanceLongUri("ontoperson:hasValue"));
 		update.bind(OBJECT, buildLiteralLongUri("12", XMLSchema.INTEGER));

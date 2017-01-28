@@ -6,6 +6,9 @@ import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingCo
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 
+import java.io.Serializable;
+
+import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.query.builders.QueryConditionBuilder;
 import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
@@ -14,8 +17,8 @@ import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
-import com.ontotext.semantic.api.structures.Single;
 import com.ontotext.semantic.api.structures.Triplet;
+import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * Semantic condition builder. Builds various conditions to a semantic query such as - filter and where blocks
@@ -39,14 +42,14 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
-	public QueryOperatorBuilder appendFilter(Triplet filter) {
+	public QueryOperatorBuilder appendFilter(Serializable variable, ArithmeticOperators operator, Serializable value) {
 		QueryFilterBuilder filterBuilder = new SemanticFilterBuilder(compilator);
-		filterBuilder.appendFilter(filter);
+		filterBuilder.appendFilter(variable, operator, value);
 		return new SemanticOperatorBuilder(compilator);
 	}
 
 	@Override
-	public QueryLimitBuilder appendGroup(Single value) {
+	public QueryLimitBuilder appendGroup(Serializable value) {
 		QueryGroupBuilder groupBuilder = new SemanticGroupBuilder(compilator);
 		groupBuilder.appendGroup(value);
 		return new SemanticLimitBuilder(compilator);
@@ -60,13 +63,15 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 	}
 
 	@Override
-	public QueryConditionBuilder appendCondition(Triplet condition) {
+	public QueryConditionBuilder appendCondition(Serializable subject, Serializable predicate, Serializable object) {
 		if (!isSupportingConditionBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Specified query type does not support condition blocks");
 		}
-		String appendToCondition = DOT + SINGLE_SPACE;
+
+		String conditionSeparator = DOT + SINGLE_SPACE;
+		Triplet triplet = new SemanticTriplet(subject, predicate, object);
 		int pos = findWhereAppendPosition(whereBlock);
-		whereBlock.insert(pos, condition + appendToCondition);
+		whereBlock.insert(pos, triplet + conditionSeparator);
 		return this;
 	}
 

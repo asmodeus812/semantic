@@ -112,13 +112,13 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	}
 
 	@Override
-	public String compileShortFormatQuery() {
+	public String shortFormatQuery() {
 		return compileQuery().toString();
 	}
 
 	@Override
-	public String compileLongFormatQuery() {
-		return parseToRawNamespace(compileShortFormatQuery());
+	public String longFormatQuery() {
+		return parseToRawNamespace(shortFormatQuery());
 	}
 
 	private String compileQuery() {

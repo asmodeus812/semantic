@@ -12,12 +12,12 @@ public interface QueryCompiler {
 	 * 
 	 * @return the short format of the query
 	 */
-	public String compileShortFormatQuery();
+	public String shortFormatQuery();
 
 	/**
 	 * Compile the query in a long format
 	 * 
 	 * @return the long format of the query
 	 */
-	public String compileLongFormatQuery();
+	public String longFormatQuery();
 }

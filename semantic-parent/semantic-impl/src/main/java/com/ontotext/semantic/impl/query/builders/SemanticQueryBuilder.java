@@ -1,10 +1,11 @@
 package com.ontotext.semantic.impl.query.builders;
 
+import java.io.Serializable;
+
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.query.builders.QueryBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
-import com.ontotext.semantic.api.structures.Single;
 import com.ontotext.semantic.impl.query.compiler.SemanticQueryCompiler;
 
 /**
@@ -29,15 +30,29 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	}
 
 	@Override
-	public <T extends Single> QueryStatementBuilder appendStatement(T statement) {
+	public void build() {
+		compilator = new SemanticQueryCompiler();
+		compilator.setType(type);
+	}
+
+	@Override
+	public QueryStatementBuilder appendStatement(Serializable subject) {
 		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
-		stateBuilder.appendStatement(statement);
+		stateBuilder.appendStatement(subject);
 		return stateBuilder;
 	}
 
 	@Override
-	public void build() {
-		compilator = new SemanticQueryCompiler();
-		compilator.setType(type);
+	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate) {
+		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
+		stateBuilder.appendStatement(subject, predicate);
+		return stateBuilder;
+	}
+
+	@Override
+	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate, Serializable object) {
+		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
+		stateBuilder.appendStatement(subject, predicate, object);
+		return stateBuilder;
 	}
 }

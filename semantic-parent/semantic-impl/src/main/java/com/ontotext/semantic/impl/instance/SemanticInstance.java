@@ -1,5 +1,11 @@
 package com.ontotext.semantic.impl.instance;
 
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COLLON;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_CLOSE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_OPEN;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +15,6 @@ import org.openrdf.model.Value;
 
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.core.common.SemanticSparqlUtil;
 
 /**
  * Represents a semantic instance, could be an actual instance or a semantic property
@@ -62,25 +67,25 @@ public class SemanticInstance implements Instance {
 		// Builds the instance as a JSON like string
 		builder.append(getInstanceValue().getLocalName());
 		if (propertiesMap.size() != 0) {
-			builder.append(SemanticSparqlUtil.COLLON);
-			builder.append(SemanticSparqlUtil.CURLY_BRACE_OPEN).append(System.lineSeparator());
+			builder.append(COLLON);
+			builder.append(CURLY_BRACE_OPEN).append(System.lineSeparator());
 			for (Map.Entry<Instance, ArrayList<Instance>> entry : propertiesMap.entrySet()) {
 				String firstHalf = (entry.getKey() != null) ? entry.getKey().toString()
-						: SemanticSparqlUtil.EMPTY_STRING;
+						: EMPTY_STRING;
 				String secondHalf = (entry.getValue() != null)
-						? SemanticSparqlUtil.COLLON + SemanticSparqlUtil.SINGLE_SPACE + entry.getValue()
-						: SemanticSparqlUtil.EMPTY_STRING;
+						? COLLON + SINGLE_SPACE + entry.getValue()
+						: EMPTY_STRING;
 
-				builder.append(SemanticSparqlUtil.SINGLE_SPACE);
-				if (!firstHalf.equals(SemanticSparqlUtil.EMPTY_STRING)) {
+				builder.append(SINGLE_SPACE);
+				if (!firstHalf.equals(EMPTY_STRING)) {
 					builder.append(firstHalf);
 				}
-				if (!secondHalf.equals(SemanticSparqlUtil.EMPTY_STRING)) {
+				if (!secondHalf.equals(EMPTY_STRING)) {
 					builder.append(secondHalf);
 				}
 				builder.append(System.lineSeparator());
 			}
-			builder.append(SemanticSparqlUtil.CURLY_BRACE_CLOSE.trim());
+			builder.append(CURLY_BRACE_CLOSE.trim());
 		}
 		return builder.toString();
 	}

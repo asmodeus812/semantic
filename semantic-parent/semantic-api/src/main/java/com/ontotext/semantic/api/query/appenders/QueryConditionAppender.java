@@ -1,7 +1,8 @@
 package com.ontotext.semantic.api.query.appenders;
 
+import java.io.Serializable;
+
 import com.ontotext.semantic.api.common.Builder;
-import com.ontotext.semantic.api.structures.Triplet;
 
 /**
  * Interface for appending a given condition triplet to a given builder
@@ -13,11 +14,15 @@ import com.ontotext.semantic.api.structures.Triplet;
 public interface QueryConditionAppender<B extends Builder> {
 
 	/**
-	 * Appends a condition to the given query
+	 * Appends a triplet condition to the query
 	 * 
-	 * @param condition
-	 *            the condition to be appended
+	 * @param subject
+	 *            the subject
+	 * @param predicate
+	 *            the predicate
+	 * @param object
+	 *            the object
 	 * @return the builder
 	 */
-	public B appendCondition(Triplet condition);
+	public B appendCondition(Serializable subject, Serializable predicate, Serializable object);
 }
