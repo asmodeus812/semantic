@@ -12,7 +12,6 @@ import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.VARSYMBOL;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -210,34 +209,6 @@ public class SemanticQueryUtil {
 		default:
 			return -1;
 		}
-	}
-
-	/**
-	 * Builds an array of serializables as a plain string of the values with a given delimiter
-	 * 
-	 * @param delimiter
-	 *            the delimiter between values
-	 * @param serializables
-	 *            the serializables
-	 * @return the built string
-	 */
-	public static String buildToString(String delimiter, Serializable... serializables) {
-		StringBuilder sb = new StringBuilder(256);
-		for (Serializable serializable : serializables) {
-			sb.append(serializable).append(SemanticSparqlUtil.SINGLE_SPACE);
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * Builds an array of serializables as a plain string of the values with a space delimiter
-	 * 
-	 * @param serializables
-	 *            the serializables
-	 * @return the built string
-	 */
-	public static String buildToString(Serializable... serializables) {
-		return buildToString(SemanticSparqlUtil.SINGLE_SPACE, serializables);
 	}
 
 	/**

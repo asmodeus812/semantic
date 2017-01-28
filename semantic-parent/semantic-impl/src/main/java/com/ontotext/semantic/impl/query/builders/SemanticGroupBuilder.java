@@ -1,7 +1,6 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildGroupBlock;
-import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildToString;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findGroupAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingGroupBlocks;
 
@@ -37,6 +36,7 @@ public class SemanticGroupBuilder implements QueryGroupBuilder {
 	public QueryLimitBuilder appendGroup(Serializable value) {
 		// TODO: find a better solution than lazy building
 		build();
+
 		if (!isSupportingGroupBlocks(compilator.getType())) {
 			throw new SemanticQueryException("Query does not support group by clause");
 		}
@@ -45,7 +45,7 @@ public class SemanticGroupBuilder implements QueryGroupBuilder {
 		}
 
 		int pos = findGroupAppendPosition(groupBlock);
-		groupBlock.insert(pos, buildToString(value));
+		groupBlock.insert(pos, value);
 		return new SemanticLimitBuilder(compilator);
 	}
 

@@ -68,10 +68,9 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 			throw new SemanticQueryException("Specified query type does not support condition blocks");
 		}
 
-		String conditionSeparator = DOT + SINGLE_SPACE;
 		Triplet triplet = new SemanticTriplet(subject, predicate, object);
 		int pos = findWhereAppendPosition(whereBlock);
-		whereBlock.insert(pos, triplet + conditionSeparator);
+		whereBlock.insert(pos, triplet + DOT + SINGLE_SPACE);
 		return this;
 	}
 
