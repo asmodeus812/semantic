@@ -14,7 +14,7 @@ import org.openrdf.repository.RepositoryConnection;
 public interface SemanticEvaluator<R extends Object, C extends RepositoryConnection> {
 
 	/**
-	 * Evaluates a semantic tuple query
+	 * Evaluates a semantic query
 	 * 
 	 * @param connection
 	 *            the connection
