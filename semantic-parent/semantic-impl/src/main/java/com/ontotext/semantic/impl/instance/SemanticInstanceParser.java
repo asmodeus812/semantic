@@ -1,5 +1,6 @@
 package com.ontotext.semantic.impl.instance;
 
+import static com.ontotext.semantic.core.common.SemanticInstanceUtil.parseToString;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_OPEN;
 
@@ -12,7 +13,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceParser;
-import com.ontotext.semantic.core.common.SemanticInstanceUtil;
 
 /**
  * Default implementation for the instance parser interface
@@ -29,7 +29,7 @@ public class SemanticInstanceParser implements InstanceParser {
 	@Override
 	public String toString(Instance instance) {
 		StringBuilder stringBuilder = new StringBuilder(CAPACITY);
-		SemanticInstanceUtil.parseToString(instance, stringBuilder);
+		parseToString(instance, stringBuilder);
 
 		JsonObject json = parser.parse(stringBuilder.toString()).getAsJsonObject();
 		return gson.toJson(json);
@@ -40,7 +40,7 @@ public class SemanticInstanceParser implements InstanceParser {
 		StringBuilder stringBuilder = new StringBuilder(CAPACITY * instances.size());
 		stringBuilder.append(SQUARE_BRACE_OPEN);
 		for (Instance instance : instances) {
-			SemanticInstanceUtil.parseToString(instance, stringBuilder);
+			parseToString(instance, stringBuilder);
 		}
 		stringBuilder.append(SQUARE_BRACE_CLOSE);
 
@@ -50,6 +50,12 @@ public class SemanticInstanceParser implements InstanceParser {
 
 	@Override
 	public Instance fromString(String instance) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Instance> fromString(List<String> instances) {
 		// TODO Auto-generated method stub
 		return null;
 	}

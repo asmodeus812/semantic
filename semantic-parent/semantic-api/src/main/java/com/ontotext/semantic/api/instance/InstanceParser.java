@@ -3,7 +3,7 @@ package com.ontotext.semantic.api.instance;
 import java.util.List;
 
 /**
- * Interface serving as a instance parser to convert from and to instances from or to any given source
+ * Interface serving as an instance parser converting from and to instances & from or to any given source
  * 
  * @author Svetlozar
  */
@@ -35,4 +35,13 @@ public interface InstanceParser {
 	 * @return the built instance
 	 */
 	public Instance fromString(String instance);
+
+	/**
+	 * Converts a JSON like list strings to a list of instances
+	 * 
+	 * @param instances
+	 *            the list of instances containing JSON string formated objects
+	 * @return the built list of instances
+	 */
+	public List<Instance> fromString(List<String> instances);
 }
