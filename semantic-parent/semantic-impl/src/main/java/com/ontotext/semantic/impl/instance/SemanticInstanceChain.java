@@ -101,10 +101,12 @@ public class SemanticInstanceChain implements InstanceChain {
 			List<Instance> result = new ArrayList<Instance>();
 
 			// Extract all values for a given property
-			ArrayList<Instance> instances = pair.getValue();
+			List<Instance> instances = pair.getValue();
+
 			// For each property extract the list of values
 			for (Instance value : instances) {
-				if (value.getInstanceType() == SemanticInstanceType.INSTANCE && !visited.contains(value)) {
+				if (value.getInstanceType() == SemanticInstanceType.INSTANCE
+						&& !visited.contains(value)) {
 					visited.add(value);
 					// Get processed unwrapped instances from the global map
 					Serializable instanceValue = value.getInstanceValue();

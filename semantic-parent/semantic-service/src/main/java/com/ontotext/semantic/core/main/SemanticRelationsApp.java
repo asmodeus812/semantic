@@ -1,25 +1,31 @@
 package com.ontotext.semantic.core.main;
 
 import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
-import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.buildSemanticSelectQuery;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParseException;
 
+import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceChain;
 import com.ontotext.semantic.api.instance.InstanceParser;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.instance.SemanticInstanceChain;
 import com.ontotext.semantic.impl.instance.SemanticInstanceParser;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
+import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
 
 /**
  * An example that illustrates loading of vocabulary, data, querying and modifying data.
@@ -60,9 +66,15 @@ public class SemanticRelationsApp {
 	public void executeSampleQueries() {
 		System.out.println("# Listing all instances");
 
+		QueryCompiler c = new SemanticQueryBuilder(SemanticQueryType.SELECT_DISTINCT)
+				.appendStatement(SUBJECT, PREDICATE, OBJECT)
+				.appendCondition(SUBJECT, PREDICATE, OBJECT)
+				.appendCondition(SUBJECT, RDF.TYPE, "?type")
+				.compile();
+
 		// Construct tuple query - select
-		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().longFormatQuery());
-		query.bind("type", buildInstanceLongUri("class:person"));
+		SemanticTupleQuery query = new SemanticSelectQuery(c);
+		query.bind("type", buildInstanceLongUri("class:driver"));
 
 		// Evaluate tuple query results
 		List<Instance> instances = new SemanticTupleQueryParser().parseQuery(connection, query);
@@ -70,8 +82,6 @@ public class SemanticRelationsApp {
 		// Unwrap all instance in the result set
 		InstanceChain chain = new SemanticInstanceChain(connection);
 		chain.unwrap(instances);
-
-		System.out.println(instances.get(1).getPropertyMap());
 
 		// Parse & Log the result out to the console
 		InstanceParser parser = new SemanticInstanceParser();

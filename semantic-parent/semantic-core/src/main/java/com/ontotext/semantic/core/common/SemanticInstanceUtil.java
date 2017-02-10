@@ -71,26 +71,42 @@ public class SemanticInstanceUtil {
 	 *            the builder where the formated JSON string will be stored
 	 */
 	public static void parseToString(Instance instance, StringBuilder builder) {
-		if (shouldAppendBrace(instance)) {
-			if (shouldAppendComma(builder)) {
-				builder.append(COMMA);
-			}
+		boolean appendBrace = instance.getPropertyMap() != null && instance.getPropertyMap().size() != 0;
+
+		// Append JSON object beginning brace
+		if (appendBrace) {
 			builder.append(CURLY_BRACE_OPEN);
 		}
 
+		// Append the instance value wrapped around quotes
 		builder.append(wrapInQuotes(instance));
 		if (instance.getPropertyMap().size() != 0) {
-			int currentProperty = 0;
+			boolean hasPropValues = hasPropertyValues(instance);
+			// Append begin block according to the instance properties state
+			appendBeginBlock(builder, hasPropValues);
+			// Append the parsed instance properties
+			parseProperties(instance, builder);
+			// Append finish block according to the instance properties state
+			appendFinishBlock(builder, hasPropValues);
+		}
 
-			builder.append(SINGLE_SPACE).append(COLLON);
-			builder.append(CURLY_BRACE_OPEN).append(System.lineSeparator());
-			for (Map.Entry<Instance, ArrayList<Instance>> pair : instance.getPropertyMap().entrySet()) {
-				++currentProperty;
-				int currentInstance = 0;
+		// Append JSON object finishing brace
+		if (appendBrace) {
+			builder.append(CURLY_BRACE_CLOSE);
+		}
+	}
 
-				builder.append(wrapInQuotes(pair.getKey()));
+	private static void parseProperties(Instance instance, StringBuilder builder) {
+		int currentProperty = 0;
+
+		for (Map.Entry<Instance, ArrayList<Instance>> pair : instance.getPropertyMap().entrySet()) {
+			int currentInstance = 0;
+
+			++currentProperty;
+			builder.append(wrapInQuotes(pair.getKey()));
+
+			if (pair.getValue().size() != 0) {
 				builder.append(COLLON).append(SINGLE_SPACE);
-
 				builder.append(SQUARE_BRACE_OPEN);
 				for (Instance value : pair.getValue()) {
 					++currentInstance;
@@ -105,30 +121,45 @@ public class SemanticInstanceUtil {
 					}
 				}
 				builder.append(SQUARE_BRACE_CLOSE);
-				if (currentProperty < instance.getPropertyMap().size()) {
-					builder.append(COMMA);
-				}
-				builder.append(System.lineSeparator());
 			}
-			builder.append(CURLY_BRACE_CLOSE).append(SINGLE_SPACE);
-		}
 
-		if (shouldAppendBrace(instance)) {
-			builder.append(CURLY_BRACE_CLOSE);
+			if (currentProperty < instance.getPropertyMap().size()) {
+				builder.append(COMMA);
+			}
+			builder.append(System.lineSeparator());
 		}
+	}
+
+	private static void appendBeginBlock(StringBuilder builder, boolean hasPropertyValues) {
+		builder.append(SINGLE_SPACE).append(COLLON);
+		if (hasPropertyValues) {
+			builder.append(CURLY_BRACE_OPEN);
+		} else {
+			builder.append(SQUARE_BRACE_OPEN);
+		}
+		builder.append(System.lineSeparator());
+	}
+
+	private static void appendFinishBlock(StringBuilder builder, boolean hasPropertyValues) {
+		if (hasPropertyValues) {
+			builder.append(CURLY_BRACE_CLOSE);
+		} else {
+			builder.append(SQUARE_BRACE_CLOSE);
+		}
+		builder.append(SINGLE_SPACE);
 	}
 
 	private static String wrapInQuotes(Instance instance) {
 		return "\"" + instance.toString() + "\"";
 	}
 
-	private static boolean shouldAppendBrace(Instance instance) {
-		return instance.getPropertyMap() != null && instance.getPropertyMap().size() != 0;
-	}
-
-	private static boolean shouldAppendComma(StringBuilder builder) {
-		char last = builder.charAt(builder.length() - 1);
-		return builder.length() > 0 && (last != SQUARE_BRACE_OPEN.charAt(0) && last != COMMA.charAt(0));
+	private static boolean hasPropertyValues(Instance instance) {
+		for (Map.Entry<Instance, ArrayList<Instance>> pair : instance.getPropertyMap().entrySet()) {
+			if (pair.getValue().size() != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

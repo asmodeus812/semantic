@@ -1,6 +1,7 @@
 package com.ontotext.semantic.impl.instance;
 
 import static com.ontotext.semantic.core.common.SemanticInstanceUtil.parseToString;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COMMA;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_OPEN;
 
@@ -38,9 +39,14 @@ public class SemanticInstanceParser implements InstanceParser {
 	@Override
 	public String toString(List<Instance> instances) {
 		StringBuilder stringBuilder = new StringBuilder(CAPACITY * instances.size());
+
 		stringBuilder.append(SQUARE_BRACE_OPEN);
-		for (Instance instance : instances) {
+		for (int i = 0; i < instances.size(); i++) {
+			Instance instance = instances.get(i);
 			parseToString(instance, stringBuilder);
+			if (i < instances.size() - 1) {
+				stringBuilder.append(COMMA);
+			}
 		}
 		stringBuilder.append(SQUARE_BRACE_CLOSE);
 

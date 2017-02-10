@@ -46,7 +46,10 @@ public class SemanticInstance implements Instance {
 		if (!propertiesMap.containsKey(property)) {
 			propertiesMap.put(property, new ArrayList<Instance>());
 		}
-		propertiesMap.get(property).add(value);
+
+		if (value != null) {
+			propertiesMap.get(property).add(value);
+		}
 	}
 
 	@Override

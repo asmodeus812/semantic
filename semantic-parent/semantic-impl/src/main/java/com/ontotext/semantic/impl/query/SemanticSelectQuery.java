@@ -10,6 +10,7 @@ import org.openrdf.repository.RepositoryException;
 
 import com.ontotext.semantic.api.exception.SemanticEvaluateException;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.core.common.SemanticQueryUtil;
 
 /**
@@ -18,6 +19,16 @@ import com.ontotext.semantic.core.common.SemanticQueryUtil;
  * @author Svetlozar
  */
 public class SemanticSelectQuery extends SemanticBaseQuery implements SemanticTupleQuery {
+
+	/**
+	 * Initializes a semantic select or a tuple query
+	 * 
+	 * @param queryCompiler
+	 *            the query compiler
+	 */
+	public SemanticSelectQuery(QueryCompiler queryCompiler) {
+		super(queryCompiler.longFormatQuery());
+	}
 
 	/**
 	 * Initializes a semantic select or a tuple query
