@@ -47,7 +47,7 @@ public class SemanticDataQuery extends SemanticBaseQuery implements SemanticUpda
 	}
 
 	@Override
-	public void evaluate(RepositoryConnection connection) {
+	public Void evaluate(RepositoryConnection connection) {
 		Update updateQuery;
 		try {
 			updateQuery = connection.prepareUpdate(QueryLanguage.SPARQL, getQuery());
@@ -56,5 +56,6 @@ public class SemanticDataQuery extends SemanticBaseQuery implements SemanticUpda
 			throw new SemanticEvaluateException(
 					"Error during evaluating semantic modification query " + e.getMessage());
 		}
+		return null;
 	}
 }

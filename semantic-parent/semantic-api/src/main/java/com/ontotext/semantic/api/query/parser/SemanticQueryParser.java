@@ -1,10 +1,11 @@
-package com.ontotext.semantic.api.query;
+package com.ontotext.semantic.api.query.parser;
 
 import java.util.List;
 
 import org.openrdf.repository.RepositoryConnection;
 
 import com.ontotext.semantic.api.instance.Instance;
+import com.ontotext.semantic.api.query.SemanticQuery;
 
 /**
  * Parses a given generic semantic query as a list of instances

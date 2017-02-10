@@ -7,13 +7,8 @@ import org.openrdf.repository.RepositoryConnection;
  * 
  * @author Svetlozar
  */
-public interface SemanticUpdateQuery extends SemanticQuery {
+public interface SemanticUpdateQuery extends SemanticQuery, SemanticEvaluator<Void, RepositoryConnection> {
 
-	/**
-	 * Evaluates the semantic query. No result is expected if successful
-	 * 
-	 * @param connection
-	 *            the connection
-	 */
-	public void evaluate(RepositoryConnection connection);
+	@Override
+	public Void evaluate(RepositoryConnection connection);
 }

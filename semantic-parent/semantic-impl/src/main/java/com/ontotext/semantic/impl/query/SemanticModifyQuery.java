@@ -29,7 +29,7 @@ public class SemanticModifyQuery extends SemanticBaseQuery implements SemanticUp
 	}
 
 	@Override
-	public void evaluate(RepositoryConnection connection) {
+	public Void evaluate(RepositoryConnection connection) {
 		Update updateQuery;
 		try {
 			updateQuery = connection.prepareUpdate(QueryLanguage.SPARQL, getQuery());
@@ -38,6 +38,7 @@ public class SemanticModifyQuery extends SemanticBaseQuery implements SemanticUp
 		} catch (RepositoryException | MalformedQueryException | UpdateExecutionException e) {
 			throw new SemanticEvaluateException("Error during modification query evaluation " + e.getMessage());
 		}
+		return null;
 	}
 
 }

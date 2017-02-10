@@ -8,15 +8,9 @@ import org.openrdf.repository.RepositoryConnection;
  * 
  * @author Svetlozar
  */
-public interface SemanticTupleQuery extends SemanticQuery {
+public interface SemanticTupleQuery extends SemanticQuery, SemanticEvaluator<TupleQueryResult, RepositoryConnection> {
 
-	/**
-	 * Evaluates a semantic tuple query
-	 * 
-	 * @param connection
-	 *            the connection
-	 * @return the tuple query result
-	 */
+	@Override
 	public TupleQueryResult evaluate(RepositoryConnection connection);
 
 }
