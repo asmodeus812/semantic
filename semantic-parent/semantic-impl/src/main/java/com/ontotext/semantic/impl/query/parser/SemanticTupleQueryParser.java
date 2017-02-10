@@ -1,4 +1,4 @@
-package com.ontotext.semantic.impl.query;
+package com.ontotext.semantic.impl.query.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

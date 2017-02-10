@@ -24,8 +24,8 @@ import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.instance.SemanticInstanceChain;
 import com.ontotext.semantic.impl.instance.SemanticInstanceParser;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
-import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
+import com.ontotext.semantic.impl.query.parser.SemanticTupleQueryParser;
 
 /**
  * An example that illustrates loading of vocabulary, data, querying and modifying data.

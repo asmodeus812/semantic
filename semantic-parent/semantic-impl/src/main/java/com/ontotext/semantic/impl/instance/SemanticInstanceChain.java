@@ -24,8 +24,8 @@ import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.api.query.parser.SemanticQueryParser;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
-import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
+import com.ontotext.semantic.impl.query.parser.SemanticTupleQueryParser;
 
 /**
  * Base Class implementation for a semantic resource chaining
