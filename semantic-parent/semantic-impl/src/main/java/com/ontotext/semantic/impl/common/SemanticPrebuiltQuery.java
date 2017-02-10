@@ -27,7 +27,8 @@ public class SemanticPrebuiltQuery {
 	}
 
 	/**
-	 * Builds a semantic select query
+	 * Builds a semantic select query listing all type class instances. An instance filter is available under the ?value
+	 * parameter
 	 * 
 	 * @return the semantic select query
 	 */
@@ -43,7 +44,7 @@ public class SemanticPrebuiltQuery {
 	}
 
 	/**
-	 * Builds a semantic delete query
+	 * Builds a semantic delete query for a given ?type and ?value
 	 * 
 	 * @return the semantic delete query
 	 */

@@ -6,8 +6,6 @@ import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.buildSeman
 import java.io.IOException;
 import java.util.List;
 
-import org.openrdf.query.MalformedQueryException;
-import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.rio.RDFFormat;
@@ -47,30 +45,20 @@ public class FamilyRelationsApp {
 	 */
 	public void loadData() throws RepositoryException, IOException, RDFParseException {
 		System.out.println("# Loading ontology and data");
-
 		connection.begin();
-
 		connection.add(FamilyRelationsApp.class.getResourceAsStream("/ontology.ttl"), "urn:base",
 				RDFFormat.TURTLE);
-
 		connection.add(FamilyRelationsApp.class.getResourceAsStream("/datastore.ttl"), "urn:base",
 				RDFFormat.TURTLE);
-
 		connection.commit();
 	}
 
 	/**
-	 * Lists family relations for a given person. The output will be printed to standard out.
-	 *
-	 * @param person
-	 *            a person (the local part of a URI)
-	 * @throws RepositoryException
-	 * @throws MalformedQueryException
-	 * @throws QueryEvaluationException
+	 * Executes a sample query listing and unwrapping all instances inside of it
+	 * 
 	 */
-	public void listRelationsForPerson(String person)
-			throws RepositoryException, MalformedQueryException, QueryEvaluationException {
-		System.out.println("# Listing all properties for " + person);
+	public void executeSampleQueries() {
+		System.out.println("# Listing all instances");
 
 		// Construct tuple query - select
 		SemanticTupleQuery query = new SemanticSelectQuery(buildSemanticSelectQuery().longFormatQuery());
@@ -83,7 +71,7 @@ public class FamilyRelationsApp {
 		InstanceChain chain = new SemanticInstanceChain(connection);
 		chain.unwrap(instances);
 
-		// Parse & Log the result out on the console
+		// Parse & Log the result out to the console
 		InstanceParser parser = new SemanticInstanceParser();
 		System.out.println(parser.toString(instances));
 	}
@@ -94,18 +82,13 @@ public class FamilyRelationsApp {
 		// Repository repo = remote.createRepository("family");
 		// RepositoryConnection connection = remote.createConnection(repo);
 
-		// Manual embeded repository creation for testing
 		RepositoryConnection connection = EmbededSemantics.openConnectionToTemporaryRepository("owl2-rl-optimized");
-
 		connection.clear();
 
 		FamilyRelationsApp familyRelations = new FamilyRelationsApp(connection);
-
 		try {
 			familyRelations.loadData();
-
-			familyRelations.listRelationsForPerson("John");
-
+			familyRelations.executeSampleQueries();
 		} finally {
 			connection.close();
 			// remote.close();
