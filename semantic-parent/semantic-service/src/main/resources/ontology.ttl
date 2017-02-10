@@ -1,0 +1,125 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+@prefix type: <http://www.framework.com/type#>.
+@prefix framework: <http://www.framework.com/framework#>.
+@prefix class: <http://www.framework.com/class#>.
+@prefix attribute: <http://www.framework.com/attribute#>.
+
+# Define primitive types
+
+type:primitive a rdfs:Literal;
+    rdfs:label "primitive".
+
+type:resource a rdfs:Resource;
+    rdfs:label "resource".
+
+type:string a type:primitive;
+    rdfs:label "string";
+    rdfs:range xsd:string.
+
+type:integer a type:primitive;
+    rdfs:label "integer";
+    rdfs:range xsd:integer.
+
+type:short a type:primitive;
+    rdfs:label "short";
+    rdfs:range xsd:short.
+
+type:float a type:primitive;
+    rdfs:label "float";
+    rdfs:range xsd:float.
+
+type:double a type:primitive;
+    rdfs:label "double";
+    rdfs:range xsd:double.
+
+type:byte a type:primitive;
+    rdfs:label "byte";
+    rdfs:range xsd:byte.
+
+# Define base properties
+
+framework:property a rdf:Property;
+    rdfs:label "property".
+
+framework:class a owl:Class;
+    rdfs:label "class".
+
+framework:data a framework:property;
+    rdfs:label "data property";
+    rdfs:range type:primitive.
+
+framework:object a framework:property;
+    rdfs:label "object property";
+    rdfs:range type:resource.
+
+# Define all classes
+
+class:animal a framework:class;
+    rdfs:label "animal".
+
+class:person a framework:class;
+    rdfs:label "person";
+    rdfs:subClassOf class:animal.
+
+class:driver a framework:class;
+    rdfs:label "driver";
+    rdfs:subClassOf class:person.
+
+class:machine a framework:class;
+    rdfs:label "machine".
+
+class:automobile a framework:class;
+    rdfs:label "automobile";
+    rdfs:subClassOf class:machine.
+
+# Define all properties
+
+attribute:hasName a framework:data;
+    rdfs:label "hasName";
+    rdfs:domain class:animal;
+    rdfs:range type:string.
+
+attribute:hasAge a framework:data;
+    rdfs:label "hasAge";
+    rdfs:domain class:animal;
+    rdfs:range type:short.
+
+attribute:hasId a framework:data;
+    rdfs:label "hasId";
+    rdfs:domain class:person;
+    rdfs:range type:string.
+
+attribute:hasLicense a framework:data;
+    rdfs:label "hasLicense";
+    rdfs:domain class:driver;
+    rdfs:range  type:string.
+
+attribute:hasAutomobile a framework:object;
+    rdfs:label "hasAutomobile";
+    rdfs:domain class:driver;
+    rdfs:range class:automobile;
+    owl:inverseOf attribute:hasOwner.
+
+attribute:hasRegistration a framework:data;
+    rdfs:label "hasRegistration";
+    rdfs:range type:string;
+    rdfs:domain class:automobile.
+
+attribute:hasColor a framework:data;
+    rdfs:label "hasColor";
+    rdfs:range type:string;
+    rdfs:domain class:automobile.
+
+attribute:hasProdYear a framework:data;
+    rdfs:label "hasProdYear";
+    rdfs:range type:short;
+    rdfs:domain class:automobile.
+
+attribute:hasOwner a framework:object;
+    rdfs:label "hasOwner";
+    rdfs:domain class:automobile;
+    rdfs:range class:driver;
+    owl:inverseOf attribute:hasAutomobile.

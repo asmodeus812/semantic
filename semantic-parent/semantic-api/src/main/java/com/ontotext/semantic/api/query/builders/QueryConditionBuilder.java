@@ -5,6 +5,7 @@ import com.ontotext.semantic.api.query.appenders.QueryConditionAppender;
 import com.ontotext.semantic.api.query.appenders.QueryFilterAppender;
 import com.ontotext.semantic.api.query.appenders.QueryGroupAppender;
 import com.ontotext.semantic.api.query.appenders.QueryLimitAppender;
+import com.ontotext.semantic.api.query.appenders.QueryOptionalAppender;
 
 /**
  * Interface for building a given conditions to a query
@@ -14,5 +15,5 @@ import com.ontotext.semantic.api.query.appenders.QueryLimitAppender;
 public interface QueryConditionBuilder
 		extends Builder, QueryConditionAppender<QueryConditionBuilder>,
 		QueryFilterAppender<QueryOperatorBuilder>, QueryGroupAppender<QueryLimitBuilder>,
-		QueryLimitAppender<QueryGroupBuilder>, QueryCompilerBuilder {
+		QueryLimitAppender<QueryGroupBuilder>, QueryOptionalAppender<QueryOptionalBuilder>, QueryCompilerBuilder {
 }

@@ -1,0 +1,56 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix individuals: <http://examples.ontotext.com/individuals#>.
+@prefix machines: <http://examples.ontotext.com/machines#>.
+@prefix primitives: <http://examples.ontotext.com/primitives#>.
+
+# Classes for machines namespace
+
+# Defines Machine class
+
+machines:machine a owl:Class;
+    rdfs:label "machine";
+    rdfs:subClassOf primitives:resource.
+
+# Define Automobile class
+
+machines:automobile a owl:Class;
+    rdfs:label "automobile";
+    rdfs:subClassOf machines:machine.
+
+# Properties for machines namespace
+
+# Define Machine properties
+
+machines:hasModel a primitives:string;
+    rdfs:label "hasModel";
+    rdfs:range primitives:string;
+    rdfs:domain machines:machine.
+
+# Define Automobile properties
+
+machines:hasRegistration a primitives:string;
+    rdfs:label "hasRegistration";
+    rdfs:range primitives:string;
+    rdfs:domain machines:automobile.
+
+machines:hasColor a primitives:string;
+    rdfs:label "hasColor";
+    rdfs:range primitives:string;
+    rdfs:domain machines:automobile.
+
+machines:hasProdYear a primitives:short;
+    rdfs:label "hasProdYear";
+    rdfs:range primitives:short;
+    rdfs:domain machines:automobile.
+
+machines:hasOwner a primitives:resource;
+    rdfs:label "hasOwner";
+    rdfs:domain machines:automobile;
+    rdfs:range individuals:driver;
+    owl:inverseOf individuals:hasAutomobile.
+
+
+
+

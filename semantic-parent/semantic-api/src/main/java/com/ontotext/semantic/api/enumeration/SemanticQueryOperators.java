@@ -7,7 +7,7 @@ package com.ontotext.semantic.api.enumeration;
  */
 public enum SemanticQueryOperators {
 
-	WHERE("WHERE"), FILTER("FILTER"), GROUP_BY("GROUP BY"), LIMIT("LIMIT");
+	WHERE("WHERE"), FILTER("FILTER"), GROUP_BY("GROUP BY"), LIMIT("LIMIT"), OPTIONAL("OPTIONAL");
 
 	private final String type;
 

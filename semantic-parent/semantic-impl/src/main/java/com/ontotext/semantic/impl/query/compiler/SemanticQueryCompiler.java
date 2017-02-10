@@ -22,6 +22,7 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	private StringBuilder limitBlock;
 	private StringBuilder filterBlock;
 	private StringBuilder statementBlock;
+	private StringBuilder optionalBlock;
 
 	/**
 	 * Initializes an empty compiler
@@ -112,6 +113,16 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 	}
 
 	@Override
+	public void setOptionalBlock(StringBuilder optionalBlock) {
+		this.optionalBlock = optionalBlock;
+	}
+
+	@Override
+	public StringBuilder getOptionalBlock() {
+		return optionalBlock;
+	}
+
+	@Override
 	public String shortFormatQuery() {
 		return compileQuery().toString();
 	}
@@ -128,7 +139,8 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 		if (isSupportingConditionBlocks(type)) {
 			compiled.append(whereBlock);
 			int pos = findWhereAppendPosition(compiled);
-			compiled.insert(pos, filterBlock);
+			compiled.insert(pos, optionalBlock);
+			compiled.insert(pos + optionalBlock.length(), filterBlock);
 			if (isSupportingGroupBlocks(type)) {
 				compiled.append(groupBlock);
 			}
@@ -146,8 +158,7 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 		limitBlock = (limitBlock == null) ? new StringBuilder(32) : limitBlock;
 		filterBlock = (filterBlock == null) ? new StringBuilder(32) : filterBlock;
 		statementBlock = (statementBlock == null) ? new StringBuilder(32) : statementBlock;
+		optionalBlock = (optionalBlock == null) ? new StringBuilder(32) : optionalBlock;
 	}
-
-
 
 }

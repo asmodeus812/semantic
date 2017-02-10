@@ -1,0 +1,46 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix primitives: <http://examples.ontotext.com/primitives#>.
+
+# Properties for primitives namespace
+
+primitives:primitive a owl:DatatypeProperty;
+    rdfs:label "primitive";
+    rdfs:range rdfs:Literal.
+
+primitives:resource a owl:ObjectProperty;
+    rdfs:label "resource";
+    rdfs:range rdfs:Resource.
+
+primitives:integer a owl:DatatypeProperty;
+    rdfs:label "integer";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:integer.
+
+primitives:string a owl:DatatypeProperty;
+    rdfs:label "string";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:string.
+
+primitives:double a owl:DatatypeProperty;
+    rdfs:label "double";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:double.
+
+primitives:float a owl:DatatypeProperty;
+    rdfs:label "float";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:float.
+
+primitives:byte a owl:DatatypeProperty;
+    rdfs:label "byte";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:byte.
+
+primitives:short a owl:DatatypeProperty;
+    rdfs:label "short";
+    rdfs:subPropertyOf primitives:primitive;
+    rdfs:range xsd:short.
+
+

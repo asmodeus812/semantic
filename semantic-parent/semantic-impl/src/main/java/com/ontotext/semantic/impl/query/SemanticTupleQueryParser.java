@@ -12,6 +12,7 @@ import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.RepositoryConnection;
 
 import com.ontotext.semantic.api.exception.SemanticParseException;
+import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceFactory;
 import com.ontotext.semantic.api.query.SemanticQueryParser;
@@ -30,20 +31,24 @@ public class SemanticTupleQueryParser implements SemanticQueryParser<SemanticTup
 		try {
 			TupleQueryResult result = query.evaluate(connection);
 			List<String> parameters = new ArrayList<String>(query.getParameterSet());
-			// Always have a triplet as a maximum numbers of parameters ?
-			// if (parameters.size() < 1 || parameters.size() > 3) {
-			// return null;
-			// }
+
+			// Always have a at least one variable parameter in the parameter set
+			if (parameters.size() < 1) {
+				throw new SemanticQueryException(
+						"Invalid number of parameters for the given query " + query.getQuery());
+			}
 
 			InstanceFactory factory = new SemanticInstanceFactory();
 			Map<Value, Instance> instanceMap = new HashMap<Value, Instance>();
+
 			while (result.hasNext()) {
 				BindingSet bindingSet = result.next();
-
 				// Extract the URI for the subject
+
 				Value instanceVal = bindingSet.getValue(parameters.get(0));
 				if (!instanceMap.containsKey(instanceVal)) {
-					instanceMap.put(instanceVal, factory.createInstance(instanceVal));
+					instanceMap.put(instanceVal,
+							factory.createInstance(instanceVal));
 				}
 
 				// Extract the property if available
@@ -66,7 +71,6 @@ public class SemanticTupleQueryParser implements SemanticQueryParser<SemanticTup
 		} catch (QueryEvaluationException e) {
 			throw new SemanticParseException("Error during query parsing " + e.getMessage());
 		}
-
 	}
 
 }

@@ -22,7 +22,7 @@ public class SemanticInstanceFactory implements InstanceFactory {
 		} else if (value instanceof BNode) {
 			return new SemanticBNode(value);
 		} else if (value instanceof Literal) {
-			return new SemanticAtomic(value);
+			return new SemanticLiteral(value);
 		} else {
 			return null;
 		}

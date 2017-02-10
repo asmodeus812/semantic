@@ -36,23 +36,9 @@ public class SemanticQueryBuilder implements QueryBuilder {
 	}
 
 	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject) {
+	public QueryStatementBuilder appendStatement(Serializable... statements) {
 		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
-		stateBuilder.appendStatement(subject);
-		return stateBuilder;
-	}
-
-	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate) {
-		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
-		stateBuilder.appendStatement(subject, predicate);
-		return stateBuilder;
-	}
-
-	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate, Serializable object) {
-		QueryStatementBuilder stateBuilder = new SemanticStatementBuilder(compilator);
-		stateBuilder.appendStatement(subject, predicate, object);
+		stateBuilder.appendStatement(statements);
 		return stateBuilder;
 	}
 }

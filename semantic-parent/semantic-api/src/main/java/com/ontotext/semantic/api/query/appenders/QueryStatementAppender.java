@@ -13,37 +13,13 @@ import com.ontotext.semantic.api.common.Builder;
  */
 public interface QueryStatementAppender<B extends Builder> {
 
-	/**
-	 * Appends a single statement to the query
-	 * 
-	 * @param subject
-	 *            the subject statement
-	 * @return the builder
-	 */
-	public B appendStatement(Serializable subject);
 
 	/**
-	 * Appends a pair statement to the query
+	 * Appends an undefined number of statement to the query
 	 * 
-	 * @param subject
-	 *            the subject
-	 * @param predicate
-	 *            the predicate
+	 * @param statements
+	 *            the statements
 	 * @return the builder
 	 */
-	public B appendStatement(Serializable subject, Serializable predicate);
-
-	/**
-	 * Appends a triplet statement to the query
-	 * 
-	 * @param subject
-	 *            the subject
-	 * @param predicate
-	 *            the predicate
-	 * @param object
-	 *            the object
-	 * @return the builder
-	 */
-	public B appendStatement(Serializable subject, Serializable predicate, Serializable object);
-
+	public B appendStatement(Serializable... statements);
 }

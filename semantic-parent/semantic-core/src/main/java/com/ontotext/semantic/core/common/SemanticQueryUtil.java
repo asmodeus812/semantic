@@ -3,6 +3,7 @@ package com.ontotext.semantic.core.common;
 import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.FILTER;
 import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.GROUP_BY;
 import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.LIMIT;
+import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.OPTIONAL;
 import static com.ontotext.semantic.api.enumeration.SemanticQueryOperators.WHERE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.BRACE_OPEN;
@@ -12,6 +13,7 @@ import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.VARSYMBOL;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -46,13 +48,22 @@ public class SemanticQueryUtil {
 	 * @return list of extracted parameters
 	 */
 	public static Set<String> extractQueryParams(String query) {
-		Matcher paramterMatcher = PARAMETER_PATTERN.matcher(query);
+		Pattern beginPattern = Pattern.compile("(\\w+\\s?)+\\s(" + PARAMETER_PATTERN + "[\\s\\.]?)+");
+		Matcher beginMatcher = beginPattern.matcher(query);
+
 		// use linked hash set to preserve order
 		Set<String> parameters = new LinkedHashSet<String>();
-		while (paramterMatcher.find()) {
-			String param = paramterMatcher.group();
-			// Trim the variable symbol (?) from the parameter
-			parameters.add(stripVarSymbol(param));
+
+		if (beginMatcher.find()) {
+			// extract the beginning of the query
+			String firstMatch = beginMatcher.group();
+			Matcher paramterMatcher = PARAMETER_PATTERN.matcher(firstMatch);
+
+			while (paramterMatcher.find()) {
+				String param = paramterMatcher.group();
+				// Trim the variable symbol (?) from the parameter
+				parameters.add(stripVarSymbol(param));
+			}
 		}
 		return parameters;
 	}
@@ -80,8 +91,7 @@ public class SemanticQueryUtil {
 	 * @return the builder
 	 */
 	public static StringBuilder buildFilterBlock(StringBuilder builder) {
-		return builder.append(FILTER).append(BRACE_OPEN)
-				.append(BRACE_CLOSE);
+		return builder.append(FILTER).append(BRACE_OPEN).append(BRACE_CLOSE);
 	}
 
 	/**
@@ -165,6 +175,29 @@ public class SemanticQueryUtil {
 	}
 
 	/**
+	 * Builds a limit block at the given builder
+	 * 
+	 * @param builder
+	 *            the builder at which to build the limit block
+	 * @return the builder
+	 */
+	public static StringBuilder buildOptionalBlock(StringBuilder builder) {
+		return builder.append(SINGLE_SPACE).append(OPTIONAL).append(SINGLE_SPACE).append(CURLY_BRACE_OPEN)
+				.append(SINGLE_SPACE).append(CURLY_BRACE_CLOSE);
+	}
+
+	/**
+	 * Finds the position at which an insertion can be performed for a limit block
+	 * 
+	 * @param builder
+	 *            the builder from which to extrapolate the position
+	 * @return the index of the position
+	 */
+	public static int findOptionalAppendPosition(StringBuilder builder) {
+		return builder.indexOf(CURLY_BRACE_CLOSE);
+	}
+
+	/**
 	 * Builds a statement block at the given builder
 	 * 
 	 * @param builder
@@ -174,6 +207,7 @@ public class SemanticQueryUtil {
 	public static StringBuilder buildStatementBlock(StringBuilder builder, SemanticQueryType type) {
 		switch (type) {
 		case SELECT:
+		case SELECT_DISTINCT:
 			builder.append(type).append(SINGLE_SPACE);
 			break;
 		case INSERT:
@@ -199,6 +233,7 @@ public class SemanticQueryUtil {
 	public static int findStatementAppendPosition(StringBuilder builder, SemanticQueryType type) {
 		switch (type) {
 		case SELECT:
+		case SELECT_DISTINCT:
 			String typeStr = type.toString() + SINGLE_SPACE;
 			return builder.indexOf(typeStr) + typeStr.length();
 		case INSERT:
@@ -209,6 +244,40 @@ public class SemanticQueryUtil {
 		default:
 			return -1;
 		}
+	}
+
+	/**
+	 * Builds a string representation of a list of serializable elements split by a space delimiter
+	 * 
+	 * @param serializables
+	 *            the serializables list
+	 * @return the built string
+	 */
+	public static String buildStringFrom(Serializable... serializables) {
+		return buildStringFrom(SINGLE_SPACE, serializables);
+	}
+
+	/**
+	 * Builds a string representation of a list of serializable elements split by a given delimiter
+	 * 
+	 * @param delimiter
+	 *            the delimiter
+	 * @param serializables
+	 *            the serializables list
+	 * @return the built string
+	 */
+	public static String buildStringFrom(String delimiter, Serializable... serializables) {
+		int sizeCounter = 0;
+
+		StringBuilder sb = new StringBuilder(32 * serializables.length);
+		for (Serializable serializable : serializables) {
+			++sizeCounter;
+			sb.append(serializable);
+			if (sizeCounter < serializables.length) {
+				sb.append(delimiter);
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -227,8 +296,17 @@ public class SemanticQueryUtil {
 	 * 
 	 * @return the random SPARQL variable
 	 */
-	public static String randomVariable() {
-		return VARSYMBOL + UUID.randomUUID().toString();
+	public static String randomVariableName() {
+		return VARSYMBOL + randomInstanceName();
+	}
+
+	/**
+	 * Generates a random UUID string to be used as a instance id name
+	 * 
+	 * @return the random instance id name
+	 */
+	public static String randomInstanceName() {
+		return UUID.randomUUID().toString();
 	}
 
 	/**
@@ -250,7 +328,7 @@ public class SemanticQueryUtil {
 	 * @return true if supports, false otherwise
 	 */
 	public static boolean isSupportingGroupBlocks(SemanticQueryType type) {
-		return type == SemanticQueryType.SELECT;
+		return type == SemanticQueryType.SELECT || type == SemanticQueryType.SELECT_DISTINCT;
 	}
 
 	/**
@@ -261,7 +339,7 @@ public class SemanticQueryUtil {
 	 * @return true if supports, false otherwise
 	 */
 	public static boolean isSupportingLimitBlocks(SemanticQueryType type) {
-		return type == SemanticQueryType.SELECT;
+		return type == SemanticQueryType.SELECT || type == SemanticQueryType.SELECT_DISTINCT;
 	}
 
 }

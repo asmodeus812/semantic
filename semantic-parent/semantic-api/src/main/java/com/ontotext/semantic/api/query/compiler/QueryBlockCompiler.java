@@ -58,6 +58,13 @@ public interface QueryBlockCompiler extends QueryCompiler {
 	public void setStatementBlock(StringBuilder statementBlock);
 
 	/**
+	 * Set the optional block of the query
+	 * 
+	 * @param optionalBlock
+	 */
+	public void setOptionalBlock(StringBuilder optionalBlock);
+
+	/**
 	 * Get the type of the query
 	 * 
 	 * @return the type of the query
@@ -77,6 +84,13 @@ public interface QueryBlockCompiler extends QueryCompiler {
 	 * @return the statement block of the query
 	 */
 	public StringBuilder getStatementBlock();
+
+	/**
+	 * Get the optional block of the query
+	 * 
+	 * @return the optional block of the query
+	 */
+	public StringBuilder getOptionalBlock();
 
 	/**
 	 * Get the filter block of the query

@@ -3,7 +3,7 @@
 
 dataperson:John a ontoperson:Person ;
     ontoperson:hasValue "42"^^xsd:integer;
-    ontoperson:hasChild dataperson:Mary .
+    ontoperson:hasChild dataperson:Mary.
 
 dataperson:Mary a ontoperson:Person ;
     ontoperson:hasChild dataperson:Kate .

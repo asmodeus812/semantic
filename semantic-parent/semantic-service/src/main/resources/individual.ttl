@@ -1,0 +1,91 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix individuals: <http://examples.ontotext.com/individuals#>.
+@prefix machines: <http://examples.ontotext.com/machines#>.
+@prefix primitives: <http://examples.ontotext.com/primitives#>.
+
+# Classes for individuals namespace
+
+# Define data stores based on the class ontology
+
+datastore:Lancia a class:automobile;
+    class:hasModel "Lancia";
+    class:hasRegistration "AB1304BB";
+    class:hasColor "Gray";
+    class:hasProdYear "2001".
+
+datastore:Audi a class:automobile;
+    class:hasModel "Audi";
+    class:hasRegistration "PP1200ES";
+    class:hasColor "Red";
+    class:hasProdYear "2008".
+
+datastore:Porche a class:automobile;
+    class:hasModel "Porche";
+    class:hasRegistration "PP9999PP";
+    class:hasColor "Black";
+    class:hasProdYear "2011".
+
+
+
+# Defines Animal class
+
+individuals:animal a owl:Class;
+    rdfs:label "animal";
+    rdfs:subClassOf primitives:resource.
+
+# Defines Person class
+
+individuals:person a owl:Class;
+    rdfs:label "person";
+    rdfs:subClassOf individuals:animal.
+
+# Defines Driver class
+
+individuals:driver a owl:Class;
+    rdfs:label "driver";
+    rdfs:subClassOf individuals:person.
+
+# Properties for individuals namespace
+
+# Defines Animal properties
+
+individuals:hasName a primitives:string;
+    rdfs:label "hasName";
+    rdfs:domain individuals:animal;
+    rdfs:range primitives:string.
+
+individuals:hasAge a primitives:short;
+    rdfs:label "hasAge";
+    rdfs:domain individuals:animal;
+    rdfs:range primitives:short.
+
+# Defines Person properties
+
+individuals:hasId a primitives:string;
+    rdfs:label "hasId";
+    rdfs:domain individuals:person;
+    rdfs:range primitives:string.
+
+individuals:hasSocialNumber a primitives:string;
+    rdfs:label "hasId";
+    rdfs:domain individuals:person;
+    rdfs:range primitives:string.
+
+# Defines Driver properties
+
+individuals:hasLicense a primitives:string;
+    rdfs:label "hasLicense";
+    rdfs:domain individuals:driver;
+    rdfs:range primitives:string.
+
+individuals:hasBadge a primitives:string;
+    rdfs:label "hasBadge";
+    rdfs:domain individuals:driver;
+    rdfs:range primitives:string.
+
+individuals:hasAutomobile a primitives:resource;
+    rdfs:label "hasAutomobile";
+    rdfs:domain individuals:driver;
+    rdfs:range machines:automobile.

@@ -15,6 +15,7 @@ import com.ontotext.semantic.api.query.builders.QueryFilterBuilder;
 import com.ontotext.semantic.api.query.builders.QueryGroupBuilder;
 import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryOperatorBuilder;
+import com.ontotext.semantic.api.query.builders.QueryOptionalBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.api.structures.Triplet;
@@ -60,6 +61,13 @@ public class SemanticConditionBuilder implements QueryConditionBuilder {
 		QueryLimitBuilder limitBuilder = new SemanticLimitBuilder(compilator);
 		limitBuilder.appendLimit(limit);
 		return new SemanticGroupBuilder(compilator);
+	}
+
+	@Override
+	public QueryOptionalBuilder appendOptional(Serializable subject, Serializable predicate, Serializable object) {
+		QueryOptionalBuilder optionalBuilder = new SemanticOptionalBuilder(compilator);
+		optionalBuilder.appendOptional(subject, predicate, object);
+		return optionalBuilder;
 	}
 
 	@Override

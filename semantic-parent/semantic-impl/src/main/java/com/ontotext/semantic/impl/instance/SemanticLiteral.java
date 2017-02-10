@@ -14,9 +14,9 @@ import com.ontotext.semantic.api.instance.Instance;
  * 
  * @author Svetlozar
  */
-public class SemanticAtomic implements Instance {
+public class SemanticLiteral implements Instance {
 
-	private Literal atomicLiteral;
+	private Literal literal;
 
 	/**
 	 * Initializes a semantic atomic from a given value
@@ -24,37 +24,40 @@ public class SemanticAtomic implements Instance {
 	 * @param atomicValue
 	 *            the atomic value or a literal
 	 */
-	public SemanticAtomic(Value atomicValue) {
-		this.atomicLiteral = (Literal) atomicValue;
+	public SemanticLiteral(Value atomicValue) {
+		this.literal = (Literal) atomicValue;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Literal getInstanceValue() {
-		return atomicLiteral;
+		return literal;
 	}
 
 	@Override
 	public Map<Instance, ArrayList<Instance>> getPropertyMap() {
+		// A literal can not have any properties
 		return null;
 	}
 
 	@Override
 	public void insertProperty(Instance property, Instance value) {
+		// No properties can be inserted for a literal
 	}
 
 	@Override
 	public void removeProperty(Instance property) {
+		// No properties can be removed for a literal
 	}
 
 	@Override
 	public String toString() {
-		return atomicLiteral.getLabel();
+		return literal.getLabel();
 	}
 
 	@Override
 	public int hashCode() {
-		return atomicLiteral.getLabel().hashCode();
+		return literal.getLabel().hashCode();
 	}
 
 	@Override
@@ -63,17 +66,16 @@ public class SemanticAtomic implements Instance {
 			return false;
 		}
 
-		if (!(obj instanceof SemanticAtomic)) {
+		if (!(obj instanceof SemanticLiteral)) {
 			return false;
 		}
 
-		SemanticAtomic other = (SemanticAtomic) obj;
-		return atomicLiteral.getLabel().equals(other.atomicLiteral.getLabel());
+		SemanticLiteral other = (SemanticLiteral) obj;
+		return literal.getLabel().equals(other.literal.getLabel());
 	}
 
 	@Override
 	public SemanticInstanceType getInstanceType() {
 		return SemanticInstanceType.LITERAL;
 	}
-
 }

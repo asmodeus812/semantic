@@ -1,0 +1,54 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+@prefix type: <http://www.framework.com/type#>.
+@prefix framework: <http://www.framework.com/framework#>.
+@prefix class: <http://www.framework.com/class#>.
+@prefix attribute: <http://www.framework.com/attribute#>.
+@prefix data: <http://examples.ontotext.com/data#>.
+
+# Define data stores based on the class ontology
+
+data:Piper a class:person;
+    attribute:hasName "Piper";
+    attribute:hasAge "32".
+
+data:Svetlozar a class:driver;
+    attribute:hasName "Svetlozar"^^xsd:string;
+    attribute:hasAge "20"^^xsd:short;
+    attribute:hasAge "12"^^xsd:short;
+    attribute:hasLicense "123456789"^^xsd:string;
+    attribute:hasBadge "987654321"^^xsd:string;
+    attribute:hasAutomobile data:Audi.
+
+data:Johnny a class:driver;
+    attribute:hasName "Johnny"^^xsd:string;
+    attribute:hasAge "16"^^xsd:short;
+    attribute:hasLicense "555555555"^^xsd:string;
+    attribute:hasBadge "33231231"^^xsd:string;
+    attribute:hasAutomobile data:Lancia;
+    attribute:hasAutomobile data:Porche.
+
+data:Lancia a class:automobile;
+    attribute:hasModel "Lancia";
+    attribute:hasRegistration "AB1304BB";
+    attribute:hasColor "Gray";
+    attribute:hasProdYear "2001".
+
+data:Audi a class:automobile;
+    attribute:hasModel "Audi";
+    attribute:hasRegistration "PP1200ES";
+    attribute:hasColor "Red";
+    attribute:hasProdYear "2008".
+
+data:Porche a class:automobile;
+    attribute:hasModel "Porche";
+    attribute:hasRegistration "PP9999PP";
+    attribute:hasColor "Black";
+    attribute:hasProdYear "2011".
+
+
+
+
+

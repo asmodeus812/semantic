@@ -45,7 +45,7 @@ public interface SemanticQuery {
 	public void bind(String parameter, Value binding);
 
 	/**
-	 * Unbinds a value for a given parameter
+	 * Un binds a value for a given parameter
 	 * 
 	 * @param parameter
 	 *            the parameter should be unbinded

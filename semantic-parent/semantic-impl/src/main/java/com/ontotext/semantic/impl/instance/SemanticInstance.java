@@ -1,11 +1,5 @@
 package com.ontotext.semantic.impl.instance;
 
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COLLON;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_CLOSE;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_OPEN;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.EMPTY_STRING;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,32 +56,7 @@ public class SemanticInstance implements Instance {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(2048);
-
-		// Builds the instance as a JSON like string
-		builder.append(getInstanceValue().getLocalName());
-		if (propertiesMap.size() != 0) {
-			builder.append(COLLON);
-			builder.append(CURLY_BRACE_OPEN).append(System.lineSeparator());
-			for (Map.Entry<Instance, ArrayList<Instance>> entry : propertiesMap.entrySet()) {
-				String firstHalf = (entry.getKey() != null) ? entry.getKey().toString()
-						: EMPTY_STRING;
-				String secondHalf = (entry.getValue() != null)
-						? COLLON + SINGLE_SPACE + entry.getValue()
-						: EMPTY_STRING;
-
-				builder.append(SINGLE_SPACE);
-				if (!firstHalf.equals(EMPTY_STRING)) {
-					builder.append(firstHalf);
-				}
-				if (!secondHalf.equals(EMPTY_STRING)) {
-					builder.append(secondHalf);
-				}
-				builder.append(System.lineSeparator());
-			}
-			builder.append(CURLY_BRACE_CLOSE.trim());
-		}
-		return builder.toString();
+		return instanceValue.getLocalName();
 	}
 
 	@Override

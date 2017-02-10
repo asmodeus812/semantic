@@ -13,6 +13,7 @@ public class SemanticSparqlUtil {
 	 */
 	public static final String DOT = ".";
 	public static final String DASH = "-";
+	public static final String COMMA = ",";
 	public static final String COLLON = ":";
 	public static final String HASHTAG = "#";
 	public static final String TYPECAST = "^^";
@@ -27,6 +28,9 @@ public class SemanticSparqlUtil {
 
 	public static final String ANGLE_BRACE_OPEN = "<";
 	public static final String ANGLE_BRACE_CLOSE = ">";
+
+	public static final String SQUARE_BRACE_OPEN = "[";
+	public static final String SQUARE_BRACE_CLOSE = "]";
 
 	public static final String CURLY_BRACE_OPEN = "{";
 	public static final String CURLY_BRACE_CLOSE = "}";

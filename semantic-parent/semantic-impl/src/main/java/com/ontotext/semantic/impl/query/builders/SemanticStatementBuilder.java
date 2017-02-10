@@ -1,6 +1,7 @@
 package com.ontotext.semantic.impl.query.builders;
 
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildStatementBlock;
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.buildStringFrom;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findStatementAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.DOT;
@@ -17,9 +18,6 @@ import com.ontotext.semantic.api.query.builders.QueryLimitBuilder;
 import com.ontotext.semantic.api.query.builders.QueryStatementBuilder;
 import com.ontotext.semantic.api.query.compiler.QueryBlockCompiler;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
-import com.ontotext.semantic.impl.structures.SemanticPair;
-import com.ontotext.semantic.impl.structures.SemanticSingle;
-import com.ontotext.semantic.impl.structures.SemanticTriplet;
 
 /**
  * Semantic statement builder. Builds a base statement or a condition to a query
@@ -64,23 +62,12 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 		return new SemanticGroupBuilder(compilator);
 	}
 
-	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject) {
-		return append(new SemanticSingle(subject));
-	}
 
 	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate) {
-		return append(new SemanticPair(subject, predicate));
+	public QueryStatementBuilder appendStatement(Serializable... statements) {
+		return append(buildStringFrom(statements));
 	}
 
-	@Override
-	public QueryStatementBuilder appendStatement(Serializable subject, Serializable predicate, Serializable object) {
-		if (isSupportingConditionBlocks(compilator.getType())) {
-			appendCondition(subject, predicate, object);
-		}
-		return append(new SemanticTriplet(subject, predicate, object));
-	}
 
 	@Override
 	public QueryCompiler compile() {
@@ -116,4 +103,6 @@ public class SemanticStatementBuilder implements QueryStatementBuilder {
 		statementBlock.insert(pos, statement + separator + SINGLE_SPACE);
 		return this;
 	}
+
+
 }
