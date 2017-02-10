@@ -17,7 +17,6 @@ data:Piper a class:person;
 data:Svetlozar a class:driver;
     attribute:hasName "Svetlozar"^^xsd:string;
     attribute:hasAge "20"^^xsd:short;
-    attribute:hasAge "12"^^xsd:short;
     attribute:hasLicense "123456789"^^xsd:string;
     attribute:hasBadge "987654321"^^xsd:string;
     attribute:hasAutomobile data:Audi.

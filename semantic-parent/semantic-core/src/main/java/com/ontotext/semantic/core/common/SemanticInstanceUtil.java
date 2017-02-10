@@ -77,6 +77,7 @@ public class SemanticInstanceUtil {
 			}
 			builder.append(CURLY_BRACE_OPEN);
 		}
+
 		builder.append(wrapInQuotes(instance));
 		if (instance.getPropertyMap().size() != 0) {
 			int currentProperty = 0;
@@ -126,7 +127,8 @@ public class SemanticInstanceUtil {
 	}
 
 	private static boolean shouldAppendComma(StringBuilder builder) {
-		return builder.length() > 0 && builder.charAt(builder.length() - 1) != SQUARE_BRACE_OPEN.charAt(0);
+		char last = builder.charAt(builder.length() - 1);
+		return builder.length() > 0 && (last != SQUARE_BRACE_OPEN.charAt(0) && last != COMMA.charAt(0));
 	}
 
 }

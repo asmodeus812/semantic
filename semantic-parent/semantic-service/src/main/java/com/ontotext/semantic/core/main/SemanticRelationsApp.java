@@ -26,13 +26,13 @@ import com.ontotext.semantic.impl.query.SemanticTupleQueryParser;
  * 
  * @author Ontotext
  */
-public class FamilyRelationsApp {
+public class SemanticRelationsApp {
 	private RepositoryConnection connection;
 
 	/**
 	 * @param connection
 	 */
-	public FamilyRelationsApp(RepositoryConnection connection) {
+	public SemanticRelationsApp(RepositoryConnection connection) {
 		this.connection = connection;
 	}
 
@@ -46,9 +46,9 @@ public class FamilyRelationsApp {
 	public void loadData() throws RepositoryException, IOException, RDFParseException {
 		System.out.println("# Loading ontology and data");
 		connection.begin();
-		connection.add(FamilyRelationsApp.class.getResourceAsStream("/ontology.ttl"), "urn:base",
+		connection.add(SemanticRelationsApp.class.getResourceAsStream("/ontology.ttl"), "urn:base",
 				RDFFormat.TURTLE);
-		connection.add(FamilyRelationsApp.class.getResourceAsStream("/datastore.ttl"), "urn:base",
+		connection.add(SemanticRelationsApp.class.getResourceAsStream("/datastore.ttl"), "urn:base",
 				RDFFormat.TURTLE);
 		connection.commit();
 	}
@@ -71,6 +71,8 @@ public class FamilyRelationsApp {
 		InstanceChain chain = new SemanticInstanceChain(connection);
 		chain.unwrap(instances);
 
+		System.out.println(instances.get(1).getPropertyMap());
+
 		// Parse & Log the result out to the console
 		InstanceParser parser = new SemanticInstanceParser();
 		System.out.println(parser.toString(instances));
@@ -85,7 +87,7 @@ public class FamilyRelationsApp {
 		RepositoryConnection connection = EmbededSemantics.openConnectionToTemporaryRepository("owl2-rl-optimized");
 		connection.clear();
 
-		FamilyRelationsApp familyRelations = new FamilyRelationsApp(connection);
+		SemanticRelationsApp familyRelations = new SemanticRelationsApp(connection);
 		try {
 			familyRelations.loadData();
 			familyRelations.executeSampleQueries();
