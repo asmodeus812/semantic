@@ -47,7 +47,25 @@ public class SemanticCommonUtil {
 	 *            the source string
 	 * @return the source string with appended spaces on both sides
 	 */
-	public static String appendSpaces(String source) {
+	public static String wrapInSpaces(String source) {
 		return SINGLE_SPACE + source + SINGLE_SPACE;
+	}
+
+	/**
+	 * Replaces a given string between two indexes (start and end) inside the source string with a given replacement
+	 * string
+	 * 
+	 * @param source
+	 *            the source string
+	 * @param start
+	 *            the start from where to begin replacing
+	 * @param end
+	 *            the end of the replacement block
+	 * @param replaceWith
+	 *            the replacement string
+	 * @return the processed source string with the replacement
+	 */
+	public static String replace(String source, int start, int end, String replaceWith) {
+		return new StringBuilder(source).replace(start, end, replaceWith).toString();
 	}
 }

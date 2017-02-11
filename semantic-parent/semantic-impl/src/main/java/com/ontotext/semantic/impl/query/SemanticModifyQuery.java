@@ -9,6 +9,7 @@ import org.openrdf.repository.RepositoryException;
 
 import com.ontotext.semantic.api.exception.SemanticEvaluateException;
 import com.ontotext.semantic.api.query.SemanticUpdateQuery;
+import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.core.common.SemanticQueryUtil;
 
 /**
@@ -17,6 +18,16 @@ import com.ontotext.semantic.core.common.SemanticQueryUtil;
  * @author Svetlozar
  */
 public class SemanticModifyQuery extends SemanticBaseQuery implements SemanticUpdateQuery {
+
+	/**
+	 * Initializes a semantic modification using a query compiler long format query
+	 * 
+	 * @param queryCompiler
+	 *            the query compiler
+	 */
+	public SemanticModifyQuery(QueryCompiler queryCompiler) {
+		super(queryCompiler.longFormatQuery());
+	}
 
 	/**
 	 * Initializes a semantic modification query

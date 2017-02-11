@@ -31,7 +31,7 @@ public class SemanticInstanceParser implements InstanceParser {
 	public String toString(Instance instance) {
 		StringBuilder stringBuilder = new StringBuilder(CAPACITY);
 		parseToString(instance, stringBuilder);
-
+		// Build the JSON object and apply pretty format
 		JsonObject json = parser.parse(stringBuilder.toString()).getAsJsonObject();
 		return gson.toJson(json);
 	}
@@ -49,7 +49,7 @@ public class SemanticInstanceParser implements InstanceParser {
 			}
 		}
 		stringBuilder.append(SQUARE_BRACE_CLOSE);
-
+		// Build the JSON array and apply pretty format
 		JsonArray json = parser.parse(stringBuilder.toString()).getAsJsonArray();
 		return gson.toJson(json);
 	}

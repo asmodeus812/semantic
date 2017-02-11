@@ -45,11 +45,18 @@ public class SemanticBNode implements Instance {
 	}
 
 	@Override
+	public void modifyProperty(Instance property, Instance oldValue, Instance newValue) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void insertProperty(Instance property, Instance value) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void removeProperty(Instance property) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -75,5 +82,6 @@ public class SemanticBNode implements Instance {
 		SemanticBNode other = (SemanticBNode) obj;
 		return bnodeValue.getID().equals(other.bnodeValue.getID());
 	}
+
 
 }

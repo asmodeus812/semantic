@@ -10,6 +10,11 @@ import java.util.List;
 public interface InstanceChain {
 
 	/**
+	 * Default max depth level for the unwrapping
+	 */
+	public static final int DEFAULT_DEPTH_LEVEL = 1;
+
+	/**
 	 * Unwraps a given instance and all of it's properties and values. Unwrapping is in place using the instance
 	 * reference
 	 * 
@@ -25,4 +30,12 @@ public interface InstanceChain {
 	 *            the instances to be unwrapped
 	 */
 	void unwrap(List<Instance> instances);
+
+	/**
+	 * Sets the depth level of the instance unwrapping. Level 0 no unwrapping is performed
+	 * 
+	 * @param maximumDepthLevel
+	 *            the depth level
+	 */
+	void setMaxDepthLevel(int maximumDepthLevel);
 }

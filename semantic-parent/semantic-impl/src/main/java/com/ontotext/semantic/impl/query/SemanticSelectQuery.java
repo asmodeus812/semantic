@@ -21,7 +21,7 @@ import com.ontotext.semantic.core.common.SemanticQueryUtil;
 public class SemanticSelectQuery extends SemanticBaseQuery implements SemanticTupleQuery {
 
 	/**
-	 * Initializes a semantic select or a tuple query
+	 * Initializes a semantic select or a tuple query using a query compiler long format query
 	 * 
 	 * @param queryCompiler
 	 *            the query compiler

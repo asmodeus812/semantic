@@ -3,6 +3,9 @@ package com.ontotext.semantic.impl.instance;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
+import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.CLASS;
+import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.PROPERTY;
+import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.VALUE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 
@@ -34,20 +38,7 @@ import com.ontotext.semantic.impl.query.parser.SemanticTupleQueryParser;
  */
 public class SemanticInstanceChain implements InstanceChain {
 
-	/**
-	 * Value variable name for which to bind when searching for a given instance
-	 */
-	private static final String VALUE = "value";
-
-	/**
-	 * All instances of the given class will be considered for unwrapping
-	 */
-	private static final String CLASS = "framework:class";
-
-	/**
-	 * All properties of the given type will be included in the instance
-	 */
-	private static final String PROPERTY = "framework:property";
+	private int maximumDepthLevel = DEFAULT_DEPTH_LEVEL;
 
 	private SemanticTupleQuery query;
 	private QueryCompiler selectCompiler;
@@ -69,11 +60,15 @@ public class SemanticInstanceChain implements InstanceChain {
 	}
 
 	@Override
+	public void setMaxDepthLevel(int maximumDepthLevel) {
+		this.maximumDepthLevel = maximumDepthLevel;
+	}
+
+	@Override
 	public void unwrap(Instance instance) {
 		// Unwraps the instance in place by reference
 		Set<Instance> visited = new HashSet<>();
-		visited.add(instance);
-		instanceUnwrap(instance, visited);
+		instanceUnwrap(instance, visited, 0);
 	}
 
 	@Override
@@ -85,14 +80,16 @@ public class SemanticInstanceChain implements InstanceChain {
 	}
 
 	/**
-	 * Un wraps an instance and all of it's resource properties
+	 * Unwraps an instance and all of it's resource properties
 	 * 
 	 * @param instance
-	 *            the instance to be un wrapped
+	 *            the instance to be unwrapped
 	 * @param visited
 	 *            the current visited resources
+	 * @param level
+	 *            the current depth of the unwrapping
 	 */
-	private void instanceUnwrap(Instance instance, Set<Instance> visited) {
+	private void instanceUnwrap(Instance instance, Set<Instance> visited, int level) {
 		// Get the properties map value from the current instance
 		Map<Instance, ArrayList<Instance>> properties = instance.getPropertyMap();
 
@@ -106,24 +103,28 @@ public class SemanticInstanceChain implements InstanceChain {
 			// For each property extract the list of values
 			for (Instance value : instances) {
 				if (value.getInstanceType() == SemanticInstanceType.INSTANCE
-						&& !visited.contains(value)) {
+						&& !visited.contains(value) && level < maximumDepthLevel) {
 					visited.add(value);
-					// Get processed unwrapped instances from the global map
-					Serializable instanceValue = value.getInstanceValue();
-					if (processed.containsKey(instanceValue)) {
-						Instance unwrapped = processed.get(instanceValue);
-						result.add(unwrapped);
-					}
-					// Unwrap instance and put it back in the global map for reuse
-					else {
-						query.bind(VALUE, value.getInstanceValue());
-						List<Instance> current = parser.parseQuery(connection, query);
-						for (int i = 0; i < current.size(); i++) {
-							instanceUnwrap(current.get(i), visited);
-							processed.put(current.get(i).getInstanceValue(), current.get(i));
+
+					// Extract all tuples and parse them
+					Value instanceValue = value.getInstanceValue();
+					query.bind(VALUE, instanceValue);
+					List<Instance> current = parser.parseQuery(connection, query);
+
+					// Loop over the parsed results and unwrap the instance
+					for (int i = 0; i < current.size(); i++) {
+						Value currrentVal = current.get(i).getInstanceValue();
+						if (properties.containsKey(currrentVal)) {
+							// Get processed unwrapped instances from the global map
+							current.set(i, processed.get(currrentVal));
+						} else {
+							// Unwrap instance and put it back in the global map for reuse
+							instanceUnwrap(current.get(i), visited, level + 1);
+							processed.put(currrentVal, current.get(i));
 						}
-						result.addAll(current);
+						result.add(current.get(i));
 					}
+					visited.remove(value);
 				}
 			}
 			// If any results are found replace the old values with the unwrapped instances

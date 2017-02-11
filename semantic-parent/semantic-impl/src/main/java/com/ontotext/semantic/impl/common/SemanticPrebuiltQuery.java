@@ -1,5 +1,6 @@
 package com.ontotext.semantic.impl.common;
 
+import static com.ontotext.semantic.core.common.SemanticQueryUtil.concatVarSymbol;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
@@ -20,6 +21,26 @@ import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
 public class SemanticPrebuiltQuery {
 
 	/**
+	 * The rdf:type of the instance
+	 */
+	public static final String TYPE = "type";
+
+	/**
+	 * The actual value of the instance
+	 */
+	public static final String VALUE = "value";
+
+	/**
+	 * The base class of all instances
+	 */
+	public static final String CLASS = "framework:class";
+
+	/**
+	 * The base property of all properties
+	 */
+	public static final String PROPERTY = "framework:property";
+
+	/**
 	 * Private constructor for utility class
 	 */
 	private SemanticPrebuiltQuery() {
@@ -36,10 +57,10 @@ public class SemanticPrebuiltQuery {
 		return new SemanticQueryBuilder(SemanticQueryType.SELECT_DISTINCT)
 				.appendStatement(SUBJECT, PREDICATE, OBJECT)
 				.appendCondition(SUBJECT, PREDICATE, OBJECT)
-				.appendCondition(SUBJECT, RDF.TYPE, "?type")
+				.appendCondition(SUBJECT, RDF.TYPE, concatVarSymbol(TYPE))
 				.appendCondition(PREDICATE, RDF.TYPE, "?f")
 				.appendCondition("?f", RDF.TYPE, "framework:property")
-				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, "?value")
+				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, concatVarSymbol(VALUE))
 				.compile();
 	}
 
@@ -51,10 +72,10 @@ public class SemanticPrebuiltQuery {
 	public static QueryCompiler buildSemanticDeleteQuery() {
 		return new SemanticQueryBuilder(SemanticQueryType.DELETE)
 				.appendStatement(SUBJECT, PREDICATE, OBJECT)
-				.appendCondition(SUBJECT, RDF.TYPE, "?type")
-				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, "?value")
+				.appendCondition(SUBJECT, PREDICATE, OBJECT)
+				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, concatVarSymbol(VALUE))
 				.appendLogicalOperator(LogicalOperators.OR)
-				.appendFilter(OBJECT, ArithmeticOperators.EQUALS, "?value")
+				.appendFilter(OBJECT, ArithmeticOperators.EQUALS, concatVarSymbol(VALUE))
 				.compile();
 	}
 

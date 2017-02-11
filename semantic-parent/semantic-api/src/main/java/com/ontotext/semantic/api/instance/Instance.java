@@ -45,6 +45,8 @@ public interface Instance {
 	 */
 	public void insertProperty(Instance property, Instance value);
 
+	public void modifyProperty(Instance property, Instance oldValue, Instance newValue);
+
 	/**
 	 * Removes a property from the property map
 	 * 

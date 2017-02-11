@@ -214,7 +214,7 @@ public class SemanticQueryUtil {
 		case DELETE:
 		case INSERT_DATA:
 		case DELETE_DATA:
-			builder.append(type.getValue()).append(CURLY_BRACE_OPEN);
+			builder.append(type.getValue()).append(SINGLE_SPACE).append(CURLY_BRACE_OPEN).append(SINGLE_SPACE);
 			builder.append(CURLY_BRACE_CLOSE);
 			break;
 		default:
@@ -289,6 +289,17 @@ public class SemanticQueryUtil {
 	 */
 	public static String stripVarSymbol(String variable) {
 		return variable.replace(VARSYMBOL, EMPTY_STRING);
+	}
+
+	/**
+	 * Concats a variable symbol to the given variable string
+	 * 
+	 * @param variable
+	 *            the variable string
+	 * @return the variable string with concatenated variable symbol
+	 */
+	public static String concatVarSymbol(String variable) {
+		return VARSYMBOL + variable;
 	}
 
 	/**

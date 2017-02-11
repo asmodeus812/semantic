@@ -1,6 +1,7 @@
 package com.ontotext.semantic.impl.query.compiler;
 
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToRawNamespace;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToLongFormat;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.parseToShortFormat;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.findWhereAppendPosition;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingConditionBlocks;
 import static com.ontotext.semantic.core.common.SemanticQueryUtil.isSupportingGroupBlocks;
@@ -124,12 +125,12 @@ public class SemanticQueryCompiler implements QueryBlockCompiler {
 
 	@Override
 	public String shortFormatQuery() {
-		return compileQuery().toString();
+		return parseToShortFormat(compileQuery());
 	}
 
 	@Override
 	public String longFormatQuery() {
-		return parseToRawNamespace(shortFormatQuery());
+		return parseToLongFormat(compileQuery());
 	}
 
 	private String compileQuery() {
