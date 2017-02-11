@@ -45,7 +45,7 @@ public interface SemanticPersister<T> {
 	/**
 	 * Updates the given object
 	 * 
-	 * @param toRemove
+	 * @param toUpdate
 	 *            the object to be updated
 	 */
 	public void update(T toUpdate);

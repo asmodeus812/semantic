@@ -46,10 +46,13 @@ public class SemanticNamespaceUtil {
 	public static final String SHORT_FORMAT_PATTERN = "([a-zA-Z1-9]+:)([a-zA-Z1-9]+)";
 
 	/**
-	 * Default name space separator for SPARQL queries
+	 * Default name space separator for short SPARQL name spaces
 	 */
 	public static final String SHORT_NAMESPACE_SEPARATOR = SemanticSparqlUtil.COLLON;
 
+	/**
+	 * Default name space separator for long SPARQL name spaces
+	 */
 	public static final String LONG_NAMESPACE_SEPARATOR = SemanticSparqlUtil.HASHTAG;
 
 	/**
@@ -128,7 +131,7 @@ public class SemanticNamespaceUtil {
 	 * @return the built URI object
 	 */
 	public static URI buildInstanceLongUri(String instanceURI) {
-		if (instanceURI.contains(SHORT_NAMESPACE_SEPARATOR)) {
+		if (!instanceURI.contains(SHORT_NAMESPACE_SEPARATOR)) {
 			throw new SemanticParseException("Given URI is not in short format");
 		}
 
