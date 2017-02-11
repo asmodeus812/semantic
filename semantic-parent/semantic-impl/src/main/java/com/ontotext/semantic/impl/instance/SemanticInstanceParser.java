@@ -50,8 +50,6 @@ public class SemanticInstanceParser implements InstanceParser {
 		}
 		stringBuilder.append(SQUARE_BRACE_CLOSE);
 		// Build the JSON array and apply pretty format
-		System.out.println(stringBuilder.toString());
-
 		JsonArray json = parser.parse(stringBuilder.toString()).getAsJsonArray();
 		return gson.toJson(json);
 	}
