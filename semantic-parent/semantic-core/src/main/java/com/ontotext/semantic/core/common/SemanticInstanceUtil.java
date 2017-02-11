@@ -4,6 +4,7 @@ import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COLLON;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COMMA;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.CURLY_BRACE_OPEN;
+import static com.ontotext.semantic.core.common.SemanticSparqlUtil.ESCAPED_QUOTE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SINGLE_SPACE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_CLOSE;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_OPEN;
@@ -15,6 +16,7 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.vocabulary.XMLSchema;
 
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
@@ -150,7 +152,21 @@ public class SemanticInstanceUtil {
 	}
 
 	private static String wrapInQuotes(Instance instance) {
-		return "\"" + instance.toString() + "\"";
+		Value value = instance.getInstanceValue();
+		boolean shouldWrap = isValueInstance(value);
+
+		if (value instanceof Literal) {
+			Literal literal = (Literal) value;
+			URI type = literal.getDatatype();
+			if (type.equals(XMLSchema.STRING)) {
+				shouldWrap = true;
+			}
+		}
+
+		if (shouldWrap) {
+			return ESCAPED_QUOTE + instance + ESCAPED_QUOTE;
+		}
+		return instance.toString();
 	}
 
 	private static boolean hasPropertyValues(Instance instance) {

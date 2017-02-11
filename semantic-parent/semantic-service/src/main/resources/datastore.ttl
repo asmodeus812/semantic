@@ -33,19 +33,19 @@ data:Lancia a class:automobile;
     attribute:hasModel "Lancia";
     attribute:hasRegistration "AB1304BB";
     attribute:hasColor "Gray";
-    attribute:hasProdYear "2001".
+    attribute:hasProdYear "2001"^^xsd:short.
 
 data:Audi a class:automobile;
     attribute:hasModel "Audi";
     attribute:hasRegistration "PP1200ES";
     attribute:hasColor "Red";
-    attribute:hasProdYear "2008".
+    attribute:hasProdYear "2008"^^xsd:short.
 
 data:Porche a class:automobile;
     attribute:hasModel "Porche";
     attribute:hasRegistration "PP9999PP";
     attribute:hasColor "Black";
-    attribute:hasProdYear "2011".
+    attribute:hasProdYear "2011"^^xsd:short.
 
 
 
