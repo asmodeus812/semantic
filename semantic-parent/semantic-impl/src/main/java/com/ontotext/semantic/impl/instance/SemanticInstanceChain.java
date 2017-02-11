@@ -20,6 +20,7 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 
 import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
+import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceChain;
@@ -101,7 +102,8 @@ public class SemanticInstanceChain implements InstanceChain {
 
 			// For each property extract the list of values
 			for (Instance value : instances) {
-				if (!visited.contains(value) && level < maximumDepthLevel) {
+				if (value.getInstanceType() == SemanticInstanceType.INSTANCE && !visited.contains(value)
+						&& level < maximumDepthLevel) {
 					visited.add(value);
 
 					// Extract all tuples and parse them
