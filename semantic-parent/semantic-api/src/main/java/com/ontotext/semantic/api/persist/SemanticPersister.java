@@ -50,4 +50,12 @@ public interface SemanticPersister<T> {
 	 */
 	public void update(T toUpdate);
 
+	/**
+	 * Updates the list of given objects
+	 * 
+	 * @param toUpdate
+	 *            the list of objects to be updated
+	 */
+	public void update(List<T> toUpdate);
+
 }

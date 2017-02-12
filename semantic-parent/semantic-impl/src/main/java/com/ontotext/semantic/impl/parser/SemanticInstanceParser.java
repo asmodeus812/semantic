@@ -1,4 +1,4 @@
-package com.ontotext.semantic.impl.instance;
+package com.ontotext.semantic.impl.parser;
 
 import static com.ontotext.semantic.core.common.SemanticInstanceUtil.parseToString;
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.COMMA;
@@ -13,7 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.api.instance.InstanceParser;
+import com.ontotext.semantic.api.parser.InstanceParser;
 
 /**
  * Default implementation for the instance parser interface
@@ -22,7 +22,7 @@ import com.ontotext.semantic.api.instance.InstanceParser;
  */
 public class SemanticInstanceParser implements InstanceParser {
 
-	private static final int CAPACITY = 512;
+	private static final int CAPACITY = 256;
 
 	private JsonParser parser = new JsonParser();
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();

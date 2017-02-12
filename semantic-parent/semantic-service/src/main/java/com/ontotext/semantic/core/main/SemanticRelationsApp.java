@@ -13,15 +13,15 @@ import org.openrdf.rio.RDFParseException;
 
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceChain;
-import com.ontotext.semantic.api.instance.InstanceParser;
+import com.ontotext.semantic.api.parser.InstanceParser;
 import com.ontotext.semantic.api.persist.SemanticPersister;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.instance.SemanticInstanceChain;
-import com.ontotext.semantic.impl.instance.SemanticInstanceParser;
+import com.ontotext.semantic.impl.parser.SemanticInstanceParser;
+import com.ontotext.semantic.impl.parser.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.persist.SemanticInstancePersister;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
-import com.ontotext.semantic.impl.query.parser.SemanticTupleQueryParser;
 
 /**
  * An example that illustrates loading of vocabulary, data, querying and modifying data.

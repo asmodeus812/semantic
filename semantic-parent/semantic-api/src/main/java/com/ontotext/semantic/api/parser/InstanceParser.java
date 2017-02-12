@@ -1,6 +1,8 @@
-package com.ontotext.semantic.api.instance;
+package com.ontotext.semantic.api.parser;
 
 import java.util.List;
+
+import com.ontotext.semantic.api.instance.Instance;
 
 /**
  * Interface serving as an instance parser converting from and to instances & from or to any given source

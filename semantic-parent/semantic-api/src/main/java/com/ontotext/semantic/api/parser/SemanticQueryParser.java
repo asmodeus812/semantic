@@ -1,4 +1,4 @@
-package com.ontotext.semantic.api.query.parser;
+package com.ontotext.semantic.api.parser;
 
 import java.util.List;
 

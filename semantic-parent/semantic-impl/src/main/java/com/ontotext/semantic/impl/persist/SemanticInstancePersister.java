@@ -60,6 +60,14 @@ public class SemanticInstancePersister implements SemanticPersister<Instance> {
 	}
 
 	@Override
+	public void update(List<Instance> toUpdate) {
+		// Remove all triplets connected to all instances in the list
+		remove(toUpdate);
+		// Add the list of instances to the semantic store
+		persist(toUpdate);
+	}
+
+	@Override
 	public void persist(List<Instance> toPersist) {
 		// Individually persist all instances inside the list
 		for (Instance instance : toPersist) {
@@ -102,6 +110,5 @@ public class SemanticInstancePersister implements SemanticPersister<Instance> {
 			query.evaluate(connection);
 		}
 	}
-
 
 }

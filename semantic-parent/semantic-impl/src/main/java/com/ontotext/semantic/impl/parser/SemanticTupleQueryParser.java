@@ -1,4 +1,4 @@
-package com.ontotext.semantic.impl.query.parser;
+package com.ontotext.semantic.impl.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +15,8 @@ import com.ontotext.semantic.api.exception.SemanticParseException;
 import com.ontotext.semantic.api.exception.SemanticQueryException;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceFactory;
+import com.ontotext.semantic.api.parser.SemanticQueryParser;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
-import com.ontotext.semantic.api.query.parser.SemanticQueryParser;
 import com.ontotext.semantic.impl.instance.SemanticInstanceFactory;
 
 /**
