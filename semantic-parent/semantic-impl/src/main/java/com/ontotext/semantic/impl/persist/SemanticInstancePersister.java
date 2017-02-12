@@ -47,7 +47,7 @@ public class SemanticInstancePersister implements SemanticPersister<Instance> {
 	@Override
 	public void remove(Instance toRemove) {
 		SemanticUpdateQuery removeQuery = new SemanticDataQuery(buildSemanticDeleteQuery());
-		removeQuery.bind(VALUE, toRemove.getInstanceValue());
+		removeQuery.bind(VALUE, toRemove);
 		removeQuery.evaluate(connection);
 	}
 

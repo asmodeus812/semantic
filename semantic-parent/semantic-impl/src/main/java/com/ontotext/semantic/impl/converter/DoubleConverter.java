@@ -9,7 +9,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
  * 
  * @author Svetlozar
  */
-public class DoubleConverter extends ValueConverter {
+public class DoubleConverter extends ValueConverter<Literal> {
 
 	/**
 	 * Initialize a double converter and the next converter in the chain
@@ -17,7 +17,7 @@ public class DoubleConverter extends ValueConverter {
 	 * @param next
 	 *            the next converter in the chain
 	 */
-	public DoubleConverter(ValueConverter next) {
+	public DoubleConverter(ValueConverter<Literal> next) {
 		super(next);
 	}
 

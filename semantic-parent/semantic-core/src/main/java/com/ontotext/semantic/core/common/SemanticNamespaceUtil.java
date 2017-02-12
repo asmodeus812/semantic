@@ -26,8 +26,6 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
 
-import com.ontotext.semantic.api.exception.SemanticParseException;
-
 /**
  * Utility class offering utility methods for constructing and working with SPARQL name spaces and prefixes
  * 
@@ -124,20 +122,26 @@ public class SemanticNamespaceUtil {
 	}
 
 	/**
-	 * Builds a long URI model out of a short string representation of a name space
+	 * Builds a long URI model out of a short or a long format
 	 * 
-	 * @param instanceURI
-	 *            the instance represented as either a long or a short URI
-	 * @return the built URI object
+	 * @param uri
+	 *            the URI in long or a short format form
+	 * @return the built URI object or null if invalid URI is specified
 	 */
-	public static URI buildInstanceLongUri(String instanceURI) {
-		if (!instanceURI.contains(SHORT_NAMESPACE_SEPARATOR)) {
-			throw new SemanticParseException("Given URI is not in short format");
+	public static URI buildInstanceLongUri(String uri) {
+		// Check if URI is already given in long format
+		if (uri.contains(LONG_NAMESPACE_SEPARATOR)) {
+			return new URIImpl(uri);
 		}
 
-		String[] split = instanceURI.split(SHORT_NAMESPACE_SEPARATOR);
-		Namespace ns = findNamespace(split[0]);
-		return new URIImpl(ns.getName() + split[1]);
+		// Check if URI is given in short format - prefix:instance
+		if (uri.contains(SHORT_NAMESPACE_SEPARATOR)) {
+			String[] split = uri.split(SHORT_NAMESPACE_SEPARATOR);
+			Namespace ns = findNamespace(split[0]);
+			return new URIImpl(ns.getName() + split[1]);
+		}
+
+		return null;
 	}
 
 	/**
@@ -150,7 +154,6 @@ public class SemanticNamespaceUtil {
 	public static Literal buildLiteralLongUri(String literal, URI dataType) {
 		return new LiteralImpl(literal, dataType);
 	}
-
 
 	/**
 	 * Parses all short & incomplete long name space and instance values to a complete long format query

@@ -9,7 +9,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
  * 
  * @author Svetlozar
  */
-public class StringConverter extends ValueConverter {
+public class StringConverter extends ValueConverter<Literal> {
 
 	/**
 	 * Initialize a string converter

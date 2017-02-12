@@ -1,6 +1,5 @@
 package com.ontotext.semantic.core.main;
 
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
 import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.buildSemanticSelectQuery;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import com.ontotext.semantic.api.parser.InstanceParser;
 import com.ontotext.semantic.api.persist.SemanticPersister;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
+import com.ontotext.semantic.impl.instance.SemanticInstance;
 import com.ontotext.semantic.impl.instance.SemanticInstanceChain;
 import com.ontotext.semantic.impl.parser.SemanticInstanceParser;
 import com.ontotext.semantic.impl.parser.SemanticTupleQueryParser;
@@ -64,10 +64,10 @@ public class SemanticRelationsApp {
 
 		// Construct tuple query - select
 		SemanticTupleQuery selectDrivers = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectDrivers.bind("type", buildInstanceLongUri("class:driver"));
+		selectDrivers.bind("type", new SemanticInstance("class:driver"));
 
 		SemanticTupleQuery selectAutomobiles = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectAutomobiles.bind("type", buildInstanceLongUri("class:automobile"));
+		selectAutomobiles.bind("type", new SemanticInstance("class:automobile"));
 
 		// Evaluate all automobiles
 		List<Instance> automobiles = new SemanticTupleQueryParser().parseQuery(connection, selectAutomobiles);
@@ -88,7 +88,7 @@ public class SemanticRelationsApp {
 
 		parser.fromString("{\"data\": {\"translations\": [{\"translatedText\": \"Hello world\"}]}}");
 
-		// System.out.println(parser.toString(drivers));
+		System.out.println(parser.toString(drivers));
 	}
 
 	public static void main(String[] args) throws Exception {

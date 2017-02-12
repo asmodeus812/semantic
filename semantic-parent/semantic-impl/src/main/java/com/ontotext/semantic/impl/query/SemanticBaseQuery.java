@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import org.openrdf.model.Value;
 import org.openrdf.query.impl.BindingImpl;
 
+import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.query.SemanticQuery;
 import com.ontotext.semantic.core.common.SemanticQueryUtil;
 
@@ -37,6 +38,13 @@ public class SemanticBaseQuery implements SemanticQuery {
 	public void bind(String parameter, Value binding) {
 		if (binding != null && parameter != null) {
 			parameterMap.put(parameter, new BindingImpl(parameter, binding));
+		}
+	}
+
+	@Override
+	public void bind(String parameter, Instance binding) {
+		if (binding != null && parameter != null) {
+			parameterMap.put(parameter, new BindingImpl(parameter, binding.getInstanceValue()));
 		}
 	}
 
@@ -96,4 +104,5 @@ public class SemanticBaseQuery implements SemanticQuery {
 	private void constructBaseQuery() {
 		parameterSet = SemanticQueryUtil.extractQueryParams(this.query);
 	}
+
 }

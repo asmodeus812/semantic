@@ -2,8 +2,6 @@ package com.ontotext.semantic.impl.converter;
 
 import java.io.Serializable;
 
-import org.openrdf.model.Literal;
-
 import com.ontotext.semantic.api.common.Converter;
 
 /**
@@ -11,9 +9,9 @@ import com.ontotext.semantic.api.common.Converter;
  * 
  * @author Svetlozar
  */
-public abstract class ValueConverter implements Converter<Literal> {
+public abstract class ValueConverter<T> implements Converter<T> {
 
-	private ValueConverter next;
+	private ValueConverter<T> next;
 
 	/**
 	 * Initialize the value converter
@@ -21,12 +19,12 @@ public abstract class ValueConverter implements Converter<Literal> {
 	 * @param next
 	 *            the next converter in the chain
 	 */
-	public ValueConverter(ValueConverter next) {
+	public ValueConverter(ValueConverter<T> next) {
 		this.next = next;
 	}
 
 	@Override
-	public Literal convert(Serializable value) {
+	public T convert(Serializable value) {
 		// try to convert a value or go to the next converter in the chain if conversion is not successful
 		try {
 			return convertValue(value.toString());
@@ -42,5 +40,5 @@ public abstract class ValueConverter implements Converter<Literal> {
 	 *            the value to be converted
 	 * @return
 	 */
-	protected abstract Literal convertValue(String value);
+	protected abstract T convertValue(String value);
 }

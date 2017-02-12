@@ -1,7 +1,5 @@
 package com.ontotext.semantic.impl.instance;
 
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +8,12 @@ import java.util.Map;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.common.Converter;
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
+import com.ontotext.semantic.impl.converter.LongUriConverter;
+import com.ontotext.semantic.impl.converter.NullUriConverter;
+import com.ontotext.semantic.impl.converter.ShortUriConverter;
 
 /**
  * Represents a semantic instance, could be an actual instance or a semantic property
@@ -19,6 +21,12 @@ import com.ontotext.semantic.api.instance.Instance;
  * @author Svetlozar
  */
 public class SemanticInstance implements Instance {
+
+	/**
+	 * Complete URI chain converter supporting all basic types - short and long URIs
+	 */
+	public static final Converter<URI> URI_CONVERTER = new ShortUriConverter(
+			new LongUriConverter(new NullUriConverter()));
 
 	private URI instanceValue;
 	private Map<Instance, ArrayList<Instance>> propertiesMap = new HashMap<Instance, ArrayList<Instance>>();
@@ -34,13 +42,13 @@ public class SemanticInstance implements Instance {
 	}
 
 	/**
-	 * Initializes a semantic instance from a given string value - short URI
+	 * Initializes a semantic instance from a given string value - short or long URI
 	 * 
 	 * @param value
 	 *            the value from which the instance should be initialized
 	 */
 	public SemanticInstance(String value) {
-		this.instanceValue = buildInstanceLongUri(value);
+		this.instanceValue = URI_CONVERTER.convert(value);
 	}
 
 	@Override
@@ -73,6 +81,7 @@ public class SemanticInstance implements Instance {
 				Instance instance = values.get(i);
 				if (instance.equals(oldValue)) {
 					values.set(i, newValue);
+					return;
 				}
 			}
 		}

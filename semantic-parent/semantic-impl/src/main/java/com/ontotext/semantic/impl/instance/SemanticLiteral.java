@@ -26,7 +26,7 @@ public class SemanticLiteral implements Instance {
 	/**
 	 * Complete literal chain converter supporting all basic types - byte, short, integer, float, double, string
 	 */
-	public static final Converter<Literal> CHAIN_CONVERTER = new ByteConverter(
+	public static final Converter<Literal> LITERAL_CONVERTER = new ByteConverter(
 			new ShortConverter(
 					new IntegerConverter(
 							new FloatConverter(
@@ -52,7 +52,7 @@ public class SemanticLiteral implements Instance {
 	 *            the atomic value or a literal
 	 */
 	public SemanticLiteral(String value) {
-		this.literal = CHAIN_CONVERTER.convert(value);
+		this.literal = LITERAL_CONVERTER.convert(value);
 	}
 
 	@Override
