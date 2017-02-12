@@ -1,6 +1,5 @@
 package com.ontotext.graphdb.rest;
 
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildInstanceLongUri;
 import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.buildSemanticSelectQuery;
 
 import java.io.IOException;
@@ -27,6 +26,7 @@ import com.ontotext.semantic.api.instance.InstanceChain;
 import com.ontotext.semantic.api.persist.SemanticPersister;
 import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.core.repository.RemoteSemantics;
+import com.ontotext.semantic.impl.instance.SemanticInstance;
 import com.ontotext.semantic.impl.parser.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 
@@ -59,7 +59,7 @@ public class SemanticService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Instance> getString(String json) throws Exception {
 		SemanticTupleQuery selectDrivers = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectDrivers.bind("type", buildInstanceLongUri("class:driver"));
+		selectDrivers.bind("type", new SemanticInstance("class:driver"));
 		List<Instance> drivers = new SemanticTupleQueryParser().parseQuery(connection, selectDrivers);
 
 		return drivers;

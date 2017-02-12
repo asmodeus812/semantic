@@ -18,7 +18,6 @@ import org.openrdf.model.Literal;
 import org.openrdf.model.Namespace;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.NamespaceImpl;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.OWL;
@@ -119,40 +118,6 @@ public class SemanticNamespaceUtil {
 		NAMESPACE_MAPPING.add(ONTOLOGY_NAMESPACE);
 		NAMESPACE_MAPPING.add(FRAMEWORK_NAMESPACE);
 		NAMESPACE_MAPPING.add(ATTRIBUTE_NAMESPACE);
-	}
-
-	/**
-	 * Builds a long URI model out of a short or a long format
-	 * 
-	 * @param uri
-	 *            the URI in long or a short format form
-	 * @return the built URI object or null if invalid URI is specified
-	 */
-	public static URI buildInstanceLongUri(String uri) {
-		// Check if URI is already given in long format
-		if (uri.contains(LONG_NAMESPACE_SEPARATOR)) {
-			return new URIImpl(uri);
-		}
-
-		// Check if URI is given in short format - prefix:instance
-		if (uri.contains(SHORT_NAMESPACE_SEPARATOR)) {
-			String[] split = uri.split(SHORT_NAMESPACE_SEPARATOR);
-			Namespace ns = findNamespace(split[0]);
-			return new URIImpl(ns.getName() + split[1]);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Builds a long URI model out of a string representation of a literal
-	 * 
-	 * @param literal
-	 *            the literal to be built into long URI model
-	 * @return the converted literal
-	 */
-	public static Literal buildLiteralLongUri(String literal, URI dataType) {
-		return new LiteralImpl(literal, dataType);
 	}
 
 	/**
