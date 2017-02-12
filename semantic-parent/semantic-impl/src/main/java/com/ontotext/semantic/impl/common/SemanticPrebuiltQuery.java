@@ -41,10 +41,9 @@ public class SemanticPrebuiltQuery {
 	public static final String PROPERTY = "framework:property";
 
 	/**
-	 * Private constructor for utility class
+	 * Private constructor for utility classes
 	 */
 	private SemanticPrebuiltQuery() {
-
 	}
 
 	/**

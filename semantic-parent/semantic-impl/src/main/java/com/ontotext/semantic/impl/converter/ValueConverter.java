@@ -27,6 +27,7 @@ public abstract class ValueConverter implements Converter<Literal> {
 
 	@Override
 	public Literal convert(Serializable value) {
+		// try to convert a value or go to the next converter in the chain if conversion is not successful
 		try {
 			return convertValue(value.toString());
 		} catch (Exception conversionException) {

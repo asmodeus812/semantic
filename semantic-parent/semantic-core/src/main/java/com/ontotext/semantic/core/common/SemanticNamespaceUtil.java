@@ -247,13 +247,13 @@ public class SemanticNamespaceUtil {
 	 *            the Value to be converted
 	 * @return the converted Value as a string or a null if unable to convert the value
 	 */
-	public static String convertValueForQuery(Value value) {
+	public static String convertValueToString(Value value) {
 		if (value instanceof URI) {
 			return ANGLE_BRACE_OPEN + value.stringValue() + ANGLE_BRACE_CLOSE;
 		} else if (value instanceof Literal) {
 			Literal literal = (Literal) value;
 			String escapedValue = ESCAPED_QUOTE + literal.getLabel() + ESCAPED_QUOTE;
-			String castType = TYPECAST + convertValueForQuery(literal.getDatatype());
+			String castType = TYPECAST + convertValueToString(literal.getDatatype());
 			return escapedValue + castType;
 		}
 		return null;
@@ -278,7 +278,7 @@ public class SemanticNamespaceUtil {
 
 			if (space != null) {
 				URI uri = new URIImpl(space.getName() + suffix);
-				String finalUri = convertValueForQuery(uri);
+				String finalUri = convertValueToString(uri);
 
 				sourceQuery = replace(sourceQuery, prefixMatcher.start(1), prefixMatcher.end(2), finalUri.toString());
 				prefixMatcher = shortPattern.matcher(sourceQuery);
@@ -302,7 +302,7 @@ public class SemanticNamespaceUtil {
 		while (longMatcher.find()) {
 			String longUri = longMatcher.group();
 			URI actualUri = new URIImpl(longUri.trim());
-			String finalUri = convertValueForQuery(actualUri);
+			String finalUri = convertValueToString(actualUri);
 
 			sourceQuery = replace(sourceQuery, longMatcher.start(1), longMatcher.end(1), finalUri.toString());
 			longMatcher = longPattern.matcher(sourceQuery);

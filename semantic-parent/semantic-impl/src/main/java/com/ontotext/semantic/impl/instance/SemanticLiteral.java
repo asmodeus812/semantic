@@ -1,15 +1,20 @@
 package com.ontotext.semantic.impl.instance;
 
-import static com.ontotext.semantic.impl.common.SemanticChainConverter.LITERAL_CHAIN_CONVERTER;
-
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 
+import com.ontotext.semantic.api.common.Converter;
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
+import com.ontotext.semantic.impl.converter.ByteConverter;
+import com.ontotext.semantic.impl.converter.DoubleConverter;
+import com.ontotext.semantic.impl.converter.FloatConverter;
+import com.ontotext.semantic.impl.converter.IntegerConverter;
+import com.ontotext.semantic.impl.converter.ShortConverter;
+import com.ontotext.semantic.impl.converter.StringConverter;
 
 /**
  * Represents a semantic literal or atomic value that can not be sub classed
@@ -18,16 +23,26 @@ import com.ontotext.semantic.api.instance.Instance;
  */
 public class SemanticLiteral implements Instance {
 
+	/**
+	 * Complete literal chain converter supporting all basic types - byte, short, integer, float, double, string
+	 */
+	public static final Converter<Literal> CHAIN_CONVERTER = new ByteConverter(
+			new ShortConverter(
+					new IntegerConverter(
+							new FloatConverter(
+									new DoubleConverter(
+											new StringConverter())))));
+
 	private Literal literal;
 
 	/**
 	 * Initializes a semantic literal from a given value
 	 * 
-	 * @param atomicValue
+	 * @param literal
 	 *            the atomic value or a literal
 	 */
-	public SemanticLiteral(Value atomicValue) {
-		this.literal = (Literal) atomicValue;
+	public SemanticLiteral(Value literal) {
+		this.literal = (Literal) literal;
 	}
 
 	/**
@@ -37,7 +52,7 @@ public class SemanticLiteral implements Instance {
 	 *            the atomic value or a literal
 	 */
 	public SemanticLiteral(String value) {
-		this.literal = LITERAL_CHAIN_CONVERTER.convert(value);
+		this.literal = CHAIN_CONVERTER.convert(value);
 	}
 
 	@Override
