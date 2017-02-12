@@ -85,7 +85,10 @@ public class SemanticRelationsApp {
 
 		// Parse & Log the result out to the console
 		InstanceParser parser = new SemanticInstanceParser();
-		System.out.println(parser.toString(drivers));
+
+		parser.fromString("{\"data\": {\"translations\": [{\"translatedText\": \"Hello world\"}]}}");
+
+		// System.out.println(parser.toString(drivers));
 	}
 
 	public static void main(String[] args) throws Exception {

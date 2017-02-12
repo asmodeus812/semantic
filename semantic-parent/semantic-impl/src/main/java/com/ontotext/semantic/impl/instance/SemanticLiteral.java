@@ -1,12 +1,11 @@
 package com.ontotext.semantic.impl.instance;
 
-import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.buildLiteralLongUri;
+import static com.ontotext.semantic.impl.common.SemanticChainConverter.LITERAL_CHAIN_CONVERTER;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
@@ -37,8 +36,8 @@ public class SemanticLiteral implements Instance {
 	 * @param atomicValue
 	 *            the atomic value or a literal
 	 */
-	public SemanticLiteral(String value, URI dataType) {
-		this.literal = buildLiteralLongUri(value, dataType);
+	public SemanticLiteral(String value) {
+		this.literal = LITERAL_CHAIN_CONVERTER.convert(value);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_
 import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SQUARE_BRACE_OPEN;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,8 +56,17 @@ public class SemanticInstanceParser implements InstanceParser {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Instance fromString(String instance) {
-		// TODO Auto-generated method stub
+		JsonObject json = parser.parse(instance).getAsJsonObject();
+		Map<String, Object> object = gson.fromJson(json, Map.class);
+
+		for (Map.Entry<String, Object> pair : object.entrySet()) {
+			if (pair.getValue() instanceof Map) {
+				JsonObject obj = (JsonObject) gson.toJsonTree(pair.getValue());
+
+			}
+		}
 		return null;
 	}
 
