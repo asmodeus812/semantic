@@ -32,7 +32,7 @@ import com.ontotext.semantic.impl.query.SemanticSelectQuery;
 import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
 
 /**
- * Base Class implementation for a semantic resource chaining
+ * Default Class implementation for a semantic resource chaining
  * 
  * @author Svetlozar
  */
@@ -48,7 +48,7 @@ public class SemanticInstanceChain implements InstanceChain {
 	private SemanticQueryParser<SemanticTupleQuery> parser = new SemanticTupleQueryParser();
 
 	/**
-	 * Initialize a semantic instance chain with a given repository connection
+	 * Initialize a semantic instance resource chain with a given repository connection
 	 * 
 	 * @param connection
 	 *            the repository connection

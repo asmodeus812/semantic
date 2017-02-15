@@ -79,16 +79,16 @@ public class SemanticRelationsApp {
 		// Evaluate all drivers data from the semantic store
 		List<Instance> drivers = new SemanticTupleQueryParser().parseQuery(connection, selectDrivers);
 
-		// Unwrap all instance in the result set
+		// Unwrap all instances in the result set (automobiles are deleted nothing to unwrap anyway)
 		InstanceChain chain = new SemanticInstanceChain(connection);
 		chain.unwrap(drivers);
 
 		// Parser for a basic standard JSON format
 		InstanceParser parser = new SemanticInstanceParser();
 
-		// Parse to string and then back to instance
-		String out = parser.toString(drivers.get(1));
-		Instance in = parser.fromString(out);
+		// Test and try to parse to string and then back to instance all drivers
+		String out = parser.toString(drivers);
+		List<Instance> in = parser.fromStringArray(out);
 		System.out.println(parser.toString(in));
 	}
 
