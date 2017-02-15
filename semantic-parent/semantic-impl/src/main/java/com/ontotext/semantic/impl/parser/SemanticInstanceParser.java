@@ -104,10 +104,17 @@ public class SemanticInstanceParser implements InstanceParser {
 		return result;
 	}
 
-	private static boolean isPropertyLevel(int level) {
-		return (level % 2 == 0) ? false : true;
-	}
-
+	/**
+	 * Converts a JsonElement value to a list if Instance values
+	 * 
+	 * @param source
+	 *            the source at which to attach the values
+	 * @param value
+	 *            the JSON element from which to convert to instance or literal values
+	 * @param level
+	 *            the current level of traversal - level determines if we look for property or instance
+	 * @return the list of converted instances
+	 */
 	private static List<Instance> convert(Instance source, JsonElement value, int level) {
 		if (value.isJsonObject()) {
 			JsonObject object = value.getAsJsonObject();
@@ -236,6 +243,10 @@ public class SemanticInstanceParser implements InstanceParser {
 			return ESCAPED_QUOTE + instance + ESCAPED_QUOTE;
 		}
 		return instance.toString();
+	}
+
+	private static boolean isPropertyLevel(int level) {
+		return (level % 2 == 0) ? false : true;
 	}
 
 	private static boolean hasPropertyValues(Instance instance) {
