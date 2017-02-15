@@ -35,15 +35,15 @@ public class SemanticBaseQuery implements SemanticQuery {
 	}
 
 	@Override
-	public void bindValue(String parameter, Value binding) {
+	public void bindV(String parameter, Value binding) {
 		if (binding != null && parameter != null) {
 			parameterMap.put(parameter, new BindingImpl(parameter, binding));
 		}
 	}
 
 	@Override
-	public void bindInstance(String parameter, Instance binding) {
-		bindValue(parameter, binding.getInstanceValue());
+	public void bindI(String parameter, Instance binding) {
+		bindV(parameter, binding.getInstanceValue());
 	}
 
 	@Override

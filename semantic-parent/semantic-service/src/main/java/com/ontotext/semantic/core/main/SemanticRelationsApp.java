@@ -64,10 +64,10 @@ public class SemanticRelationsApp {
 
 		// Construct tuple query - select
 		SemanticTupleQuery selectDrivers = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectDrivers.bindInstance("type", new SemanticInstance("class:driver"));
+		selectDrivers.bindI("type", new SemanticInstance("class:driver"));
 
 		SemanticTupleQuery selectAutomobiles = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectAutomobiles.bindInstance("type", new SemanticInstance("class:automobile"));
+		selectAutomobiles.bindI("type", new SemanticInstance("class:automobile"));
 
 		// Evaluate all automobiles
 		List<Instance> automobiles = new SemanticTupleQueryParser().parseQuery(connection, selectAutomobiles);
