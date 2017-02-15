@@ -1,6 +1,7 @@
 package com.ontotext.semantic.impl.instance;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.openrdf.model.BNode;
@@ -55,6 +56,11 @@ public class SemanticBNode implements Instance {
 	}
 
 	@Override
+	public void insertProperty(Instance property, List<Instance> value) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void removeProperty(Instance property) {
 		// TODO Auto-generated method stub
 	}
@@ -82,6 +88,5 @@ public class SemanticBNode implements Instance {
 		SemanticBNode other = (SemanticBNode) obj;
 		return bnodeValue.getID().equals(other.bnodeValue.getID());
 	}
-
 
 }

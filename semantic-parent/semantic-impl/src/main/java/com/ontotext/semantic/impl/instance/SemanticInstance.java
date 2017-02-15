@@ -1,19 +1,20 @@
 package com.ontotext.semantic.impl.instance;
 
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.SHORT_NAMESPACE_SEPARATOR;
+import static com.ontotext.semantic.core.common.SemanticNamespaceUtil.findPrefix;
+import static com.ontotext.semantic.impl.common.SemanticChainConverter.URI_CONVERTER;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openrdf.model.Namespace;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
-import com.ontotext.semantic.api.common.Converter;
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.impl.converter.LongUriConverter;
-import com.ontotext.semantic.impl.converter.NullUriConverter;
-import com.ontotext.semantic.impl.converter.ShortUriConverter;
 
 /**
  * Represents a semantic instance, could be an actual instance or a semantic property
@@ -21,12 +22,6 @@ import com.ontotext.semantic.impl.converter.ShortUriConverter;
  * @author Svetlozar
  */
 public class SemanticInstance implements Instance {
-
-	/**
-	 * Complete URI chain converter supporting all basic types - short and long URIs
-	 */
-	public static final Converter<URI> URI_CONVERTER = new ShortUriConverter(
-			new LongUriConverter(new NullUriConverter()));
 
 	private URI instanceValue;
 	private Map<Instance, ArrayList<Instance>> propertiesMap = new HashMap<Instance, ArrayList<Instance>>();
@@ -64,12 +59,23 @@ public class SemanticInstance implements Instance {
 
 	@Override
 	public void insertProperty(Instance property, Instance value) {
+		if (property == null) {
+			return;
+		}
+
 		if (!propertiesMap.containsKey(property)) {
 			propertiesMap.put(property, new ArrayList<Instance>());
 		}
 
 		if (value != null) {
 			propertiesMap.get(property).add(value);
+		}
+	}
+
+	@Override
+	public void insertProperty(Instance property, List<Instance> value) {
+		for (Instance instance : value) {
+			insertProperty(property, instance);
 		}
 	}
 
@@ -94,7 +100,10 @@ public class SemanticInstance implements Instance {
 
 	@Override
 	public String toString() {
-		return instanceValue.getLocalName();
+		// Attach name space prefix to the instance when printing
+		Namespace namespace = findPrefix(instanceValue.getNamespace());
+		String finalPrefix = namespace.getPrefix() + SHORT_NAMESPACE_SEPARATOR;
+		return finalPrefix + instanceValue.getLocalName();
 	}
 
 	@Override

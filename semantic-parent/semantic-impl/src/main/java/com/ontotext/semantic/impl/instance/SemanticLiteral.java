@@ -1,20 +1,16 @@
 package com.ontotext.semantic.impl.instance;
 
+import static com.ontotext.semantic.impl.common.SemanticChainConverter.LITERAL_CONVERTER;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
 
-import com.ontotext.semantic.api.common.Converter;
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
 import com.ontotext.semantic.api.instance.Instance;
-import com.ontotext.semantic.impl.converter.ByteConverter;
-import com.ontotext.semantic.impl.converter.DoubleConverter;
-import com.ontotext.semantic.impl.converter.FloatConverter;
-import com.ontotext.semantic.impl.converter.IntegerConverter;
-import com.ontotext.semantic.impl.converter.ShortConverter;
-import com.ontotext.semantic.impl.converter.StringConverter;
 
 /**
  * Represents a semantic literal or atomic value that can not be sub classed
@@ -23,15 +19,6 @@ import com.ontotext.semantic.impl.converter.StringConverter;
  */
 public class SemanticLiteral implements Instance {
 
-	/**
-	 * Complete literal chain converter supporting all basic types - byte, short, integer, float, double, string
-	 */
-	public static final Converter<Literal> LITERAL_CONVERTER = new ByteConverter(
-			new ShortConverter(
-					new IntegerConverter(
-							new FloatConverter(
-									new DoubleConverter(
-											new StringConverter())))));
 
 	private Literal literal;
 
@@ -70,6 +57,11 @@ public class SemanticLiteral implements Instance {
 	@Override
 	public void insertProperty(Instance property, Instance value) {
 		// No properties can be inserted for a literal
+	}
+
+	@Override
+	public void insertProperty(Instance property, List<Instance> value) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override

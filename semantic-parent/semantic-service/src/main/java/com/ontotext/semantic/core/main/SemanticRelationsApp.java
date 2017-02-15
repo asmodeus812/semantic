@@ -64,10 +64,10 @@ public class SemanticRelationsApp {
 
 		// Construct tuple query - select
 		SemanticTupleQuery selectDrivers = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectDrivers.bind("type", new SemanticInstance("class:driver"));
+		selectDrivers.bindInstance("type", new SemanticInstance("class:driver"));
 
 		SemanticTupleQuery selectAutomobiles = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectAutomobiles.bind("type", new SemanticInstance("class:automobile"));
+		selectAutomobiles.bindInstance("type", new SemanticInstance("class:automobile"));
 
 		// Evaluate all automobiles
 		List<Instance> automobiles = new SemanticTupleQueryParser().parseQuery(connection, selectAutomobiles);
@@ -83,12 +83,13 @@ public class SemanticRelationsApp {
 		InstanceChain chain = new SemanticInstanceChain(connection);
 		chain.unwrap(drivers);
 
-		// Parse & Log the result out to the console
+		// Parser for a basic standard JSON format
 		InstanceParser parser = new SemanticInstanceParser();
 
-		parser.fromString("{\"data\": {\"translations\": [{\"translatedText\": \"Hello world\"}]}}");
-
-		System.out.println(parser.toString(drivers));
+		// Parse to string and then back to instance
+		String out = parser.toString(drivers.get(1));
+		Instance in = parser.fromString(out);
+		System.out.println(parser.toString(in));
 	}
 
 	public static void main(String[] args) throws Exception {

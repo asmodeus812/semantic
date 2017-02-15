@@ -1,6 +1,7 @@
 package com.ontotext.semantic.api.instance;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.openrdf.model.Value;
@@ -45,6 +46,26 @@ public interface Instance {
 	 */
 	public void insertProperty(Instance property, Instance value);
 
+	/**
+	 * Inserts a property inside the property map
+	 * 
+	 * @param property
+	 *            the property to be inserted
+	 * @param value
+	 *            the list of values to be inserted for the property
+	 */
+	public void insertProperty(Instance property, List<Instance> value);
+
+	/**
+	 * Modifies a property inside the property map
+	 * 
+	 * @param property
+	 *            the property to be inserted
+	 * @param oldValue
+	 *            the old value of the property
+	 * @param newValue
+	 *            the new value of the property
+	 */
 	public void modifyProperty(Instance property, Instance oldValue, Instance newValue);
 
 	/**

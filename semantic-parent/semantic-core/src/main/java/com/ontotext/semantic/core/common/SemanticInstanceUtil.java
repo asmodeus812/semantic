@@ -73,12 +73,8 @@ public class SemanticInstanceUtil {
 	 *            the builder where the formated JSON string will be stored
 	 */
 	public static void parseToString(Instance instance, StringBuilder builder) {
-		boolean appendBrace = instance.getPropertyMap() != null && instance.getPropertyMap().size() != 0;
-
 		// Append JSON object beginning brace
-		if (appendBrace) {
-			builder.append(CURLY_BRACE_OPEN);
-		}
+		builder.append(CURLY_BRACE_OPEN);
 
 		// Append the instance value wrapped around quotes
 		builder.append(wrapInQuotes(instance));
@@ -90,12 +86,14 @@ public class SemanticInstanceUtil {
 			parseProperties(instance, builder);
 			// Append finish block according to the instance properties state
 			appendFinishBlock(builder, hasPropValues);
-		}
-
-		// Append JSON object finishing brace
-		if (appendBrace) {
+		} else {
+			// Append as empty JSON object
+			builder.append(COLLON);
+			builder.append(CURLY_BRACE_OPEN);
 			builder.append(CURLY_BRACE_CLOSE);
 		}
+		// Append JSON object finishing brace
+		builder.append(CURLY_BRACE_CLOSE);
 	}
 
 	private static void parseProperties(Instance instance, StringBuilder builder) {

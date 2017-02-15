@@ -108,7 +108,7 @@ public class SemanticInstanceChain implements InstanceChain {
 
 					// Extract all tuples and parse them
 					Value instanceValue = value.getInstanceValue();
-					query.bind(VALUE, instanceValue);
+					query.bindValue(VALUE, instanceValue);
 					List<Instance> current = parser.parseQuery(connection, query);
 
 					// Loop over the parsed results and unwrap the instance

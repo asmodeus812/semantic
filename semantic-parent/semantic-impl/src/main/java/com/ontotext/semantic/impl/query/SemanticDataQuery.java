@@ -44,9 +44,9 @@ public class SemanticDataQuery extends SemanticBaseQuery implements SemanticUpda
 	}
 
 	@Override
-	public void bind(String parameter, Value binding) {
+	public void bindValue(String parameter, Value binding) {
 		setQuery(getQuery().replaceAll("\\" + VARSYMBOL + parameter, convertValueToString(binding)));
-		super.bind(parameter, binding);
+		super.bindValue(parameter, binding);
 	}
 
 	@Override

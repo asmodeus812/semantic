@@ -59,7 +59,7 @@ public class SemanticService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Instance> getString(String json) throws Exception {
 		SemanticTupleQuery selectDrivers = new SemanticSelectQuery(buildSemanticSelectQuery());
-		selectDrivers.bind("type", new SemanticInstance("class:driver"));
+		selectDrivers.bindInstance("type", new SemanticInstance("class:driver"));
 		List<Instance> drivers = new SemanticTupleQueryParser().parseQuery(connection, selectDrivers);
 
 		return drivers;

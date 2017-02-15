@@ -39,11 +39,11 @@ public interface InstanceParser {
 	public Instance fromString(String instance);
 
 	/**
-	 * Converts a JSON like list strings to a list of instances
+	 * Converts a JSON like array string to a list instances
 	 * 
 	 * @param instances
-	 *            the list of instances containing JSON string formated objects
-	 * @return the built list of instances
+	 *            the array of instances as a JSON string
+	 * @return the built instances
 	 */
-	public List<Instance> fromString(List<String> instances);
+	public List<Instance> fromStringArray(String instances);
 }

@@ -44,7 +44,7 @@ public interface SemanticQuery {
 	 * @param binding
 	 *            the value to be bound to the given parameter
 	 */
-	public void bind(String parameter, Value binding);
+	public void bindValue(String parameter, Value binding);
 
 	/**
 	 * Binds an instance to a given parameter
@@ -54,7 +54,7 @@ public interface SemanticQuery {
 	 * @param binding
 	 *            the instance to be bound to the given parameter
 	 */
-	public void bind(String parameter, Instance binding);
+	public void bindInstance(String parameter, Instance binding);
 
 	/**
 	 * Un binds a value for a given parameter
