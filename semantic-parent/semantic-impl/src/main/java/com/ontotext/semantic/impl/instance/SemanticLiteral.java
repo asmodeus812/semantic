@@ -19,7 +19,6 @@ import com.ontotext.semantic.api.instance.Instance;
  */
 public class SemanticLiteral implements Instance {
 
-
 	private Literal literal;
 
 	/**
@@ -67,6 +66,11 @@ public class SemanticLiteral implements Instance {
 	@Override
 	public void removeProperty(Instance property) {
 		// No properties can be removed for a literal
+	}
+
+	@Override
+	public void modifyProperty(Instance property, Instance newValue) {
+		// No properties can be modified for a literal
 	}
 
 	@Override

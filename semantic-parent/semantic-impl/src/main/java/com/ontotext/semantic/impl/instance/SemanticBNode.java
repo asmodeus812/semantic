@@ -46,6 +46,11 @@ public class SemanticBNode implements Instance {
 	}
 
 	@Override
+	public void modifyProperty(Instance property, Instance newValue) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
 	public void modifyProperty(Instance property, Instance oldValue, Instance newValue) {
 		// TODO Auto-generated method stub
 	}

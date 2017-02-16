@@ -60,7 +60,17 @@ public interface Instance {
 	 * Modifies a property inside the property map
 	 * 
 	 * @param property
-	 *            the property to be inserted
+	 *            the property to be modified
+	 * @param newValue
+	 *            the new value of the property
+	 */
+	public void modifyProperty(Instance property, Instance newValue);
+
+	/**
+	 * Modifies a property inside the property map
+	 * 
+	 * @param property
+	 *            the property to be modified
 	 * @param oldValue
 	 *            the old value of the property
 	 * @param newValue

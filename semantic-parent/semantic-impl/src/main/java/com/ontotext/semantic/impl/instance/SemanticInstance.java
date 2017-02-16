@@ -80,14 +80,23 @@ public class SemanticInstance implements Instance {
 	}
 
 	@Override
+	public void modifyProperty(Instance property, Instance newValue) {
+		modifyProperty(property, null, newValue);
+	}
+
+	@Override
 	public void modifyProperty(Instance property, Instance oldValue, Instance newValue) {
-		if (propertiesMap.containsKey(property)) {
+		if (propertiesMap.containsKey(property) && newValue != null) {
 			List<Instance> values = propertiesMap.get(property);
-			for (int i = 0; i < values.size(); i++) {
-				Instance instance = values.get(i);
-				if (instance.equals(oldValue)) {
-					values.set(i, newValue);
-					return;
+			if (values.size() == 1) {
+				values.set(0, newValue);
+			} else if (oldValue != null) {
+				for (int i = 0; i < values.size(); i++) {
+					Instance instance = values.get(i);
+					if (instance.equals(oldValue)) {
+						values.set(i, newValue);
+						return;
+					}
 				}
 			}
 		}
