@@ -74,7 +74,7 @@ public class SemanticRelationsApp {
 
 		// Remove all automobiles from the semantic store
 		SemanticPersister<Instance> persister = new SemanticInstancePersister(connection);
-		persister.remove(automobiles);
+		// persister.remove(automobiles);
 
 		// Evaluate all drivers data from the semantic store
 		List<Instance> drivers = new SemanticTupleQueryParser().parseQuery(connection, selectDrivers);

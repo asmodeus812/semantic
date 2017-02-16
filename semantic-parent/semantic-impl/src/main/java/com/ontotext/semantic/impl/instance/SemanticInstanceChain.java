@@ -1,11 +1,7 @@
 package com.ontotext.semantic.impl.instance;
 
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.OBJECT;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.PREDICATE;
-import static com.ontotext.semantic.core.common.SemanticSparqlUtil.SUBJECT;
-import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.CLASS;
-import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.PROPERTY;
 import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.VALUE;
+import static com.ontotext.semantic.impl.common.SemanticPrebuiltQuery.buildSemanticSelectQuery;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,12 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryConnection;
 
-import com.ontotext.semantic.api.enumeration.ArithmeticOperators;
 import com.ontotext.semantic.api.enumeration.SemanticInstanceType;
-import com.ontotext.semantic.api.enumeration.SemanticQueryType;
 import com.ontotext.semantic.api.instance.Instance;
 import com.ontotext.semantic.api.instance.InstanceChain;
 import com.ontotext.semantic.api.parser.SemanticQueryParser;
@@ -29,7 +22,6 @@ import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.api.query.compiler.QueryCompiler;
 import com.ontotext.semantic.impl.parser.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.query.SemanticSelectQuery;
-import com.ontotext.semantic.impl.query.builders.SemanticQueryBuilder;
 
 /**
  * Default Class implementation for a semantic resource chaining
@@ -55,7 +47,7 @@ public class SemanticInstanceChain implements InstanceChain {
 	 */
 	public SemanticInstanceChain(RepositoryConnection connection) {
 		this.connection = connection;
-		this.selectCompiler = selectInstanceQuery();
+		this.selectCompiler = buildSemanticSelectQuery();
 		this.query = new SemanticSelectQuery(selectCompiler.longFormatQuery());
 	}
 
@@ -131,23 +123,4 @@ public class SemanticInstanceChain implements InstanceChain {
 			}
 		}
 	}
-
-	/**
-	 * Prepares a select query which selects all instances which are of type framework:class and have properties of type
-	 * framework:property
-	 * 
-	 * @return the query compiled prepared query
-	 */
-	private QueryCompiler selectInstanceQuery() {
-		return new SemanticQueryBuilder(SemanticQueryType.SELECT_DISTINCT)
-				.appendStatement(SUBJECT, PREDICATE, OBJECT)
-				.appendCondition(SUBJECT, PREDICATE, OBJECT)
-				.appendCondition(SUBJECT, RDF.TYPE, "?f")
-				.appendCondition("?f", RDF.TYPE, CLASS)
-				.appendCondition(PREDICATE, RDF.TYPE, "?m")
-				.appendCondition("?m", RDF.TYPE, PROPERTY)
-				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, "?value")
-				.compile();
-	}
-
 }

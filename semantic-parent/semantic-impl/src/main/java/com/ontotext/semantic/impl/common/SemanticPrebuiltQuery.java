@@ -47,19 +47,24 @@ public class SemanticPrebuiltQuery {
 	}
 
 	/**
+	 * 
 	 * Builds a semantic select query listing all type class instances. An instance filter is available under the ?value
 	 * parameter
 	 * 
 	 * @return the semantic select query
 	 */
 	public static QueryCompiler buildSemanticSelectQuery() {
+		String type = concatVarSymbol(TYPE);
+		String value = concatVarSymbol(VALUE);
+
 		return new SemanticQueryBuilder(SemanticQueryType.SELECT_DISTINCT)
 				.appendStatement(SUBJECT, PREDICATE, OBJECT)
 				.appendCondition(SUBJECT, PREDICATE, OBJECT)
-				.appendCondition(SUBJECT, RDF.TYPE, concatVarSymbol(TYPE))
-				.appendCondition(PREDICATE, RDF.TYPE, "?f")
-				.appendCondition("?f", RDF.TYPE, "framework:property")
-				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, concatVarSymbol(VALUE))
+				.appendCondition(SUBJECT, RDF.TYPE, type)
+				.appendCondition(type, RDF.TYPE, CLASS)
+				.appendCondition(PREDICATE, RDF.TYPE, "?m")
+				.appendCondition("?m", RDF.TYPE, PROPERTY)
+				.appendFilter(SUBJECT, ArithmeticOperators.EQUALS, value)
 				.compile();
 	}
 
