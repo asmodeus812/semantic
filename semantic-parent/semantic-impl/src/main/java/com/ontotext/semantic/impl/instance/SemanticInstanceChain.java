@@ -112,7 +112,7 @@ public class SemanticInstanceChain implements InstanceChain {
 					// Loop over the parsed results and unwrap the instance
 					for (int i = 0; i < current.size(); i++) {
 						Value currrentVal = current.get(i).getInstanceValue();
-						if (properties.containsKey(currrentVal)) {
+						if (processed.containsKey(currrentVal)) {
 							// Get processed unwrapped instances from the global map
 							current.set(i, processed.get(currrentVal));
 						} else {

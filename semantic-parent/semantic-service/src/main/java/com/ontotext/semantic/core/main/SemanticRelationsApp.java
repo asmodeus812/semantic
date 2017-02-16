@@ -18,7 +18,6 @@ import com.ontotext.semantic.api.query.SemanticTupleQuery;
 import com.ontotext.semantic.core.repository.EmbededSemantics;
 import com.ontotext.semantic.impl.instance.SemanticInstance;
 import com.ontotext.semantic.impl.instance.SemanticInstanceChain;
-import com.ontotext.semantic.impl.instance.SemanticLiteral;
 import com.ontotext.semantic.impl.parser.SemanticInstanceParser;
 import com.ontotext.semantic.impl.parser.SemanticTupleQueryParser;
 import com.ontotext.semantic.impl.persist.SemanticInstancePersister;
@@ -75,13 +74,7 @@ public class SemanticRelationsApp {
 
 		// Remove all automobiles from the semantic store
 		SemanticPersister<Instance> persister = new SemanticInstancePersister(connection);
-
-		automobiles.get(0).modifyProperty(new SemanticInstance("attribute:hasColor"), new SemanticLiteral("Blue"));
-		persister.update(automobiles.get(0));
-
-		automobiles = new SemanticTupleQueryParser().parseQuery(connection, selectAutomobiles);
-
-		// persister.remove(automobiles);
+		persister.remove(automobiles);
 
 		// Evaluate all drivers data from the semantic store
 		List<Instance> drivers = new SemanticTupleQueryParser().parseQuery(connection, selectDrivers);
